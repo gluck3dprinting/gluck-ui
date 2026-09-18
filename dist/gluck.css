@@ -107,7 +107,7 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-border-default
 .gluck-logo { display: inline-flex; align-items: center; color: var(--color-text-primary); text-decoration: none; }
 .gluck-logo svg { height: var(--logo-h, 20px); width: auto; fill: currentColor; }
 .gluck-logo--brand { color: var(--color-text-brand); }
-.gluck-logo--on-dark { color: var(--gluck-white); }
+.gluck-logo--on-inverse { color: var(--color-text-on-inverse); }   /* bg-inverse 위 (푸터) — 테마와 함께 반전 */
 
 /* --------------------------------------------------------------------------
    BUTTON
@@ -153,6 +153,9 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-border-default
 .gluck-btn--danger-outline { background: transparent; border-color: var(--color-status-danger-border); color: var(--color-status-danger-text); }
 .gluck-btn--danger-outline:hover, .gluck-btn--danger-outline[data-state="hover"] { background: var(--color-status-danger-bg); }
 
+.gluck-btn--on-brand { background: var(--color-text-on-brand); color: var(--color-action-primary); }
+.gluck-btn--on-brand:hover, .gluck-btn--on-brand[data-state="hover"] { background: var(--color-bg-brand-subtle); }
+
 .gluck-btn--link { background: transparent; color: var(--color-text-link); padding-inline: var(--space-1); height: auto; }
 .gluck-btn--link:hover, .gluck-btn--link[data-state="hover"] { color: var(--color-text-link-hover); text-decoration: underline; }
 /* states */
@@ -169,7 +172,7 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-border-default
   color: var(--color-text-on-brand);
   animation: gluck-spin .8s linear infinite;
 }
-.gluck-btn--tertiary[data-loading="true"]::after, .gluck-btn--outline[data-loading="true"]::after, .gluck-btn--ghost[data-loading="true"]::after { color: var(--color-text-primary); }
+.gluck-btn--tertiary[data-loading="true"]::after, .gluck-btn--outline[data-loading="true"]::after, .gluck-btn--ghost[data-loading="true"]::after, .gluck-btn--link[data-loading="true"]::after, .gluck-btn--danger-outline[data-loading="true"]::after { color: var(--color-text-primary); }
 @keyframes gluck-spin { to { transform: rotate(360deg); } }
 .gluck-btn-group { display: inline-flex; gap: var(--space-2); flex-wrap: wrap; }
 
@@ -244,7 +247,7 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-border-default
 .gluck-switch input { appearance: none; margin: 0; width: 40px; height: 24px; flex: none; border-radius: var(--radius-pill);
   background: var(--color-border-strong); position: relative; transition: background var(--duration-base) var(--ease-standard); cursor: pointer; }
 .gluck-switch input::before { content: ""; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: var(--radius-circle);
-  background: var(--gluck-white); box-shadow: var(--shadow-sm); transition: transform var(--duration-base) var(--ease-standard); }
+  background: var(--color-text-on-brand); box-shadow: var(--shadow-sm); transition: transform var(--duration-base) var(--ease-standard); }
 .gluck-switch input:checked { background: var(--color-action-primary); }
 .gluck-switch input:checked::before { transform: translateX(16px); }
 .gluck-switch input:disabled { background: var(--color-border-default); cursor: not-allowed; }
@@ -314,7 +317,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-badge--brand   { color: var(--color-text-on-brand); background: var(--color-action-primary); border-color: transparent; }
 .gluck-badge--pill { border-radius: var(--radius-pill); }
 .gluck-count { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--radius-pill);
-  background: var(--color-status-danger-text); color: var(--gluck-white); font: var(--font-label); font-size: 11px; }
+  background: var(--color-action-danger); color: var(--color-text-on-brand); font: var(--font-label); font-size: 11px; }
 
 /* --------------------------------------------------------------------------
    CARD
@@ -372,12 +375,12 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-breadcrumb .gluck-icon { width: 14px; height: 14px; }
 
 .gluck-tabs { display: flex; gap: var(--space-1); border-bottom: var(--border-width) solid var(--color-border-default); }
-.gluck-tabs [role="tab"] {
+.gluck-tabs button {
   height: 44px; padding: 0 var(--space-4); border: 0; background: transparent; color: var(--color-text-secondary);
   font: var(--font-button); border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer;
 }
-.gluck-tabs [role="tab"]:hover { color: var(--color-text-primary); }
-.gluck-tabs [role="tab"][aria-selected="true"] { color: var(--color-text-brand); border-bottom-color: var(--color-action-primary); }
+.gluck-tabs button:hover { color: var(--color-text-primary); }
+.gluck-tabs button[aria-pressed="true"], .gluck-tabs [role="tab"][aria-selected="true"] { color: var(--color-text-brand); border-bottom-color: var(--color-action-primary); }
 
 .gluck-footer { background: var(--color-bg-inverse); color: var(--color-text-on-inverse); padding-block: var(--space-20) var(--space-10); }
 .gluck-footer a { color: inherit; }
@@ -401,7 +404,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 }
 .gluck-modal[data-size="sm"] { --modal-w: 480px; }
 .gluck-modal[data-size="lg"] { --modal-w: 720px; }
-.gluck-modal::backdrop { background: rgba(26, 29, 36, .56); }
+.gluck-modal::backdrop { background: var(--color-bg-overlay, rgba(26, 29, 36, .56)); }
 .gluck-modal__header { display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-6) var(--space-6) 0; }
 .gluck-modal__title { font: var(--font-h4); }
 .gluck-modal__close { margin-left: auto; }
@@ -446,6 +449,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 }
 .gluck-tooltip [role="tooltip"]::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border: 5px solid transparent; border-top-color: var(--color-bg-inverse); }
 .gluck-tooltip:hover [role="tooltip"], .gluck-tooltip:focus-within [role="tooltip"] { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+.gluck-tooltip.is-dismissed [role="tooltip"] { opacity: 0; visibility: hidden; transform: translate(-50%, 4px); }   /* ESC (WCAG 1.4.13) */
 
 .gluck-menu { position: relative; display: inline-block; }
 .gluck-menu > summary { list-style: none; }
@@ -455,12 +459,13 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
   background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-md); box-shadow: var(--shadow-md);
 }
 .gluck-menu__list--right { left: auto; right: 0; }
-.gluck-menu__list [role="menuitem"] {
+.gluck-menu__list.is-fixed { position: fixed; top: var(--menu-y); left: var(--menu-x); right: auto; }   /* overflow 컨테이너(테이블) 안에서 잘림 방지 — JS가 좌표 지정 */
+.gluck-menu__item {
   display: flex; align-items: center; gap: var(--space-2); width: 100%; padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-sm);
   background: transparent; color: var(--color-text-primary); font: var(--font-body-sm); text-align: left; text-decoration: none; cursor: pointer;
 }
-.gluck-menu__list [role="menuitem"]:hover { background: var(--color-bg-subtle); }
-.gluck-menu__list [role="menuitem"].is-danger { color: var(--color-status-danger-text); }
+.gluck-menu__item:hover { background: var(--color-bg-subtle); }
+.gluck-menu__item.is-danger { color: var(--color-status-danger-text); }
 .gluck-menu__list hr { margin: var(--space-1) 0; }
 
 /* --------------------------------------------------------------------------
@@ -556,7 +561,10 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-sidebar__footer div { min-width: 0; }
 .gluck-sidebar__footer strong { display: block; color: var(--color-text-primary); }
 .gluck-sidebar__footer span { color: var(--color-text-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-.gluck-shell.is-collapsed .gluck-sidebar__group, .gluck-shell.is-collapsed .gluck-sidebar nav a span, .gluck-shell.is-collapsed .gluck-sidebar__footer div, .gluck-shell.is-collapsed .gluck-sidebar__env, .gluck-shell.is-collapsed .gluck-sidebar__brand .gluck-logo { display: none; }
+.gluck-sidebar__logo-mini { display: none; }
+.gluck-shell.is-collapsed .gluck-sidebar__group, .gluck-shell.is-collapsed .gluck-sidebar__footer div, .gluck-shell.is-collapsed .gluck-sidebar__env, .gluck-shell.is-collapsed .gluck-sidebar__logo-full { display: none; }
+.gluck-shell.is-collapsed .gluck-sidebar__logo-mini { display: block; }
+.gluck-shell.is-collapsed .gluck-sidebar nav a span:not(.gluck-count) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }   /* 접근 가능한 이름 유지 */
 .gluck-shell.is-collapsed .gluck-sidebar nav a { justify-content: center; padding: 0; }
 .gluck-shell.is-collapsed .gluck-sidebar__brand { justify-content: center; }
 .gluck-shell__main { min-width: 0; display: flex; flex-direction: column; }
@@ -565,7 +573,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-topbar__actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-1); }
 .gluck-page { padding: var(--space-6); display: grid; gap: var(--space-5); align-content: start; }
 .gluck-page-header { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3); }
-.gluck-page-header h1 { font: var(--font-h4); font-size: 22px; line-height: 30px; }
+.gluck-page-header .gluck-page-title { font: var(--font-h4); font-size: 22px; line-height: 30px; }
 .gluck-page-header p { font: var(--font-body-sm); color: var(--color-text-tertiary); }
 .gluck-page-header .gluck-btn-group { margin-left: auto; }
 .gluck-filterbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding: var(--space-3); background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); }
@@ -586,6 +594,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
   .gluck-shell { grid-template-columns: minmax(0, 1fr); }
   .gluck-sidebar { position: fixed; inset: 0 auto 0 0; width: var(--sidebar-w); z-index: var(--z-overlay); transform: translateX(-100%); transition: transform var(--duration-slow) var(--ease-standard); box-shadow: var(--shadow-lg); }
   .gluck-shell.is-drawer-open .gluck-sidebar { transform: none; }
+  .gluck-shell.is-drawer-open::before { content: ""; position: fixed; inset: 0; z-index: calc(var(--z-overlay) - 1); background: var(--color-bg-overlay); }   /* 클릭·ESC로 닫힘 (JS) */
   .gluck-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gluck-topbar__search { width: 100%; }
 }
@@ -601,7 +610,6 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-btn--google:hover { background: var(--color-bg-subtle); }
 .gluck-btn--naver { background: var(--gluck-3p-naver); color: var(--gluck-white); }
 .gluck-btn--kakao { background: var(--gluck-3p-kakao); color: var(--gluck-black); }
-.gluck-btn--apple { background: var(--gluck-black); color: var(--gluck-white); }
 
 /* --------------------------------------------------------------------------
    LOCKED / PERMISSION STATES

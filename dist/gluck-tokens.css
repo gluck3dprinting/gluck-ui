@@ -1,6 +1,7 @@
 /* ==========================================================================
    GLUCK Design Tokens · v2.0.0-preview
-   GENERATED from tokens/gluck.tokens.json — 이 파일을 직접 수정하지 마세요.
+   SOURCE: tokens/gluck.tokens.json — 현재는 수동 동기화(scripts/build-tokens 예정).
+   값을 바꿀 때 JSON과 이 파일을 함께 수정한다.
    --------------------------------------------------------------------------
    계층
      1) PRIMITIVE  --gluck-*      원시 값. 컴포넌트에서 직접 참조 금지.
@@ -13,7 +14,6 @@
    ========================================================================== */
 
 :root {
-  color-scheme: light;
 
   /* ------------------------------------------------------------------
      1. PRIMITIVE
@@ -27,8 +27,8 @@
   --gluck-blue-500: #1A6AFF;   /* soft · 약한 Primary · 대비 4.62 */
   --gluck-blue-600: #0059FF;   /* ★ KEY · 대비 5.42 */
   --gluck-blue-700: #0047CC;   /* tone-down · hover/pressed · 대비 7.57 */
-  --gluck-blue-50:  #EAF3FE;   /* info 배경 (DESIGN-ADMIN 값 승격) */
-  --gluck-blue-150: #C9DEFB;   /* info 보더 (DESIGN-ADMIN 값 승격) */
+  --gluck-blue-50:  #EAF3FE;   /* Draft · info 배경 (DESIGN-ADMIN 값 승격) */
+  --gluck-blue-150: #C9DEFB;   /* Draft · info 보더 (DESIGN-ADMIN 값 승격) */
 
   /* Gray — 2026.08 브랜드 확정 6단계 */
   --gluck-gray-50:  #F6F7F9;
@@ -47,7 +47,7 @@
   --gluck-dark-800: #1D2129;   /* 서피스 2 / sunken */
   --gluck-dark-700: #262B33;   /* 보더 */
   --gluck-dark-600: #3A404B;   /* 강조 보더 */
-  --gluck-dark-300: #9AA1AD;   /* 보조 텍스트 (대비 7.4 on 950) */
+  --gluck-dark-300: #9AA1AD;   /* 보조 텍스트 (대비 7.27 on 950) */
   --gluck-dark-100: #C5CAD3;   /* 2차 텍스트 */
   --gluck-dark-50:  #F2F4F8;   /* 1차 텍스트 */
 
@@ -57,13 +57,17 @@
   --gluck-red-800:   #991B1B;  --gluck-red-700:   #B91C1C;  --gluck-red-200: #F5C6C6;  --gluck-red-100: #FDEDED;
 
   /* Third-party brand (소셜 로그인 전용 — 허용 목록) */
-  --gluck-3p-google: #4285F4;
   --gluck-3p-naver:  #03C75A;
   --gluck-3p-kakao:  #FEE500;
+}
 
-  /* ------------------------------------------------------------------
-     2. SEMANTIC · Color
-     ------------------------------------------------------------------ */
+/* ==========================================================================
+   2. SEMANTIC · Color — LIGHT 기본값
+   :root 뿐 아니라 서브트리 <div data-theme="light">·<div data-theme="admin">에도 적용되어
+   다크 페이지 안에 라이트/관리자 영역을 만들 수 있다. admin은 아래 블록이 덮어쓴다.
+   ========================================================================== */
+:root, [data-theme="light"], [data-theme="admin"] {
+  color-scheme: light;
 
   /* Surface */
   --color-bg-page:         var(--gluck-white);
@@ -126,13 +130,15 @@
   --color-status-neutral-text:   var(--gluck-gray-500);
   --color-status-neutral-bg:     var(--gluck-gray-50);
   --color-status-neutral-border: var(--gluck-gray-100);
+}
 
+:root {
   /* ------------------------------------------------------------------
      2. SEMANTIC · Typography (SUIT 단일 패밀리 — 2026.08 확정)
      ------------------------------------------------------------------ */
   --font-sans: 'SUIT Variable', 'SUIT', -apple-system, BlinkMacSystemFont, 'Segoe UI',
                'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-  --font-mono: var(--font-sans);   /* @deprecated JetBrains Mono 중단(2026.08). 숫자는 .t-num 사용 */
+  --font-mono: var(--font-sans);   /* @deprecated JetBrains Mono 중단(2026.08). 숫자는 .t-num 사용 — lint-ignore */
 
   --font-weight-regular:   400;
   --font-weight-medium:    500;
@@ -226,6 +232,9 @@
   --table-row-h: 48px;
   --table-cell-x: 16px;
 }
+
+/* Tablet (768–1279) — 거터만 축소, 컨테이너는 유동(max 1200) */
+@media (max-width: 1279px) { :root { --gutter: 20px; --grid-gap: 20px; } }
 
 /* Mobile (<768) 반응형 토큰 재바인딩 */
 @media (max-width: 767px) {
@@ -363,6 +372,8 @@
   --color-action-selected-bg:    var(--gluck-blue-50);
   --color-action-selected-text:  var(--gluck-blue-700);
   --color-text-link:             var(--gluck-blue-700);
+  --color-text-brand:            var(--gluck-blue-700);
+  --color-border-focus:          var(--gluck-blue-700);
   --shadow-sm: 0 1px 2px rgba(16, 24, 40, .05);
   --table-row-h: 48px;
 }

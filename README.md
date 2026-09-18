@@ -60,6 +60,10 @@ gluck-ui/
 ## 브랜드팀 결정 대기 (Draft 표기)
 
 1. 다크 서피스 팔레트 (`gluck.dark.*`) — 리소스 센터 값 채택 여부
-2. Admin Primary — 브랜드 파생 #0047CC(권장) vs #3182F6 유지
-3. `gray-400 #8A9099` (입력 보더 3:1용) 신설 여부
-4. 로고 최소 사용 크기
+2. 다크 배경 위 텍스트 블루 `blue-200 #7AA5FF` / `blue-300 #4585FF`
+3. info 배경/보더 `blue-50 #EAF3FE` / `blue-150 #C9DEFB` (DESIGN-ADMIN 값 승격)
+4. Admin Primary — 브랜드 파생 #0047CC(권장) vs #3182F6 유지 · Admin 뉴트럴 4종(#F7F8FA #F1F3F6 #E4E7EC #CDD3DC #5B6472)
+5. `gray-400 #8A9099` (입력 보더 3:1용) 신설 여부
+6. 로고 최소 사용 크기
+
+> 토큰 파일에서 `"status": "draft"` 로 표시된 항목이 위 목록과 1:1 대응합니다. `dist/gluck-tokens.css` 는 현재 JSON과 **수동 동기화**(빌드 스크립트는 다음 단계).

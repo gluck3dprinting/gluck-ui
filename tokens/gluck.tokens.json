@@ -1,6 +1,6 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
-  "$description": "GLUCK Design Tokens — 단일 원본. 이 파일만 손으로 편집한다. dist/*.css 는 scripts/build-tokens 가 생성한다. $extensions.gluck.status: confirmed(브랜드 확정) | draft(브랜드 확정 필요)",
+  "$description": "GLUCK Design Tokens — 원본(DTCG). dist/gluck-tokens.css 는 현재 수동 동기화(scripts/build-tokens 예정) — 값 변경 시 둘 다 수정. 합성 폰트·레이아웃·테이블 토큰은 아직 CSS에만 있음. $extensions.gluck.status: confirmed(브랜드 확정) | draft(브랜드 확정 필요)",
   "$version": "2.0.0-preview",
   "gluck": {
     "$description": "1. PRIMITIVE — 컴포넌트에서 직접 참조 금지",
@@ -42,7 +42,6 @@
     "red":   { "800": { "$type": "color", "$value": "#991B1B" }, "700": { "$type": "color", "$value": "#B91C1C" }, "200": { "$type": "color", "$value": "#F5C6C6" }, "100": { "$type": "color", "$value": "#FDEDED" } },
     "3p": {
       "$description": "서드파티 브랜드 — 소셜 로그인 전용 허용 목록",
-      "google": { "$type": "color", "$value": "#4285F4" },
       "naver":  { "$type": "color", "$value": "#03C75A" },
       "kakao":  { "$type": "color", "$value": "#FEE500" }
     }
@@ -171,7 +170,7 @@
       "color.text.secondary": "#5B6472", "color.text.tertiary": "{gluck.gray.500}",
       "color.border.default": "#E4E7EC", "color.border.strong": "#CDD3DC",
       "color.action.primary": "{gluck.blue.700}", "color.action.primary-hover": "#003DB3", "color.action.primary-active": "#003399",
-      "color.action.selected-bg": "{gluck.blue.50}", "color.action.selected-text": "{gluck.blue.700}", "color.text.link": "{gluck.blue.700}"
+      "color.action.selected-bg": "{gluck.blue.50}", "color.action.selected-text": "{gluck.blue.700}", "color.text.link": "{gluck.blue.700}", "color.text.brand": "{gluck.blue.700}", "color.border.focus": "{gluck.blue.700}"
     }
   },
 
