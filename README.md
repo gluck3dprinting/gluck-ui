@@ -13,7 +13,7 @@
 <meta name="gluck-ds-version" content="2.0.0-preview">
 ```
 
-- 문서·데모: https://gluck3dprinting.github.io/gluck-ui/ (우상단 **다크 모드** 토글, Section 16 = `data-theme="admin"`)
+- 디자인 시스템(구성원용): https://gluck3dprinting.github.io/gluck-ui/ · 개발자 문서: https://gluck3dprinting.github.io/gluck-ui/dev.html
 - 토큰만: `dist/gluck-tokens.css` · 원본: `tokens/gluck.tokens.json`
 - 파비콘·로고: `assets/logo/` · 아이콘 스프라이트: `assets/icons/icons.svg`
 
@@ -21,7 +21,8 @@
 
 ```
 gluck-ui/
-├─ index.html                 문서 페이지 (dist/gluck.css 의 첫 번째 소비자 — 인라인 :root 없음)
+├─ index.html · dev.html      디자인 시스템 페이지 · 개발자 문서 (둘 다 dist/gluck.css 의 소비자)
+├─ docs/docs.css · docs.js    문서 페이지 전용 크롬 (배포 대상 아님)
 ├─ tokens/gluck.tokens.json   ★ 단일 원본 (W3C DTCG). 손으로 편집하는 유일한 값 파일
 ├─ dist/
 │  ├─ gluck-tokens.css        :root 시맨틱 변수 + [data-theme="dark"] + [data-theme="admin"]

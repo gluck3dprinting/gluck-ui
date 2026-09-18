@@ -27,7 +27,7 @@ img, svg, video { display: block; max-width: 100%; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 a { color: var(--color-text-link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
-a:hover { color: var(--color-text-link-hover); }
+a:where(:not(.gluck-btn, .gluck-card, .gluck-logo, .gluck-tag)):hover { color: var(--color-text-link-hover); }   /* 버튼·카드·로고로 쓰인 <a>는 링크색 hover 제외 */
 table { border-collapse: collapse; }
 hr { border: 0; border-top: var(--border-width) solid var(--color-border-default); margin: 0; }
 

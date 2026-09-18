@@ -27,8 +27,8 @@
   --gluck-blue-500: #1A6AFF;   /* soft · 약한 Primary · 대비 4.62 */
   --gluck-blue-600: #0059FF;   /* ★ KEY · 대비 5.42 */
   --gluck-blue-700: #0047CC;   /* tone-down · hover/pressed · 대비 7.57 */
-  --gluck-blue-50:  #EAF3FE;   /* Draft · info 배경 (DESIGN-ADMIN 값 승격) */
-  --gluck-blue-150: #C9DEFB;   /* Draft · info 보더 (DESIGN-ADMIN 값 승격) */
+  --gluck-blue-50:  #EAF3FE;   /* Draft · info 배경 */
+  --gluck-blue-150: #C9DEFB;   /* Draft · info 보더 */
 
   /* Gray — 2026.08 브랜드 확정 6단계 */
   --gluck-gray-50:  #F6F7F9;
@@ -51,7 +51,7 @@
   --gluck-dark-100: #C5CAD3;   /* 2차 텍스트 */
   --gluck-dark-50:  #F2F4F8;   /* 1차 텍스트 */
 
-  /* Status — success / warning / danger (DESIGN-ADMIN v1.1 값 승격, AA 검증) */
+  /* Status — success / warning / danger (AA 검증) */
   --gluck-green-700: #15803D;  --gluck-green-200: #C6E6D1;  --gluck-green-100: #EAF6EE;
   --gluck-amber-700: #B45309;  --gluck-amber-200: #F3DFB8;  --gluck-amber-100: #FDF4E3;
   --gluck-red-800:   #991B1B;  --gluck-red-700:   #B91C1C;  --gluck-red-200: #F5C6C6;  --gluck-red-100: #FDEDED;
@@ -82,7 +82,7 @@
   /* Text */
   --color-text-primary:     var(--gluck-gray-900);
   --color-text-secondary:   var(--gluck-gray-700);
-  --color-text-tertiary:    var(--gluck-gray-500);   /* v1.1의 #B3B8C2(1.99:1) 매핑을 폐기 */
+  --color-text-tertiary:    var(--gluck-gray-500);   /* gray-300(1.99:1)은 텍스트 금지 */
   --color-text-disabled:    var(--gluck-gray-300);
   --color-text-placeholder: var(--gluck-gray-500);
   --color-text-brand:       var(--gluck-blue-600);
@@ -101,7 +101,7 @@
 
   /* Action */
   --color-action-primary:          var(--gluck-blue-600);
-  --color-action-primary-hover:    var(--gluck-blue-700);   /* v1.1 hover #337AFF(3.91)는 14–16px 라벨 AA 미달 → tone-down으로 */
+  --color-action-primary-hover:    var(--gluck-blue-700);   /* blue-400(3.91)은 라벨 AA 미달 → tone-down */
   --color-action-primary-active:   var(--gluck-blue-700);
   --color-action-secondary:        var(--gluck-gray-700);
   --color-action-secondary-hover:  var(--gluck-gray-900);
@@ -138,7 +138,7 @@
      ------------------------------------------------------------------ */
   --font-sans: 'SUIT Variable', 'SUIT', -apple-system, BlinkMacSystemFont, 'Segoe UI',
                'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-  --font-mono: var(--font-sans);   /* @deprecated JetBrains Mono 중단(2026.08). 숫자는 .t-num 사용 — lint-ignore */
+  --font-mono: var(--font-sans);   /* 별칭 — 모노 서체 없음. 숫자는 .t-num 사용 */
 
   --font-weight-regular:   400;
   --font-weight-medium:    500;
@@ -354,7 +354,7 @@
 /* ==========================================================================
    3. THEME · Admin (Madmin · Hermes OS · 내부 운영 툴)
    별도 컴포넌트(.adm-*)가 아니라 시맨틱 재바인딩으로 구현 → 컴포넌트는 한 벌.
-   ADR-002 · Admin Primary: 브랜드 파생 #0047CC(7.57:1) 채택. (대안 #3182F6은 3.71:1로 AA 미달)
+   Admin Primary: 브랜드 파생 #0047CC(7.57:1) — Draft(브랜드팀 확정 대기)
    ========================================================================== */
 [data-theme="admin"] {
   color-scheme: light;
@@ -363,7 +363,7 @@
   --color-bg-surface:   var(--gluck-white);
   --color-bg-sunken:    #F1F3F6;
   --color-text-secondary: #5B6472;               /* Draft · 셀 텍스트 (5.98:1) */
-  --color-text-tertiary:  var(--gluck-gray-500); /* v1.1 #8B93A1(3.09:1) 폐기 */
+  --color-text-tertiary:  var(--gluck-gray-500); /* #8B93A1은 3.09:1로 미달 */
   --color-border-default: #E4E7EC;               /* Draft */
   --color-border-strong:  #CDD3DC;               /* Draft */
   --color-action-primary:        var(--gluck-blue-700);
