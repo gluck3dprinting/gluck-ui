@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GLUCK Design System v2</title>
-<meta name="description" content="GLUCK 디자인 시스템 v2.0.0-preview — 토큰 단일 원본, 테마 레이어(라이트·다크·관리자), 운영 가능한 컴포넌트, 접근성 기준 내장." />
+<title>GLUCK 공용 디자인 시스템</title>
+<meta name="description" content="GLUCK 사내 공용 디자인 시스템 — 홈페이지·견적·채용·브로슈어·관리자 툴 등 각자 만드는 시스템에 CSS 한 줄로 적용하는 하나의 토큰 기준. 색·글자·간격·버튼·테이블까지." />
 <meta name="gluck-ds-version" content="2.0.0-preview" />
 <meta name="theme-color" content="#0059FF" />
 <link rel="icon" href="assets/logo/GLUCK_Favicon.ico" sizes="any" />
@@ -211,7 +211,7 @@ body { background: var(--color-bg-page); }
 
 <header class="ds-topbar">
   <a class="gluck-logo" href="#top" aria-label="GLUCK 디자인 시스템 홈"><svg viewBox="0 0 407 87" role="img" aria-hidden="true"><use href="#lg-wordmark"/></svg></a>
-  <span class="ds-topbar__name">Design System</span>
+  <span class="ds-topbar__name">사내 공용 디자인 시스템</span>
   <div class="ds-topbar__meta" aria-label="시스템 메타">
     <span>VERSION <b>2.0.0-preview</b></span><span>FONT <b>SUIT</b></span><span>KEY <b>#0059FF</b></span><span>THEMES <b>Light · Dark · Admin</b></span>
   </div>
@@ -227,7 +227,7 @@ body { background: var(--color-bg-page); }
 <div class="ds-layout" id="top">
   <nav class="ds-nav" id="dsNav" aria-label="문서 목차">
     <div class="ds-nav__group">Start</div>
-    <a href="#start">시작하기 <small>00</small></a>
+    <a href="#start">내 시스템에 적용하기 <small>00</small></a>
     <div class="ds-nav__group">Foundations</div>
     <a href="#identity">로고 · 아이덴티티 <small>01</small></a>
     <a href="#color">컬러 토큰 <small>02</small></a>
@@ -256,21 +256,22 @@ body { background: var(--color-bg-page); }
 
     <!-- ================================================================ HERO -->
     <section class="ds-hero" aria-labelledby="heroTitle">
-      <div class="ds-hero__eyebrow">GLUCK / Industrial Foundry — Design Tokens &amp; Components · v2 Preview</div>
-      <h1 id="heroTitle">하나의 토큰,<br><span>모든 제품</span>이 같은 얼굴.</h1>
-      <p>홈페이지·견적·채용·브로슈어·관리자(Madmin, Hermes OS)가 <strong>같은 파일</strong>을 가져다 쓰도록 만든 디자인 시스템입니다. 값은 <code class="ds-inline-code">tokens.json</code> 한 곳에서만 바뀌고, 이 페이지 자체가 그 산출물(<code class="ds-inline-code">dist/gluck.css</code>)의 첫 번째 소비자입니다.</p>
+      <div class="ds-hero__eyebrow">GLUCK 사내 공용 디자인 시스템 · v2 Preview</div>
+      <h1 id="heroTitle">우리가 만드는 모든 시스템의<br><span>공통 UI 기준</span>입니다.</h1>
+      <p>홈페이지, 견적 시스템, 채용 페이지, 브로슈어, Madmin·Hermes OS처럼 <strong>각자 만들고 있는 시스템에 그대로 가져다 쓰는</strong> GLUCK의 공용 디자인 시스템입니다. 색·글자·간격·버튼·입력창·테이블 같은 UI 값이 <strong>토큰 하나</strong>로 정해져 있어서, CSS 한 줄만 넣으면 어떤 시스템이든 같은 GLUCK 화면이 됩니다.</p>
+      <div class="gluck-row" style="margin-top: var(--space-6)"><a class="gluck-btn gluck-btn--primary" href="#start">내 시스템에 적용하기 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a><a class="gluck-btn gluck-btn--outline" href="#buttons">컴포넌트 보기</a><a class="gluck-btn gluck-btn--ghost" href="#color">컬러 토큰</a></div>
       <dl class="ds-facts">
-        <div><dt>배포 방식</dt><dd>&lt;link&gt; 한 줄 (복사 금지)</dd></div>
-        <div><dt>토큰 계층</dt><dd>Primitive → Semantic → Theme</dd></div>
-        <div><dt>테마</dt><dd>Light · Dark · Admin (한 벌의 컴포넌트)</dd></div>
-        <div><dt>접근성</dt><dd>WCAG 2.2 AA · 대비 실시간 검증</dd></div>
+        <div><dt>이 페이지는</dt><dd>UI 기준 문서 + 실제로 동작하는 컴포넌트 데모</dd></div>
+        <div><dt>누가 쓰나</dt><dd>시스템을 만드는 모든 구성원 (기획·디자인·개발)</dd></div>
+        <div><dt>어떻게 쓰나</dt><dd>&lt;link&gt; 한 줄 추가 → 바로 적용 (복사 불필요)</dd></div>
+        <div><dt>기준</dt><dd>브랜드 CI 2026.08 · WCAG 2.2 AA · 라이트/다크/관리자 테마</dd></div>
       </dl>
     </section>
 
     <!-- ================================================================ 00 START -->
     <section class="ds-section" id="start" aria-labelledby="h-start">
-      <header><div class="ds-section__num">SECTION 00</div><h2 id="h-start">시작하기</h2>
-        <p>v1.1까지는 "HTML에서 CSS 변수를 복사해서 붙여 넣는" 방식이었고, 그 결과 6개 제품이 각자 다른 값을 갖게 되었습니다. v2는 <strong>가져다 쓰는 파일</strong>이 있습니다.</p></header>
+      <header><div class="ds-section__num">SECTION 00</div><h2 id="h-start">내 시스템에 적용하기</h2>
+        <p>복사해서 붙여 넣지 않습니다. 아래 CSS를 <strong>링크 한 줄</strong>로 가져다 쓰면, 이후 색이나 버튼 규격이 바뀌어도 모든 시스템에 함께 반영됩니다. 값은 <code class="ds-inline-code">tokens/gluck.tokens.json</code> 한 곳에서만 관리합니다.</p></header>
 
       <h3 class="ds-sub">1. 파이프라인 — 값이 흐르는 경로</h3>
       <div class="ds-pipeline">

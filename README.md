@@ -1,4 +1,4 @@
-# GLUCK UI — Design System v2.0.0-preview
+# GLUCK 공용 디자인 시스템 (gluck-ui) — v2.0.0-preview
 
 > 사내 공용 디자인 시스템 — 각자 만드는 서비스(홈페이지·견적·채용·브로슈어·Madmin·Hermes OS)가 **같은 파일**을 가져다 쓰기 위한 저장소입니다.
 > 라이브: https://gluck3dprinting.github.io/gluck-ui/ · 기존 `design-system` v1.1은 문서 아카이브로 유지.
