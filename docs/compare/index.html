@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>적용 전 · 후 — GLUCK 공용 디자인 시스템</title>
+<link rel="icon" href="../../assets/logo/GLUCK_Favicon.ico">
+<link rel="stylesheet" href="../../dist/gluck.css">
+<style>
+  body { background: var(--color-bg-subtle); }
+  .wrap { width: 1660px; margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-6); }
+  .head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-6); margin-bottom: var(--space-5); }
+  .head h1 { font: var(--font-h2); letter-spacing: -.02em; }
+  .head p { margin-top: var(--space-1); font: var(--font-body-sm); color: var(--color-text-secondary); }
+  .head .gluck-logo svg { height: 22px; }
+  .cols { display: grid; grid-template-columns: 762px 56px 762px; gap: var(--space-4); align-items: stretch; justify-content: center; }
+  .panel { background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+  .panel__label { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-bottom: var(--border-width) solid var(--color-border-default); font: var(--font-caption); color: var(--color-text-secondary); background: var(--color-bg-sunken); }
+  .panel__label b { font: var(--font-body-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .panel__frame { width: 760px; height: 540px; overflow: hidden; background: var(--color-bg-surface); }
+  .panel iframe { display: block; width: 1060px; height: 754px; border: 0; background: var(--color-bg-surface); transform: scale(.717); transform-origin: top left; }
+  .arrow { display: grid; place-items: center; color: var(--color-text-brand); }
+  .arrow svg { width: 40px; height: 40px; stroke-width: 2; }
+  .foot { margin-top: var(--space-4); display: flex; justify-content: space-between; font: var(--font-caption); color: var(--color-text-tertiary); }
+  .foot b { color: var(--color-text-secondary); font-weight: var(--font-weight-medium); }
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></symbol>
+  <symbol id="lg-wordmark" viewBox="0 0 407 87"><g transform="translate(-289 -348)"><path d="M588.063 377.88C586.933 369.624 579.938 363.338 572.001 363.338C557.51 363.338 552.044 377.272 552.044 391.814C552.044 406.356 557.51 419.578 572.001 419.578C581.886 419.578 587.456 412.014 588.671 400.992H604.314C602.66 421.799 590.116 434.916 572.001 434.916C549.364 434.916 535.898 415.743 535.898 391.793C535.898 367.843 549.364 348 572.001 348C588.063 348 601.717 358.707 603.707 377.88H588.063Z" fill="currentColor"/><path d="M637.946 384.376V374.402V349.991H619.895V432.968H637.946V409.122V406.231V384.376Z" fill="currentColor"/><path d="M660.479 382.741L692.54 349.991H670.028L640.417 381.736V403.695L648.291 395.649L673.002 432.968H695.639L660.479 382.741Z" fill="currentColor"/><path d="M427.423 417.608H410.565V349.991H392.514V432.968H431.234V421.401C431.234 419.306 429.517 417.629 427.423 417.629V417.608Z" fill="currentColor"/><path d="M515.585 349.991H501.345V401.579C501.345 414.025 497.199 419.599 484.341 419.599C469.745 419.599 467.441 410.652 467.441 401.579V349.991H449.39V401.579C449.39 424.23 462.143 434.937 484.341 434.937C506.539 434.937 519.397 423.999 519.397 401.579V353.804C519.397 351.688 517.7 349.991 515.585 349.991Z" fill="currentColor"/><path d="M345.898 386.576L331.364 401.223H349.144C351.259 401.223 352.955 402.92 352.955 405.036V405.078C352.955 408.556 352.746 415.262 352.746 415.262C352.746 415.262 350.463 419.41 332.809 419.41C316.056 419.41 307.68 405.246 307.68 391.207C307.68 376.455 317.836 363.108 334.61 363.108C351.384 363.108 355.803 371.259 355.803 371.259L367.949 358.54C367.949 358.54 358.023 348 334.924 348C308.769 348 289 366.188 289 391.207C289 416.225 306.654 435 332.809 435C358.965 435 369.917 427.247 369.917 427.247V386.597H345.898V386.576Z" fill="currentColor"/></g></symbol>
+</svg>
+<div class="wrap">
+  <div class="head">
+    <div><h1>같은 화면, 같은 기능 — 디자인 시스템 적용 전 · 후</h1><p>견적 요청 관리 화면. 오른쪽은 <b>CSS 한 줄</b>(dist/gluck.css)과 GLUCK 클래스만 적용한 결과입니다. 색·크기를 따로 지정한 곳은 없습니다.</p></div>
+    <a class="gluck-logo" href="../../" aria-label="GLUCK 공용 디자인 시스템"><svg viewBox="0 0 407 87" aria-hidden="true"><use href="#lg-wordmark"/></svg></a>
+  </div>
+  <div class="cols">
+    <div class="panel"><div class="panel__label"><span class="gluck-badge gluck-badge--danger gluck-badge--no-dot">적용 전</span><b>각자 만든 화면</b><span>· 기본 스타일, 색·여백·상태 표현이 제각각</span></div><div class="panel__frame"><iframe src="before.html" title="적용 전 화면"></iframe></div></div>
+    <div class="arrow"><svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></div>
+    <div class="panel"><div class="panel__label"><span class="gluck-badge gluck-badge--success gluck-badge--no-dot">적용 후</span><b>GLUCK 공용 디자인 시스템</b><span>· 같은 데이터, 같은 기능</span></div><div class="panel__frame"><iframe src="after.html" title="적용 후 화면"></iframe></div></div>
+  </div>
+  <div class="foot"><span><b>gluck3dprinting.github.io/gluck-ui</b> — 적용 방법은 페이지 맨 위 "내 시스템에 적용하기"</span><span>SUIT · #0059FF · WCAG 2.2 AA</span></div>
+</div>
+</body>
+</html>

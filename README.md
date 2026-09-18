@@ -15,6 +15,7 @@
 
 - 디자인 시스템(구성원용): https://gluck3dprinting.github.io/gluck-ui/ · 개발자 문서: https://gluck3dprinting.github.io/gluck-ui/dev.html
 - 토큰만: `dist/gluck-tokens.css` · 원본: `tokens/gluck.tokens.json`
+- 적용 전·후 비교: `docs/before-after.png` (페이지: `docs/compare/`)
 - **AI 코딩 도구(Claude 등)용 참조: `llms.txt`** — 프로젝트 CLAUDE.md에 "https://gluck3dprinting.github.io/gluck-ui/llms.txt 를 읽고 따를 것" 한 줄이면 됩니다
 - 파비콘·로고: `assets/logo/` · 아이콘 스프라이트: `assets/icons/icons.svg`
 

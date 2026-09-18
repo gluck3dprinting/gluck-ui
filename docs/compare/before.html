@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>견적관리 (적용 전)</title>
+<!-- 적용 전: 디자인 시스템 없이 각자 만든 화면 — 브라우저 기본 스타일 + 인라인 속성 -->
+<style>
+  body { margin: 8px; font-family: Gulim, 굴림, "Batang", serif; font-size: 13px; background: #ffffff; }
+  table.list { border-collapse: collapse; }
+  table.list td, table.list th { border: 1px solid #999999; padding: 3px 5px; }
+  .bar { background: #dddddd; padding: 4px; margin-bottom: 6px; border: 1px solid #aaaaaa; }
+  .menu a { margin-right: 10px; }
+  .status_ing { color: blue; }
+  .status_wait { color: orange; font-weight: bold; }
+  .status_ok { color: green; }
+  .status_loss { color: red; font-weight: bold; }
+  .btn_red { background: #ff0000; color: #ffffff; border: 1px solid #aa0000; font-weight: bold; }
+  .btn_blue { background: #0000ff; color: #ffffff; border: 1px solid #000088; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="bar"><b>[GLUCK 관리자]</b> &nbsp; <span class="menu"><a href="#">홈</a> <a href="#"><b>견적관리</b></a> <a href="#">주문관리</a> <a href="#">고객관리</a> <a href="#">설정</a></span>
+  <span style="float:right">김정현님 | <a href="#">로그아웃</a></span></div>
+
+<h2 style="margin:6px 0">▶ 견적요청 목록</h2>
+<font color="#666666">오늘 접수 12건 / 미배정 4건 / 유효기간임박 2건</font>
+<hr>
+
+<form>
+  검색어: <input type="text" size="18"> &nbsp;
+  상태: <select><option>전체</option><option>진행중</option><option>팔로업</option><option>성사</option><option>LOSS</option></select> &nbsp;
+  기간: <input type="radio" name="p" checked>7일 <input type="radio" name="p">30일 <input type="radio" name="p">분기 &nbsp;
+  <input type="button" value="검색"> <input type="button" value="초기화">
+  <span style="float:right"><button class="btn_blue">+ 수동등록</button> <button>엑셀다운</button> <button class="btn_red">선택삭제</button></span>
+</form>
+<br>
+
+<table class="list" width="100%">
+  <tr bgcolor="#dddddd" align="center">
+    <th><input type="checkbox"></th><th>NO</th><th>견적번호</th><th>고객사</th><th>품목/수량</th><th>공정</th><th>상태</th><th>금액</th><th>접수일</th><th>관리</th>
+  </tr>
+  <tr><td align="center"><input type="checkbox"></td><td align="center">1</td><td>Q-2026-0918-031</td><td>(주)에이치모빌리티</td><td>내장 브라켓 20종 / 200ea</td><td>SLA,도색,조립</td><td class="status_ing" align="center">진행중</td><td align="right">11780000</td><td>2026-09-18</td><td align="center"><a href="#">보기</a> <a href="#">수정</a> <a href="#" style="color:red">삭제</a></td></tr>
+  <tr bgcolor="#f5f5f5"><td align="center"><input type="checkbox"></td><td align="center">2</td><td>Q-2026-0918-030</td><td>메디텍바이오</td><td>하우징 / 1200ea</td><td>SLA,UV</td><td class="status_wait" align="center">팔로업필요!</td><td align="right">48200000</td><td>2026-09-18</td><td align="center"><a href="#">보기</a> <a href="#">수정</a> <a href="#" style="color:red">삭제</a></td></tr>
+  <tr><td align="center"><input type="checkbox"></td><td align="center">3</td><td>Q-2026-0917-028</td><td>스튜디오 감각</td><td>전시 조형물 / 3ea</td><td>SLA,사상,도색</td><td class="status_ok" align="center">성사</td><td align="right">9600000</td><td>2026-09-17</td><td align="center"><a href="#">보기</a> <a href="#">수정</a> <a href="#" style="color:red">삭제</a></td></tr>
+  <tr bgcolor="#f5f5f5"><td align="center"><input type="checkbox"></td><td align="center">4</td><td>Q-2026-0917-027</td><td>로보틱스랩</td><td>그리퍼 핑거 / 60ea</td><td>SLA</td><td align="center">보류</td><td align="right">2340000</td><td>2026-09-17</td><td align="center"><a href="#">보기</a> <a href="#">수정</a> <a href="#" style="color:red">삭제</a></td></tr>
+  <tr><td align="center"><input type="checkbox"></td><td align="center">5</td><td>Q-2026-0916-025</td><td>(주)에이치모빌리티</td><td>커넥터 커버 / 500ea</td><td>SLA,도색</td><td class="status_loss" align="center">LOSS</td><td align="right">7150000</td><td>2026-09-16</td><td align="center"><a href="#">보기</a> <a href="#">수정</a> <a href="#" style="color:red">삭제</a></td></tr>
+</table>
+<br>
+<div align="center">[<a href="#">이전</a>] <b>1</b> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> ... <a href="#">3787</a> [<a href="#">다음</a>] &nbsp; 총 30293건</div>
+<br>
+<div style="border:1px solid #00aa00; background:#eeffee; padding:4px; color:#007700">※ Q-2026-0917-028 견적서가 발송되었습니다.</div>
+<br>
+<font size="1" color="#888888">Copyright GLUCK. 관리자 전용. 문의: support@glucklab.com</font>
+</body>
+</html>
