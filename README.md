@@ -9,8 +9,8 @@
 <!-- 최신 (main) -->
 <link rel="stylesheet" href="https://gluck3dprinting.github.io/gluck-ui/dist/gluck.css">
 <!-- 버전 고정 (태그 발행 후) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0/dist/gluck.css">
-<meta name="gluck-ds-version" content="2.0.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0-preview/dist/gluck.css">
+<meta name="gluck-ds-version" content="2.0.0-preview">
 ```
 
 - 문서·데모: https://gluck3dprinting.github.io/gluck-ui/ (우상단 **다크 모드** 토글, Section 16 = `data-theme="admin"`)
@@ -36,7 +36,7 @@ gluck-ui/
 
 ```html
 <link rel="stylesheet" href=".../dist/gluck.css">
-<meta name="gluck-ds-version" content="2.0.0">
+<meta name="gluck-ds-version" content="2.0.0-preview">
 <html lang="ko" data-theme="admin">   <!-- 운영 툴은 admin 고정. 생략 = 라이트 + OS 다크 존중 -->
 ```
 
