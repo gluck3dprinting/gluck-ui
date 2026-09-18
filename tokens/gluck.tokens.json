@@ -1,0 +1,189 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "$description": "GLUCK Design Tokens — 단일 원본. 이 파일만 손으로 편집한다. dist/*.css 는 scripts/build-tokens 가 생성한다. $extensions.gluck.status: confirmed(브랜드 확정) | draft(브랜드 확정 필요)",
+  "$version": "2.0.0-preview",
+  "gluck": {
+    "$description": "1. PRIMITIVE — 컴포넌트에서 직접 참조 금지",
+    "blue": {
+      "50":  { "$type": "color", "$value": "#EAF3FE", "$description": "info 배경", "$extensions": { "gluck": { "status": "draft", "source": "DESIGN-ADMIN v1.1" } } },
+      "100": { "$type": "color", "$value": "#D7E1F4", "$description": "배경 전용. 텍스트 금지", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08" } } },
+      "150": { "$type": "color", "$value": "#C9DEFB", "$description": "info 보더", "$extensions": { "gluck": { "status": "draft", "source": "DESIGN-ADMIN v1.1" } } },
+      "200": { "$type": "color", "$value": "#7AA5FF", "$description": "다크 배경 위 강조 텍스트", "$extensions": { "gluck": { "status": "draft", "source": "brand-resource-center v1.1.1" } } },
+      "300": { "$type": "color", "$value": "#4585FF", "$description": "다크 배경 위 텍스트 블루 (4.86:1 on #1A1D24)", "$extensions": { "gluck": { "status": "draft", "source": "brand-resource-center v1.1.1" } } },
+      "400": { "$type": "color", "$value": "#337AFF", "$description": "tone-up · focus ring · 흰 글자 3.91 → 텍스트 금지", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08", "allowedFor": ["focus-ring", "decorative"] } } },
+      "500": { "$type": "color", "$value": "#1A6AFF", "$description": "soft · 약한 Primary · 4.62", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08" } } },
+      "600": { "$type": "color", "$value": "#0059FF", "$description": "★ KEY (CI 보드 C86 M63 Y0 K0) · 5.42", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08", "key": true } } },
+      "700": { "$type": "color", "$value": "#0047CC", "$description": "tone-down · hover/pressed · 7.57", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08" } } }
+    },
+    "gray": {
+      "50":  { "$type": "color", "$value": "#F6F7F9", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08" } } },
+      "100": { "$type": "color", "$value": "#E6E8EC", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08" } } },
+      "300": { "$type": "color", "$value": "#B3B8C2", "$description": "1.99:1 → 텍스트 금지. 보더·비활성 전용", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08", "allowedFor": ["border", "disabled"] } } },
+      "400": { "$type": "color", "$value": "#8A9099", "$description": "입력 보더 전용 — 비텍스트 대비 3.2:1", "$extensions": { "gluck": { "status": "draft", "reason": "WCAG 1.4.11 입력 보더 3:1 확보" } } },
+      "500": { "$type": "color", "$value": "#6B7280", "$description": "4.83 · 3차 텍스트 하한", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08" } } },
+      "700": { "$type": "color", "$value": "#2D3139", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08" } } },
+      "900": { "$type": "color", "$value": "#1A1D24", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08" } } }
+    },
+    "white": { "$type": "color", "$value": "#FFFFFF" },
+    "black": { "$type": "color", "$value": "#000000" },
+    "dark": {
+      "$description": "다크 서피스 — 브랜드 리소스 센터 v1.1.1 값 채택. 브랜드 확정 필요",
+      "950": { "$type": "color", "$value": "#0F1115", "$extensions": { "gluck": { "status": "draft" } } },
+      "900": { "$type": "color", "$value": "#171A20", "$extensions": { "gluck": { "status": "draft" } } },
+      "800": { "$type": "color", "$value": "#1D2129", "$extensions": { "gluck": { "status": "draft" } } },
+      "700": { "$type": "color", "$value": "#262B33", "$extensions": { "gluck": { "status": "draft" } } },
+      "600": { "$type": "color", "$value": "#3A404B", "$extensions": { "gluck": { "status": "draft" } } },
+      "300": { "$type": "color", "$value": "#9AA1AD", "$extensions": { "gluck": { "status": "draft" } } },
+      "100": { "$type": "color", "$value": "#C5CAD3", "$extensions": { "gluck": { "status": "draft" } } },
+      "50":  { "$type": "color", "$value": "#F2F4F8", "$extensions": { "gluck": { "status": "draft" } } }
+    },
+    "green": { "700": { "$type": "color", "$value": "#15803D" }, "200": { "$type": "color", "$value": "#C6E6D1" }, "100": { "$type": "color", "$value": "#EAF6EE" } },
+    "amber": { "700": { "$type": "color", "$value": "#B45309" }, "200": { "$type": "color", "$value": "#F3DFB8" }, "100": { "$type": "color", "$value": "#FDF4E3" } },
+    "red":   { "800": { "$type": "color", "$value": "#991B1B" }, "700": { "$type": "color", "$value": "#B91C1C" }, "200": { "$type": "color", "$value": "#F5C6C6" }, "100": { "$type": "color", "$value": "#FDEDED" } },
+    "3p": {
+      "$description": "서드파티 브랜드 — 소셜 로그인 전용 허용 목록",
+      "google": { "$type": "color", "$value": "#4285F4" },
+      "naver":  { "$type": "color", "$value": "#03C75A" },
+      "kakao":  { "$type": "color", "$value": "#FEE500" }
+    }
+  },
+
+  "color": {
+    "$description": "2. SEMANTIC — 컴포넌트·제품이 쓰는 이름. 테마는 이 값만 재바인딩",
+    "bg": {
+      "page":         { "$type": "color", "$value": "{gluck.white}" },
+      "subtle":       { "$type": "color", "$value": "{gluck.gray.50}" },
+      "surface":      { "$type": "color", "$value": "{gluck.white}" },
+      "sunken":       { "$type": "color", "$value": "{gluck.gray.50}" },
+      "inverse":      { "$type": "color", "$value": "{gluck.gray.900}" },
+      "brand":        { "$type": "color", "$value": "{gluck.blue.600}" },
+      "brand-subtle": { "$type": "color", "$value": "{gluck.blue.100}" },
+      "overlay":      { "$type": "color", "$value": "rgba(26, 29, 36, 0.56)" }
+    },
+    "text": {
+      "primary":     { "$type": "color", "$value": "{gluck.gray.900}" },
+      "secondary":   { "$type": "color", "$value": "{gluck.gray.700}" },
+      "tertiary":    { "$type": "color", "$value": "{gluck.gray.500}", "$description": "v1.1의 gray-300(1.99:1) 매핑 폐기" },
+      "disabled":    { "$type": "color", "$value": "{gluck.gray.300}" },
+      "placeholder": { "$type": "color", "$value": "{gluck.gray.500}" },
+      "brand":       { "$type": "color", "$value": "{gluck.blue.600}" },
+      "link":        { "$type": "color", "$value": "{gluck.blue.600}" },
+      "link-hover":  { "$type": "color", "$value": "{gluck.blue.700}" },
+      "on-brand":    { "$type": "color", "$value": "{gluck.white}" },
+      "on-inverse":  { "$type": "color", "$value": "{gluck.white}" },
+      "danger":      { "$type": "color", "$value": "{gluck.red.700}" }
+    },
+    "border": {
+      "default": { "$type": "color", "$value": "{gluck.gray.100}" },
+      "strong":  { "$type": "color", "$value": "{gluck.gray.300}" },
+      "input":   { "$type": "color", "$value": "{gluck.gray.400}" },
+      "focus":   { "$type": "color", "$value": "{gluck.blue.600}" }
+    },
+    "focus-ring": { "$type": "color", "$value": "{gluck.blue.400}" },
+    "action": {
+      "primary":          { "$type": "color", "$value": "{gluck.blue.600}" },
+      "primary-hover":    { "$type": "color", "$value": "{gluck.blue.700}", "$description": "v1.1 hover #337AFF(3.91)는 14–16px 라벨 AA 미달" },
+      "primary-active":   { "$type": "color", "$value": "{gluck.blue.700}" },
+      "secondary":        { "$type": "color", "$value": "{gluck.gray.700}" },
+      "secondary-hover":  { "$type": "color", "$value": "{gluck.gray.900}" },
+      "tertiary":         { "$type": "color", "$value": "{gluck.gray.50}" },
+      "tertiary-hover":   { "$type": "color", "$value": "{gluck.blue.100}" },
+      "danger":           { "$type": "color", "$value": "{gluck.red.700}" },
+      "danger-hover":     { "$type": "color", "$value": "{gluck.red.800}" },
+      "disabled-bg":      { "$type": "color", "$value": "{gluck.gray.100}" },
+      "disabled-text":    { "$type": "color", "$value": "{gluck.gray.500}" },
+      "selected-bg":      { "$type": "color", "$value": "{gluck.blue.100}" },
+      "selected-text":    { "$type": "color", "$value": "{gluck.blue.700}" }
+    },
+    "status": {
+      "success": { "text": { "$type": "color", "$value": "{gluck.green.700}" }, "bg": { "$type": "color", "$value": "{gluck.green.100}" }, "border": { "$type": "color", "$value": "{gluck.green.200}" } },
+      "warning": { "text": { "$type": "color", "$value": "{gluck.amber.700}" }, "bg": { "$type": "color", "$value": "{gluck.amber.100}" }, "border": { "$type": "color", "$value": "{gluck.amber.200}" } },
+      "danger":  { "text": { "$type": "color", "$value": "{gluck.red.700}" },   "bg": { "$type": "color", "$value": "{gluck.red.100}" },   "border": { "$type": "color", "$value": "{gluck.red.200}" } },
+      "info":    { "text": { "$type": "color", "$value": "{gluck.blue.700}" },  "bg": { "$type": "color", "$value": "{gluck.blue.50}" },   "border": { "$type": "color", "$value": "{gluck.blue.150}" } },
+      "neutral": { "text": { "$type": "color", "$value": "{gluck.gray.500}" },  "bg": { "$type": "color", "$value": "{gluck.gray.50}" },   "border": { "$type": "color", "$value": "{gluck.gray.100}" } }
+    }
+  },
+
+  "font": {
+    "sans": { "$type": "fontFamily", "$value": ["SUIT Variable", "SUIT", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", "sans-serif"], "$description": "단일 패밀리. JetBrains Mono 중단 2026.08", "$extensions": { "gluck": { "status": "confirmed", "confirmedAt": "2026-08" } } },
+    "weight": { "regular": { "$type": "fontWeight", "$value": 400 }, "medium": { "$type": "fontWeight", "$value": 500 }, "semibold": { "$type": "fontWeight", "$value": 600 }, "bold": { "$type": "fontWeight", "$value": 700 }, "extrabold": { "$type": "fontWeight", "$value": 800 } },
+    "size": {
+      "display": { "$type": "dimension", "$value": "56px", "$extensions": { "gluck": { "mobile": "40px" } } },
+      "h1":      { "$type": "dimension", "$value": "40px", "$extensions": { "gluck": { "mobile": "32px" } } },
+      "h2":      { "$type": "dimension", "$value": "32px", "$extensions": { "gluck": { "mobile": "26px" } } },
+      "h3":      { "$type": "dimension", "$value": "24px", "$extensions": { "gluck": { "mobile": "22px" } } },
+      "h4":      { "$type": "dimension", "$value": "20px" },
+      "body-lg": { "$type": "dimension", "$value": "18px" },
+      "body":    { "$type": "dimension", "$value": "16px" },
+      "body-sm": { "$type": "dimension", "$value": "14px" },
+      "caption": { "$type": "dimension", "$value": "13px" },
+      "label":   { "$type": "dimension", "$value": "12px" }
+    },
+    "line-height": {
+      "display": { "$type": "dimension", "$value": "64px" }, "h1": { "$type": "dimension", "$value": "52px" }, "h2": { "$type": "dimension", "$value": "42px" }, "h3": { "$type": "dimension", "$value": "32px" }, "h4": { "$type": "dimension", "$value": "28px" },
+      "body-lg": { "$type": "dimension", "$value": "28px" }, "body": { "$type": "dimension", "$value": "26px" }, "body-sm": { "$type": "dimension", "$value": "22px" }, "caption": { "$type": "dimension", "$value": "20px" }, "label": { "$type": "dimension", "$value": "16px" }
+    }
+  },
+
+  "space": {
+    "$type": "dimension",
+    "0": { "$value": "0px" }, "1": { "$value": "4px" }, "2": { "$value": "8px" }, "3": { "$value": "12px" }, "4": { "$value": "16px" }, "5": { "$value": "20px" }, "6": { "$value": "24px" },
+    "8": { "$value": "32px" }, "10": { "$value": "40px" }, "12": { "$value": "48px" }, "16": { "$value": "64px" }, "20": { "$value": "80px" }, "24": { "$value": "96px" }, "32": { "$value": "128px" },
+    "1-5": { "$value": "6px", "$description": "반단계 — 컴팩트 컨트롤 내부 전용" }, "2-5": { "$value": "10px" }, "3-5": { "$value": "14px" }
+  },
+  "radius": { "$type": "dimension", "xs": { "$value": "4px" }, "sm": { "$value": "6px" }, "md": { "$value": "8px" }, "lg": { "$value": "12px" }, "xl": { "$value": "16px" }, "pill": { "$value": "999px" }, "circle": { "$value": "50%" } },
+  "shadow": {
+    "$type": "shadow",
+    "sm": { "$value": [ { "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px", "color": "rgba(0,0,0,0.04)" }, { "offsetX": "0px", "offsetY": "1px", "blur": "3px", "spread": "0px", "color": "rgba(0,0,0,0.06)" } ] },
+    "md": { "$value": { "offsetX": "0px", "offsetY": "4px", "blur": "12px", "spread": "0px", "color": "rgba(0,0,0,0.08)" } },
+    "lg": { "$value": { "offsetX": "0px", "offsetY": "12px", "blur": "32px", "spread": "0px", "color": "rgba(0,0,0,0.12)" } }
+  },
+  "z": { "$type": "number", "base": { "$value": 0 }, "raised": { "$value": 10 }, "sticky": { "$value": 100 }, "dropdown": { "$value": 200 }, "overlay": { "$value": 300 }, "modal": { "$value": 400 }, "toast": { "$value": 500 }, "tooltip": { "$value": 600 } },
+  "duration": { "$type": "duration", "fast": { "$value": "100ms" }, "base": { "$value": "150ms" }, "slow": { "$value": "250ms" }, "reveal": { "$value": "600ms" } },
+  "ease": { "$type": "cubicBezier", "standard": { "$value": [0.22, 0.61, 0.36, 1] }, "in": { "$value": [0.4, 0, 1, 1] }, "out": { "$value": [0, 0, 0.2, 1] } },
+  "container": { "$type": "dimension", "xl": { "$value": "1200px" }, "lg": { "$value": "720px" } },
+  "bp": { "$type": "dimension", "sm": { "$value": "480px" }, "md": { "$value": "768px" }, "lg": { "$value": "1024px" }, "xl": { "$value": "1280px" } },
+  "size": {
+    "$type": "dimension",
+    "control-xs": { "$value": "28px" }, "control-sm": { "$value": "36px" }, "control-md": { "$value": "44px" }, "control-lg": { "$value": "56px" }, "touch-min": { "$value": "44px" },
+    "icon-sm": { "$value": "16px" }, "icon-md": { "$value": "20px" }, "icon-lg": { "$value": "24px" }, "icon-xl": { "$value": "32px" }
+  },
+
+  "theme": {
+    "$description": "3. THEME — 시맨틱 재바인딩만. 빌드 시 [data-theme=\"…\"] 블록으로 출력",
+    "dark": {
+      "color.bg.page": "{gluck.dark.950}", "color.bg.subtle": "{gluck.dark.800}", "color.bg.surface": "{gluck.dark.900}", "color.bg.sunken": "{gluck.dark.800}", "color.bg.inverse": "{gluck.gray.50}",
+      "color.bg.brand-subtle": "rgba(51,122,255,0.16)", "color.bg.overlay": "rgba(0,0,0,0.64)",
+      "color.text.primary": "{gluck.dark.50}", "color.text.secondary": "{gluck.dark.100}", "color.text.tertiary": "{gluck.dark.300}", "color.text.disabled": "{gluck.dark.600}", "color.text.placeholder": "{gluck.dark.300}",
+      "color.text.brand": "{gluck.blue.300}", "color.text.link": "{gluck.blue.300}", "color.text.link-hover": "{gluck.blue.200}", "color.text.on-inverse": "{gluck.gray.900}", "color.text.danger": "#F09595",
+      "color.border.default": "{gluck.dark.700}", "color.border.strong": "{gluck.dark.600}", "color.border.input": "{gluck.dark.300}", "color.border.focus": "{gluck.blue.300}", "color.focus-ring": "{gluck.blue.300}",
+      "color.action.primary-hover": "{gluck.blue.500}", "color.action.secondary": "{gluck.dark.50}", "color.action.secondary-hover": "{gluck.white}", "color.action.tertiary": "{gluck.dark.800}", "color.action.tertiary-hover": "rgba(51,122,255,0.16)",
+      "color.action.disabled-bg": "{gluck.dark.800}", "color.action.disabled-text": "{gluck.dark.600}", "color.action.selected-bg": "rgba(51,122,255,0.16)", "color.action.selected-text": "{gluck.blue.200}",
+      "color.status.success.text": "#6FCF97", "color.status.success.bg": "rgba(21,128,61,0.18)", "color.status.success.border": "rgba(21,128,61,0.4)",
+      "color.status.warning.text": "#F5B759", "color.status.warning.bg": "rgba(180,83,9,0.18)", "color.status.warning.border": "rgba(180,83,9,0.4)",
+      "color.status.danger.text": "#F09595", "color.status.danger.bg": "rgba(185,28,28,0.18)", "color.status.danger.border": "rgba(185,28,28,0.4)",
+      "color.status.info.text": "{gluck.blue.200}", "color.status.info.bg": "rgba(51,122,255,0.16)", "color.status.info.border": "rgba(51,122,255,0.4)",
+      "color.status.neutral.text": "{gluck.dark.300}", "color.status.neutral.bg": "{gluck.dark.800}", "color.status.neutral.border": "{gluck.dark.700}"
+    },
+    "admin": {
+      "$description": "ADR-002: Admin Primary = 브랜드 파생 blue.700 (대안 #3182F6은 3.71:1 AA 미달). 뉴트럴 4종은 DESIGN-ADMIN v1.1 값 — draft",
+      "color.bg.page": "#F7F8FA", "color.bg.subtle": "#F1F3F6", "color.bg.sunken": "#F1F3F6",
+      "color.text.secondary": "#5B6472", "color.text.tertiary": "{gluck.gray.500}",
+      "color.border.default": "#E4E7EC", "color.border.strong": "#CDD3DC",
+      "color.action.primary": "{gluck.blue.700}", "color.action.primary-hover": "#003DB3", "color.action.primary-active": "#003399",
+      "color.action.selected-bg": "{gluck.blue.50}", "color.action.selected-text": "{gluck.blue.700}", "color.text.link": "{gluck.blue.700}"
+    }
+  },
+
+  "brand": {
+    "$description": "콘텐츠 상수 — 채널·법적 정보. 금지 값은 check-forbidden 린트에서 차단",
+    "channels": {
+      "web":   { "$type": "string", "$value": "https://glucklab.com" },
+      "email": { "$type": "string", "$value": "support@glucklab.com" },
+      "tel":   { "$type": "string", "$value": "1555-0096" },
+      "instagram": { "$type": "string", "$value": "@gluck_3dprinting" },
+      "sculpia":   { "$type": "string", "$value": "@sculpia_official" }
+    },
+    "forbidden": { "$type": "string", "$value": ["gluck.co.kr", "customer@gluck.co.kr", "hr@gluck.co.kr", "JetBrains Mono", "Pretendard"] }
+  }
+}

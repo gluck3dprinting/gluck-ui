@@ -1,0 +1,29 @@
+# 디자인 시스템 규칙 검사 — 형제 저장소는 아래 5줄로 재사용:
+#   jobs: { lint: { uses: gluck3dprinting/gluck-ui/.github/workflows/design-lint.yml@main } }
+name: Design Lint
+on:
+  push:
+  pull_request:
+  workflow_call:
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 금지 문자열 (폐기 채널 · 폐기 서체)
+        run: |
+          set -e
+          if grep -rInE --include='*.html' --include='*.css' --include='*.js' --include='*.md' \
+             --exclude-dir=node_modules --exclude-dir=.git \
+             'gluck\.co\.kr|customer@gluck|hr@gluck|JetBrains\+?Mono|Pretendard' . \
+             | grep -vE 'forbidden|금지|폐기|check-forbidden|design-lint\.yml|CHANGELOG|README' ; then
+            echo "::error::폐기된 채널/서체 문자열이 있습니다 (glucklab.com · support@glucklab.com · SUIT 만 허용)"; exit 1; fi
+          echo "OK"
+      - name: HEX 리터럴 (dist/ 밖 컴포넌트·페이지 CSS)
+        run: |
+          set -e
+          # 허용: dist/(생성물) · tokens/(원본) · data:image SVG 안 · data-swatch · 문서 코드블록(ds-code)
+          if grep -rInE --include='*.html' --include='*.css' --exclude-dir=dist --exclude-dir=tokens --exclude-dir=.git \
+             '#[0-9A-Fa-f]{6}\b' . | grep -vE 'data:image|data-swatch|ds-code|<code|theme-color|#0059FF|KEY|\.md:' ; then
+            echo "::warning::시맨틱 토큰 대신 HEX 리터럴이 사용된 곳이 있습니다 (var(--color-*) 사용)"; fi
+          echo "OK"

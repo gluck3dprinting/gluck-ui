@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GLUCK Design System v2</title>
+<meta name="description" content="GLUCK 디자인 시스템 v2.0.0-preview — 토큰 단일 원본, 테마 레이어(라이트·다크·관리자), 운영 가능한 컴포넌트, 접근성 기준 내장." />
+<meta name="gluck-ds-version" content="2.0.0-preview" />
+<meta name="theme-color" content="#0059FF" />
+<link rel="icon" href="assets/logo/GLUCK_Favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" href="assets/logo/GLUCK_Favicon.png" />
+<link rel="apple-touch-icon" href="assets/logo/GLUCK_Favicon.png" />
+<!-- ★ 소비자는 이 한 줄만 -->
+<link rel="stylesheet" href="dist/gluck.css" />
+<style>
+/* ==========================================================================
+   docs.css — 이 문서 페이지 전용 크롬. 배포 대상 아님. 값은 전부 토큰 참조.
+   ========================================================================== */
+:root { --ds-nav-w: 248px; }
+body { background: var(--color-bg-page); }
+.ds-topbar {
+  position: sticky; top: 0; z-index: var(--z-sticky); height: var(--topbar-h);
+  display: flex; align-items: center; gap: var(--space-4); padding: 0 var(--space-6);
+  background: color-mix(in srgb, var(--color-bg-surface) 88%, transparent); backdrop-filter: blur(10px);
+  border-bottom: var(--border-width) solid var(--color-border-default);
+}
+.ds-topbar .gluck-logo svg { height: 18px; }
+.ds-topbar__name { font: var(--font-caption); color: var(--color-text-tertiary); padding-left: var(--space-3); border-left: 1px solid var(--color-border-default); }
+.ds-topbar__meta { display: flex; gap: var(--space-4); margin-left: var(--space-4); font: var(--font-label); letter-spacing: .04em; color: var(--color-text-tertiary); }
+.ds-topbar__meta b { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+.ds-topbar__actions { margin-left: auto; display: flex; gap: var(--space-2); align-items: center; }
+.ds-layout { display: grid; grid-template-columns: var(--ds-nav-w) minmax(0, 1fr); }
+.ds-nav { position: sticky; top: var(--topbar-h); height: calc(100dvh - var(--topbar-h)); overflow: auto; padding: var(--space-5) var(--space-3); border-right: var(--border-width) solid var(--color-border-default); background: var(--color-bg-surface); }
+.ds-nav__group { font: var(--font-label); letter-spacing: .06em; text-transform: uppercase; color: var(--color-text-tertiary); padding: var(--space-4) var(--space-3) var(--space-1); }
+.ds-nav a { display: flex; align-items: center; gap: var(--space-2); height: 34px; padding: 0 var(--space-3); border-radius: var(--radius-sm); color: var(--color-text-secondary); font: var(--font-body-sm); text-decoration: none; }
+.ds-nav a:hover { background: var(--color-bg-subtle); color: var(--color-text-primary); }
+.ds-nav a.is-active { background: var(--color-action-selected-bg); color: var(--color-action-selected-text); font-weight: var(--font-weight-semibold); }
+.ds-nav a small { margin-left: auto; font: var(--font-label); color: var(--color-text-tertiary); }
+.ds-main { min-width: 0; padding: 0 var(--space-12) var(--space-32); }
+.ds-hero { padding: var(--space-16) 0 var(--space-12); border-bottom: var(--border-width) solid var(--color-border-default); }
+.ds-hero__eyebrow { font: var(--font-label); letter-spacing: .12em; text-transform: uppercase; color: var(--color-text-brand); margin-bottom: var(--space-4); }
+.ds-hero h1 { font: var(--font-display); letter-spacing: -.03em; }
+.ds-hero h1 span { color: var(--color-text-brand); }
+.ds-hero p { max-width: 64ch; margin-top: var(--space-5); font: var(--font-body-lg); font-weight: 400; color: var(--color-text-secondary); }
+.ds-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); margin-top: var(--space-10); padding-top: var(--space-6); border-top: var(--border-width) solid var(--color-border-default); }
+.ds-facts dt { font: var(--font-label); letter-spacing: .06em; text-transform: uppercase; color: var(--color-text-tertiary); }
+.ds-facts dd { margin-top: var(--space-1); font: var(--font-body-sm); font-weight: var(--font-weight-semibold); }
+.ds-section { padding-top: var(--space-16); scroll-margin-top: calc(var(--topbar-h) + var(--space-4)); }
+.ds-section > header { margin-bottom: var(--space-8); }
+.ds-section__num { font: var(--font-label); letter-spacing: .12em; color: var(--color-text-brand); margin-bottom: var(--space-2); }
+.ds-section h2 { font: var(--font-h2); letter-spacing: -.02em; }
+.ds-section > header p { margin-top: var(--space-3); max-width: 70ch; color: var(--color-text-secondary); }
+.ds-sub { margin: var(--space-10) 0 var(--space-4); font: var(--font-h4); display: flex; align-items: center; gap: var(--space-2); }
+.ds-sub .gluck-badge { font-size: 10px; height: 18px; }
+.ds-p { max-width: 70ch; color: var(--color-text-secondary); font: var(--font-body-sm); margin-bottom: var(--space-4); }
+.ds-demo { position: relative; padding: var(--space-6); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); background: var(--color-bg-surface); overflow: hidden; }
+.ds-demo--subtle { background: var(--color-bg-subtle); }
+.ds-demo--flush { padding: 0; }
+.ds-demo--row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+.ds-demo--grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.ds-demo__label { position: absolute; top: var(--space-2); right: var(--space-3); font: var(--font-label); color: var(--color-text-tertiary); letter-spacing: .06em; }
+.ds-demo-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.ds-code { margin: var(--space-3) 0 0; padding: var(--space-4); border-radius: var(--radius-md); background: var(--color-bg-inverse); color: var(--color-text-on-inverse); font: var(--font-caption); font-weight: 400; line-height: 1.7; overflow: auto; white-space: pre; tab-size: 2; position: relative; }
+[data-theme="dark"] .ds-code { background: var(--gluck-dark-800); border: 1px solid var(--color-border-default); }
+.ds-code .c { opacity: .55; } .ds-code .k { color: var(--gluck-blue-200); } .ds-code .s { color: #F5B759; }
+.ds-code__copy { position: absolute; top: var(--space-2); right: var(--space-2); }
+.ds-table { width: 100%; font: var(--font-body-sm); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; }
+.ds-table th, .ds-table td { padding: var(--space-2-5) var(--space-3); text-align: left; border-bottom: var(--border-width) solid var(--color-border-default); vertical-align: top; }
+.ds-table th { background: var(--color-bg-sunken); font: var(--font-caption); color: var(--color-text-secondary); }
+.ds-table tr:last-child td { border-bottom: 0; }
+.ds-table code, .ds-inline-code { font: inherit; font-size: 13px; padding: 1px 6px; border-radius: var(--radius-xs); background: var(--color-bg-subtle); color: var(--color-text-primary); border: 1px solid var(--color-border-default); }
+.ds-note { display: flex; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-md); border: var(--border-width) solid var(--color-border-default); background: var(--color-bg-subtle); font: var(--font-body-sm); color: var(--color-text-secondary); margin-top: var(--space-4); }
+.ds-note .gluck-icon { flex: none; color: var(--color-text-brand); margin-top: 2px; }
+.ds-note strong { color: var(--color-text-primary); }
+.ds-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-3); }
+.ds-swatch { border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-surface); }
+.ds-swatch__chip { height: 72px; position: relative; }
+.ds-swatch__chip .gluck-badge { position: absolute; top: 6px; right: 6px; }
+.ds-swatch__info { padding: var(--space-2-5) var(--space-3); font: var(--font-caption); font-weight: 400; display: grid; gap: 2px; }
+.ds-swatch__info b { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); word-break: break-all; }
+.ds-swatch__info span { color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
+.ds-sem-row { display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); border-bottom: var(--border-width) solid var(--color-border-default); font: var(--font-caption); font-weight: 400; }
+.ds-sem-row:last-child { border-bottom: 0; }
+.ds-sem-row i { display: block; width: 22px; height: 22px; border-radius: var(--radius-xs); border: 1px solid rgba(0,0,0,.08); }
+.ds-sem-row b { font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+.ds-sem-row span { color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
+.ds-sem-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+.ds-sem-cols > div { border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-md); background: var(--color-bg-surface); overflow: hidden; }
+.ds-sem-cols h4 { padding: var(--space-2-5) var(--space-3); font: var(--font-caption); background: var(--color-bg-sunken); border-bottom: var(--border-width) solid var(--color-border-default); }
+.ds-contrast td:first-child { white-space: nowrap; }
+.ds-contrast .ratio { font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold); }
+.ds-typo-row { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-6); align-items: baseline; padding: var(--space-4) 0; border-bottom: var(--border-width) solid var(--color-border-default); }
+.ds-typo-row:last-child { border-bottom: 0; }
+.ds-typo-row small { display: block; font: var(--font-caption); font-weight: 400; color: var(--color-text-tertiary); }
+.ds-typo-row b { font: var(--font-caption); color: var(--color-text-primary); }
+.ds-space-row { display: grid; grid-template-columns: 110px 60px 1fr; align-items: center; gap: var(--space-4); padding: var(--space-1-5) 0; font: var(--font-caption); font-weight: 400; }
+.ds-space-row i { display: block; height: 16px; background: var(--color-action-primary); border-radius: 2px; }
+.ds-space-row span { color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
+.ds-space-row b { font-weight: var(--font-weight-medium); }
+.ds-grid-demo > div { height: 48px; border-radius: var(--radius-xs); background: var(--color-bg-brand-subtle); display: grid; place-items: center; font: var(--font-label); color: var(--color-action-selected-text); }
+.ds-radius { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+.ds-radius div { width: 96px; height: 96px; background: var(--color-bg-brand-subtle); border: 2px solid var(--color-action-primary); display: grid; place-items: center; font: var(--font-label); color: var(--color-action-selected-text); text-align: center; }
+.ds-shadow { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+.ds-shadow div { height: 100px; border-radius: var(--radius-lg); background: var(--color-bg-surface); border: 1px solid var(--color-border-default); display: grid; place-items: center; font: var(--font-caption); }
+.ds-motion { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+.ds-motion div { padding: var(--space-4); border-radius: var(--radius-md); background: var(--color-bg-subtle); font: var(--font-caption); cursor: pointer; border: 1px solid var(--color-border-default); }
+.ds-motion div i { display: block; width: 24px; height: 24px; margin: var(--space-2) 0; border-radius: var(--radius-xs); background: var(--color-action-primary); transition: transform var(--d) var(--ease-standard); }
+.ds-motion div:hover i { transform: translateX(120px); }
+.ds-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--space-2); }
+.ds-icons div { display: grid; justify-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-2); border-radius: var(--radius-md); background: var(--color-bg-subtle); font: var(--font-label); letter-spacing: 0; color: var(--color-text-tertiary); text-align: center; }
+.ds-matrix { width: 100%; border-collapse: separate; border-spacing: 0; font: var(--font-caption); }
+.ds-matrix th { font: var(--font-label); color: var(--color-text-tertiary); text-align: left; padding: var(--space-2); letter-spacing: .04em; }
+.ds-matrix td { padding: var(--space-2); border-top: var(--border-width) solid var(--color-border-default); vertical-align: middle; }
+.ds-matrix td:first-child { font-weight: var(--font-weight-medium); color: var(--color-text-primary); white-space: nowrap; }
+.ds-dd { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.ds-dd > div { border-radius: var(--radius-md); border: var(--border-width) solid; padding: var(--space-4); font: var(--font-body-sm); }
+.ds-dd .do { border-color: var(--color-status-success-border); background: var(--color-status-success-bg); }
+.ds-dd .dont { border-color: var(--color-status-danger-border); background: var(--color-status-danger-bg); }
+.ds-dd h5 { display: flex; align-items: center; gap: var(--space-1); margin-bottom: var(--space-2); font: var(--font-caption); }
+.ds-dd .do h5 { color: var(--color-status-success-text); } .ds-dd .dont h5 { color: var(--color-status-danger-text); }
+.ds-dd ul { margin: 0; padding-left: 18px; color: var(--color-text-secondary); display: grid; gap: 4px; }
+.ds-pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-2); align-items: stretch; }
+.ds-pipeline div { position: relative; padding: var(--space-4); border-radius: var(--radius-md); background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); font: var(--font-caption); font-weight: 400; }
+.ds-pipeline div b { display: block; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); margin-bottom: var(--space-1); }
+.ds-pipeline div.is-src { border-color: var(--color-action-primary); background: var(--color-bg-brand-subtle); }
+.ds-pipeline div:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); color: var(--color-text-tertiary); z-index: 1; }
+.ds-cs { position: relative; width: 320px; padding: 34px; border: 1px dashed var(--color-border-strong); background: var(--color-bg-subtle); }
+.ds-cs::before, .ds-cs::after { content: "1G"; position: absolute; font: var(--font-label); color: var(--color-text-tertiary); }
+.ds-cs::before { top: 8px; left: 50%; transform: translateX(-50%); } .ds-cs::after { left: 8px; top: 50%; transform: translateY(-50%); }
+.ds-cs .gluck-logo svg { height: 34px; }
+.ds-logo-tile { display: grid; place-items: center; height: 120px; border-radius: var(--radius-md); border: 1px solid var(--color-border-default); }
+.ds-logo-tile .gluck-logo svg { height: 24px; }
+.ds-adopt td:nth-child(n+2) { text-align: center; font-variant-numeric: tabular-nums; }
+.ds-ok { color: var(--color-status-success-text); font-weight: 600; } .ds-ng { color: var(--color-status-danger-text); font-weight: 600; }
+.ds-check { display: grid; gap: var(--space-2); }
+.ds-check label { display: flex; gap: var(--space-2); align-items: flex-start; font: var(--font-body-sm); }
+.ds-shell-frame { height: 660px; border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); overflow: hidden; }
+.ds-shell-frame .gluck-shell { height: 100%; }
+.ds-shell-frame .gluck-shell__main { overflow: auto; }
+.ds-changelog li { padding: var(--space-3) 0; border-bottom: var(--border-width) solid var(--color-border-default); font: var(--font-body-sm); color: var(--color-text-secondary); }
+.ds-changelog li b { color: var(--color-text-primary); }
+.ds-nav-toggle { display: none; }
+@media (max-width: 1023px) {
+  .ds-layout { grid-template-columns: 1fr; }
+  .ds-nav { display: none; }
+  .ds-nav.is-open { display: block; position: fixed; inset: var(--topbar-h) 0 0 0; z-index: var(--z-overlay); height: auto; }
+  .ds-nav-toggle { display: inline-flex; }
+  .ds-main { padding: 0 var(--gutter) var(--space-20); }
+  .ds-topbar__meta, .ds-topbar__name { display: none; }
+  .ds-facts, .ds-shadow, .ds-motion, .ds-sem-cols, .ds-dd, .ds-demo-pair { grid-template-columns: 1fr 1fr; }
+  .ds-pipeline { grid-template-columns: 1fr; } .ds-pipeline div::after { display: none; }
+  .ds-typo-row { grid-template-columns: 1fr; gap: var(--space-2); }
+}
+@media (max-width: 767px) { .ds-facts, .ds-shadow, .ds-motion, .ds-sem-cols, .ds-dd, .ds-demo-pair { grid-template-columns: 1fr; } .ds-hero h1 { font-size: 36px; line-height: 44px; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">본문으로 건너뛰기</a>
+<!-- 아이콘 스프라이트 (Lucide ISC, assets/icons/icons.svg) + 로고 심볼 (brand-assets 원본) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><svg class="lucide lucide-arrow-right" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></symbol>
+  <symbol id="i-arrow-up-down" viewBox="0 0 24 24"><svg class="lucide lucide-arrow-up-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m21 16-4 4-4-4" /><path d="M17 20V4" /><path d="m3 8 4-4 4 4" /><path d="M7 4v16" /></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><svg class="lucide lucide-bell" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10.268 21a2 2 0 0 0 3.464 0" /><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></symbol>
+  <symbol id="i-building-2" viewBox="0 0 24 24"><svg class="lucide lucide-building-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /><path d="M10 6h4" /><path d="M10 10h4" /><path d="M10 14h4" /><path d="M10 18h4" /></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><svg class="lucide lucide-calendar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 2v4" /><path d="M16 2v4" /><rect width="18" height="18" x="3" y="4" rx="2" /><path d="M3 10h18" /></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><svg class="lucide lucide-check" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 6 9 17l-5-5" /></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><svg class="lucide lucide-chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m6 9 6 6 6-6" /></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><svg class="lucide lucide-chevron-left" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m15 18-6-6 6-6" /></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><svg class="lucide lucide-chevron-right" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m9 18 6-6-6-6" /></symbol>
+  <symbol id="i-chevron-up" viewBox="0 0 24 24"><svg class="lucide lucide-chevron-up" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m18 15-6-6-6 6" /></symbol>
+  <symbol id="i-circle-alert" viewBox="0 0 24 24"><svg class="lucide lucide-circle-alert" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10" /><line x1="12" x2="12" y1="8" y2="12" /><line x1="12" x2="12.01" y1="16" y2="16" /></symbol>
+  <symbol id="i-circle-check" viewBox="0 0 24 24"><svg class="lucide lucide-circle-check" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></symbol>
+  <symbol id="i-clipboard-list" viewBox="0 0 24 24"><svg class="lucide lucide-clipboard-list" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="M12 11h4" /><path d="M12 16h4" /><path d="M8 11h.01" /><path d="M8 16h.01" /></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><svg class="lucide lucide-copy" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><svg class="lucide lucide-download" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" /></symbol>
+  <symbol id="i-ellipsis" viewBox="0 0 24 24"><svg class="lucide lucide-ellipsis" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></symbol>
+  <symbol id="i-external-link" viewBox="0 0 24 24"><svg class="lucide lucide-external-link" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><svg class="lucide lucide-eye" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /><circle cx="12" cy="12" r="3" /></symbol>
+  <symbol id="i-factory" viewBox="0 0 24 24"><svg class="lucide lucide-factory" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" /><path d="M17 18h1" /><path d="M12 18h1" /><path d="M7 18h1" /></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24"><svg class="lucide lucide-file-text" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><svg class="lucide lucide-filter" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><svg class="lucide lucide-globe" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><svg class="lucide lucide-inbox" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><svg class="lucide lucide-info" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></symbol>
+  <symbol id="i-layout-dashboard" viewBox="0 0 24 24"><svg class="lucide lucide-layout-dashboard" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" /><rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" /></symbol>
+  <symbol id="i-loader-circle" viewBox="0 0 24 24"><svg class="lucide lucide-loader-circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 12a9 9 0 1 1-6.219-8.56" /></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><svg class="lucide lucide-lock" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol>
+  <symbol id="i-log-out" viewBox="0 0 24 24"><svg class="lucide lucide-log-out" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><svg class="lucide lucide-mail" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><svg class="lucide lucide-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><line x1="4" x2="20" y1="12" y2="12" /><line x1="4" x2="20" y1="6" y2="6" /><line x1="4" x2="20" y1="18" y2="18" /></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><svg class="lucide lucide-minus" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 12h14" /></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><svg class="lucide lucide-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><svg class="lucide lucide-package" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12" /><path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7" /><path d="m7.5 4.27 9 5.15" /></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><svg class="lucide lucide-pencil" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><svg class="lucide lucide-phone" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><svg class="lucide lucide-plus" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 12h14" /><path d="M12 5v14" /></symbol>
+  <symbol id="i-refresh-cw" viewBox="0 0 24 24"><svg class="lucide lucide-refresh-cw" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><svg class="lucide lucide-search" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><svg class="lucide lucide-settings" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><svg class="lucide lucide-sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></symbol>
+  <symbol id="i-table-2" viewBox="0 0 24 24"><svg class="lucide lucide-table-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" /></symbol>
+  <symbol id="i-trash-2" viewBox="0 0 24 24"><svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" x2="10" y1="11" y2="17" /><line x1="14" x2="14" y1="11" y2="17" /></symbol>
+  <symbol id="i-triangle-alert" viewBox="0 0 24 24"><svg class="lucide lucide-triangle-alert" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><svg class="lucide lucide-upload" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" x2="12" y1="3" y2="15" /></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><svg class="lucide lucide-user" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><svg class="lucide lucide-x" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol>
+  <symbol id="lg-wordmark" viewBox="0 0 407 87"><g transform="translate(-289 -348)"><path d="M588.063 377.88C586.933 369.624 579.938 363.338 572.001 363.338C557.51 363.338 552.044 377.272 552.044 391.814C552.044 406.356 557.51 419.578 572.001 419.578C581.886 419.578 587.456 412.014 588.671 400.992H604.314C602.66 421.799 590.116 434.916 572.001 434.916C549.364 434.916 535.898 415.743 535.898 391.793C535.898 367.843 549.364 348 572.001 348C588.063 348 601.717 358.707 603.707 377.88H588.063Z" fill="currentColor"/><path d="M637.946 384.376V374.402V349.991H619.895V432.968H637.946V409.122V406.231V384.376Z" fill="currentColor"/><path d="M660.479 382.741L692.54 349.991H670.028L640.417 381.736V403.695L648.291 395.649L673.002 432.968H695.639L660.479 382.741Z" fill="currentColor"/><path d="M427.423 417.608H410.565V349.991H392.514V432.968H431.234V421.401C431.234 419.306 429.517 417.629 427.423 417.629V417.608Z" fill="currentColor"/><path d="M515.585 349.991H501.345V401.579C501.345 414.025 497.199 419.599 484.341 419.599C469.745 419.599 467.441 410.652 467.441 401.579V349.991H449.39V401.579C449.39 424.23 462.143 434.937 484.341 434.937C506.539 434.937 519.397 423.999 519.397 401.579V353.804C519.397 351.688 517.7 349.991 515.585 349.991Z" fill="currentColor"/><path d="M345.898 386.576L331.364 401.223H349.144C351.259 401.223 352.955 402.92 352.955 405.036V405.078C352.955 408.556 352.746 415.262 352.746 415.262C352.746 415.262 350.463 419.41 332.809 419.41C316.056 419.41 307.68 405.246 307.68 391.207C307.68 376.455 317.836 363.108 334.61 363.108C351.384 363.108 355.803 371.259 355.803 371.259L367.949 358.54C367.949 358.54 358.023 348 334.924 348C308.769 348 289 366.188 289 391.207C289 416.225 306.654 435 332.809 435C358.965 435 369.917 427.247 369.917 427.247V386.597H345.898V386.576Z" fill="currentColor"/></g></symbol>
+  <symbol id="lg-symbol" viewBox="0 0 81 87"><g transform="translate(-289 -348)"> <path d="M345.898 386.576L331.364 401.223H349.144C351.259 401.223 352.955 402.92 352.955 405.036V405.078C352.955 408.556 352.746 415.262 352.746 415.262C352.746 415.262 350.463 419.41 332.809 419.41C316.056 419.41 307.68 405.246 307.68 391.207C307.68 376.455 317.836 363.108 334.61 363.108C351.384 363.108 355.803 371.259 355.803 371.259L367.949 358.54C367.949 358.54 358.023 348 334.924 348C308.769 348 289 366.188 289 391.207C289 416.225 306.654 435 332.809 435C358.965 435 369.917 427.247 369.917 427.247V386.597H345.898V386.576Z" fill="currentColor"/> </g></symbol>
+</svg>
+
+<header class="ds-topbar">
+  <a class="gluck-logo" href="#top" aria-label="GLUCK 디자인 시스템 홈"><svg viewBox="0 0 407 87" role="img" aria-hidden="true"><use href="#lg-wordmark"/></svg></a>
+  <span class="ds-topbar__name">Design System</span>
+  <div class="ds-topbar__meta" aria-label="시스템 메타">
+    <span>VERSION <b>2.0.0-preview</b></span><span>FONT <b>SUIT</b></span><span>KEY <b>#0059FF</b></span><span>THEMES <b>Light · Dark · Admin</b></span>
+  </div>
+  <div class="ds-topbar__actions">
+    <button class="gluck-btn gluck-btn--outline gluck-btn--sm" id="themeToggle" aria-pressed="false" aria-label="다크 모드 전환">
+      <svg class="gluck-icon" aria-hidden="true"><use href="#i-moon"/></svg><span class="is-desktop">다크 모드</span>
+    </button>
+    <a class="gluck-btn gluck-btn--ghost gluck-btn--sm is-desktop" href="https://github.com/gluck3dprinting/gluck-ui" target="_blank" rel="noopener">GitHub <svg class="gluck-icon" aria-hidden="true"><use href="#i-external-link"/></svg></a>
+    <button class="gluck-btn gluck-btn--ghost gluck-btn--sm gluck-btn--icon ds-nav-toggle" id="navToggle" aria-expanded="false" aria-controls="dsNav" aria-label="목차 열기"><svg class="gluck-icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
+  </div>
+</header>
+
+<div class="ds-layout" id="top">
+  <nav class="ds-nav" id="dsNav" aria-label="문서 목차">
+    <div class="ds-nav__group">Start</div>
+    <a href="#start">시작하기 <small>00</small></a>
+    <div class="ds-nav__group">Foundations</div>
+    <a href="#identity">로고 · 아이덴티티 <small>01</small></a>
+    <a href="#color">컬러 토큰 <small>02</small></a>
+    <a href="#typography">타이포그래피 <small>03</small></a>
+    <a href="#layout">레이아웃 · 스페이싱 <small>04</small></a>
+    <a href="#shape">라디우스 · 엘리베이션 · Z <small>05</small></a>
+    <a href="#motion">모션 <small>06</small></a>
+    <a href="#icons">아이콘 <small>07</small></a>
+    <div class="ds-nav__group">Components</div>
+    <a href="#buttons">버튼 <small>08</small></a>
+    <a href="#forms">폼 컨트롤 <small>09</small></a>
+    <a href="#tags">태그 · 배지 <small>10</small></a>
+    <a href="#cards">카드 <small>11</small></a>
+    <a href="#navigation">내비게이션 · 푸터 <small>12</small></a>
+    <a href="#overlay">오버레이 · 피드백 <small>13</small></a>
+    <a href="#states">로딩 · 빈 상태 · 권한 <small>14</small></a>
+    <a href="#table">데이터 테이블 <small>15</small></a>
+    <div class="ds-nav__group">Patterns</div>
+    <a href="#admin">관리자 앱 셸 <small>16</small></a>
+    <div class="ds-nav__group">Governance</div>
+    <a href="#governance">운영 규칙 · 체크리스트 <small>17</small></a>
+    <a href="#changelog">변경 이력 · 로드맵 <small>18</small></a>
+  </nav>
+
+  <main class="ds-main" id="main">
+
+    <!-- ================================================================ HERO -->
+    <section class="ds-hero" aria-labelledby="heroTitle">
+      <div class="ds-hero__eyebrow">GLUCK / Industrial Foundry — Design Tokens &amp; Components · v2 Preview</div>
+      <h1 id="heroTitle">하나의 토큰,<br><span>모든 제품</span>이 같은 얼굴.</h1>
+      <p>홈페이지·견적·채용·브로슈어·관리자(Madmin, Hermes OS)가 <strong>같은 파일</strong>을 가져다 쓰도록 만든 디자인 시스템입니다. 값은 <code class="ds-inline-code">tokens.json</code> 한 곳에서만 바뀌고, 이 페이지 자체가 그 산출물(<code class="ds-inline-code">dist/gluck.css</code>)의 첫 번째 소비자입니다.</p>
+      <dl class="ds-facts">
+        <div><dt>배포 방식</dt><dd>&lt;link&gt; 한 줄 (복사 금지)</dd></div>
+        <div><dt>토큰 계층</dt><dd>Primitive → Semantic → Theme</dd></div>
+        <div><dt>테마</dt><dd>Light · Dark · Admin (한 벌의 컴포넌트)</dd></div>
+        <div><dt>접근성</dt><dd>WCAG 2.2 AA · 대비 실시간 검증</dd></div>
+      </dl>
+    </section>
+
+    <!-- ================================================================ 00 START -->
+    <section class="ds-section" id="start" aria-labelledby="h-start">
+      <header><div class="ds-section__num">SECTION 00</div><h2 id="h-start">시작하기</h2>
+        <p>v1.1까지는 "HTML에서 CSS 변수를 복사해서 붙여 넣는" 방식이었고, 그 결과 6개 제품이 각자 다른 값을 갖게 되었습니다. v2는 <strong>가져다 쓰는 파일</strong>이 있습니다.</p></header>
+
+      <h3 class="ds-sub">1. 파이프라인 — 값이 흐르는 경로</h3>
+      <div class="ds-pipeline">
+        <div class="is-src"><b>tokens/gluck.tokens.json</b>손으로 편집하는 유일한 값 파일 (W3C DTCG)</div>
+        <div><b>scripts/build-tokens</b>JSON → CSS 변수 / Tailwind preset / Figma JSON 생성</div>
+        <div><b>dist/</b>gluck-tokens.css · gluck.css · gluck-admin.css · preset.js</div>
+        <div><b>git tag v2.x</b>jsDelivr @tag 로 버전 고정 소비</div>
+        <div><b>제품</b>홈페이지 · 견적 · 채용 · 브로슈어 · Madmin · Hermes</div>
+      </div>
+
+      <h3 class="ds-sub">2. 설치 — 한 줄</h3>
+      <pre class="ds-code"><button class="gluck-btn gluck-btn--xs gluck-btn--ghost ds-code__copy" data-copy aria-label="코드 복사"><svg class="gluck-icon" aria-hidden="true"><use href="#i-copy"/></svg></button><span class="c">&lt;!-- head --&gt;</span>
+&lt;<span class="k">link</span> rel="stylesheet" href="<span class="s">https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0/dist/gluck.css</span>"&gt;
+&lt;<span class="k">meta</span> name="gluck-ds-version" content="<span class="s">2.0.0</span>"&gt;
+&lt;<span class="k">link</span> rel="icon" href="<span class="s">https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0/assets/logo/GLUCK_Favicon.ico</span>"&gt;
+
+<span class="c">&lt;!-- 테마: 생략 = 라이트 · OS 다크 자동 존중. 관리자 툴은 admin 고정 --&gt;</span>
+&lt;<span class="k">html</span> lang="ko" data-theme="<span class="s">admin</span>"&gt;
+
+<span class="c">&lt;!-- 토큰만 필요하면 --&gt;</span>
+&lt;<span class="k">link</span> rel="stylesheet" href="<span class="s">…/dist/gluck-tokens.css</span>"&gt;</pre>
+
+      <h3 class="ds-sub">3. 사용 규칙 3가지</h3>
+      <div class="ds-dd">
+        <div class="do"><h5><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-check"/></svg> DO</h5>
+          <ul><li>색·간격·라디우스는 <b>시맨틱 토큰</b>만: <code>var(--color-text-secondary)</code>, <code>var(--space-4)</code></li>
+          <li>버튼·입력·배지는 <code>.gluck-*</code> 클래스 조립. 유틸리티로 재구현 금지</li>
+          <li>로컬 별칭은 <code>--blue: var(--gluck-blue-600)</code> 형태만 (HEX 직접 기입 금지)</li></ul></div>
+        <div class="dont"><h5><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-alert"/></svg> DON'T</h5>
+          <ul><li><code>#0059FF</code>, <code>#1E5EFF</code> 같은 HEX 리터럴 — CI 린트에서 실패</li>
+          <li>컴포넌트에서 <code>--gluck-*</code> 원시 토큰 직접 참조 (테마 전환이 깨짐)</li>
+          <li>JetBrains Mono · Pretendard 로드 — 서체는 SUIT 단일 (2026.08 확정)</li></ul></div>
+      </div>
+    </section>
+
+    <!-- ================================================================ 01 IDENTITY -->
+    <section class="ds-section" id="identity" aria-labelledby="h-identity">
+      <header><div class="ds-section__num">SECTION 01</div><h2 id="h-identity">로고 · 아이덴티티</h2>
+        <p>시그니처는 <strong>워드마크 단독형</strong>입니다. 심볼 결합형은 존재하지 않으며 만들지 않습니다. 텍스트로 "GLUCK"을 조판해 로고를 대신하는 것도 금지 — 항상 SVG 원본(<code class="ds-inline-code">#lg-wordmark</code>)을 사용합니다.</p></header>
+
+      <div class="ds-demo--grid">
+        <div class="ds-logo-tile" style="background: var(--gluck-white)"><a class="gluck-logo" href="#identity" style="color: var(--gluck-black)" aria-label="GLUCK 워드마크 — 블랙"><svg viewBox="0 0 407 87" aria-hidden="true"><use href="#lg-wordmark"/></svg></a></div>
+        <div class="ds-logo-tile" style="background: var(--gluck-gray-900)"><a class="gluck-logo" href="#identity" style="color: var(--gluck-white)" aria-label="GLUCK 워드마크 — 화이트"><svg viewBox="0 0 407 87" aria-hidden="true"><use href="#lg-wordmark"/></svg></a></div>
+        <div class="ds-logo-tile" style="background: var(--gluck-white)"><a class="gluck-logo" href="#identity" style="color: var(--gluck-blue-600)" aria-label="GLUCK 워드마크 — 블루"><svg viewBox="0 0 407 87" aria-hidden="true"><use href="#lg-wordmark"/></svg></a></div>
+        <div class="ds-logo-tile" style="background: var(--gluck-blue-600)"><a class="gluck-logo" href="#identity" style="color: var(--gluck-white)" aria-label="GLUCK 워드마크 — 블루 배경"><svg viewBox="0 0 407 87" aria-hidden="true"><use href="#lg-wordmark"/></svg></a></div>
+      </div>
+
+      <div class="ds-demo-pair" style="margin-top: var(--space-4)">
+        <div class="ds-demo"><span class="ds-demo__label">CLEAR SPACE</span>
+          <div class="ds-cs"><span class="gluck-logo"><svg viewBox="0 0 407 87" role="img" aria-label="GLUCK 워드마크 — 클리어 스페이스 예시"><use href="#lg-wordmark"/></svg></span></div>
+          <p class="ds-p" style="margin: var(--space-4) 0 0">사방 <b>1G</b>(첫 글자 G의 높이) 확보. 그 안에 텍스트·다른 로고·사진 요소 금지.</p>
+        </div>
+        <div class="ds-demo"><span class="ds-demo__label">SMALL SIZE · G SYMBOL</span>
+          <div class="gluck-row" style="--row-gap: var(--space-6)">
+            <span class="gluck-logo" style="--logo-h: 12px"><svg viewBox="0 0 407 87" role="img" aria-label="워드마크 12px"><use href="#lg-wordmark"/></svg></span>
+            <span class="gluck-logo" style="--logo-h: 16px"><svg viewBox="0 0 407 87" role="img" aria-label="워드마크 16px"><use href="#lg-wordmark"/></svg></span>
+            <span class="gluck-logo" style="--logo-h: 24px"><svg viewBox="0 0 407 87" role="img" aria-label="워드마크 24px"><use href="#lg-wordmark"/></svg></span>
+            <span class="gluck-logo" style="--logo-h: 32px"><svg viewBox="0 0 81 87" role="img" aria-label="G 심볼"><use href="#lg-symbol"/></svg></span>
+            <img src="assets/logo/GLUCK_Favicon.png" width="32" height="32" alt="파비콘 — 다크 라운드 스퀘어 위 화이트 G" style="border-radius: 8px">
+          </div>
+          <p class="ds-p" style="margin: var(--space-4) 0 0">파비콘·앱 아이콘·아바타 등 소면적은 <b>G 심볼</b>. 최소 사용 크기는 브랜드 규정 미게시 <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">TBD</span>. 파비콘은 원본 파일(<code class="ds-inline-code">assets/logo/GLUCK_Favicon.*</code>)만 사용, 재제작 금지.</p>
+        </div>
+      </div>
+
+      <div class="ds-dd" style="margin-top: var(--space-4)">
+        <div class="do"><h5><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-check"/></svg> DO</h5><ul><li>블랙 / 화이트 / 블루(#0059FF) 3가지 컬러웨이만</li><li>단색 적용: 사진·컬러 배경 위는 화이트 또는 블랙 단색</li><li><code>&lt;use href="#lg-wordmark"&gt;</code> + <code>currentColor</code>로 색 지정</li></ul></div>
+        <div class="dont"><h5><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-alert"/></svg> DON'T</h5><ul><li>텍스트 "GLUCK"(SUIT 800) + 파란 점 등 로고 흉내</li><li>G 심볼 + 워드마크 결합 (존재하지 않는 시그니처)</li><li>비율 변경 · 그라데이션 · 외곽선 · 그림자 · 회전</li></ul></div>
+      </div>
+    </section>
+
+    <!-- ================================================================ 02 COLOR -->
+    <section class="ds-section" id="color" aria-labelledby="h-color">
+      <header><div class="ds-section__num">SECTION 02</div><h2 id="h-color">컬러 토큰</h2>
+        <p>3계층입니다. <strong>Primitive</strong>(원시 값)는 팔레트일 뿐이고, 컴포넌트와 제품은 <strong>Semantic</strong>(역할 이름)만 씁니다. 테마(다크·관리자)는 시맨틱 값만 갈아끼우므로 컴포넌트 코드는 한 벌입니다. 아래 표시 값은 전부 <em>이 페이지에 실제 로드된 CSS 변수에서 읽어</em> 렌더링됩니다 — 문서와 코드가 어긋날 수 없습니다.</p></header>
+
+      <h3 class="ds-sub">Primitive · Brand Blue <span class="gluck-badge gluck-badge--success gluck-badge--no-dot">2026.08 확정</span></h3>
+      <div class="ds-swatches" data-swatches="--gluck-blue-100,--gluck-blue-200,--gluck-blue-300,--gluck-blue-400,--gluck-blue-500,--gluck-blue-600,--gluck-blue-700"></div>
+      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg><div><strong>blue-600 = 키 컬러 #0059FF.</strong> 400(#337AFF)은 흰 글자 대비 3.91로 14–16px 버튼 라벨에 부적합 → v2에서 hover는 700(#0047CC)로 변경. 200·300은 다크 배경 위 텍스트용으로 브랜드 리소스 센터 값을 채택한 <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">Draft</span> — 브랜드팀 확정 필요.</div></div>
+
+      <h3 class="ds-sub">Primitive · Gray <span class="gluck-badge gluck-badge--success gluck-badge--no-dot">6단계 확정</span></h3>
+      <div class="ds-swatches" data-swatches="--gluck-gray-50,--gluck-gray-100,--gluck-gray-300,--gluck-gray-400,--gluck-gray-500,--gluck-gray-700,--gluck-gray-900"></div>
+      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-triangle-alert"/></svg><div><strong>gray-300(#B3B8C2)은 텍스트 금지.</strong> 흰 배경 대비 1.99:1. v1.1은 이 값을 <code class="ds-inline-code">--text-tertiary</code>로 매핑해 캡션·헬퍼 10곳에 썼습니다. v2에서 3차 텍스트는 gray-500(4.83:1). gray-400(#8A9099)은 입력 보더의 비텍스트 대비 3:1을 위해 추가한 <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">Draft</span>.</div></div>
+
+      <h3 class="ds-sub">Primitive · Dark Surface <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">Draft</span></h3>
+      <div class="ds-swatches" data-swatches="--gluck-dark-950,--gluck-dark-900,--gluck-dark-800,--gluck-dark-700,--gluck-dark-600,--gluck-dark-300,--gluck-dark-100,--gluck-dark-50"></div>
+
+      <h3 class="ds-sub">Primitive · Status</h3>
+      <div class="ds-swatches" data-swatches="--gluck-green-700,--gluck-green-100,--gluck-amber-700,--gluck-amber-100,--gluck-red-700,--gluck-red-100,--gluck-blue-50,--gluck-blue-150"></div>
+
+      <h3 class="ds-sub">Semantic — 제품이 실제로 쓰는 이름 (테마별 실시간 값)</h3>
+      <p class="ds-p">같은 토큰 이름이 테마마다 어떤 값으로 해석되는지 보여줍니다. 우상단 <b>다크 모드</b> 버튼을 누르면 왼쪽 열이 바뀝니다.</p>
+      <div class="ds-sem-cols">
+        <div><h4>현재 테마 (페이지)</h4><div data-semantic-list data-scope="page"></div></div>
+        <div data-theme="dark"><h4>Dark</h4><div data-semantic-list data-scope="dark"></div></div>
+        <div data-theme="admin"><h4>Admin</h4><div data-semantic-list data-scope="admin"></div></div>
+      </div>
+
+      <h3 class="ds-sub">대비 검증 — 운영 룰 (실시간 계산)</h3>
+      <p class="ds-p">WCAG 2.2 기준: 일반 텍스트 <b>4.5:1</b>, 큰 텍스트(<b>24px 이상</b> 또는 <b>18.66px 이상 Bold</b>) 3:1, 비텍스트 UI(보더·포커스링·아이콘) 3:1. v1.1 문서는 큰 텍스트를 "18px / 14px bold"로 잘못 정의해(pt↔px 혼동) 버튼 hover가 통과로 표기돼 있었습니다. 아래는 현재 로드된 토큰 값으로 실제 계산한 결과입니다.</p>
+      <div class="ds-demo ds-demo--flush">
+        <table class="ds-table ds-contrast" id="contrastTable">
+          <thead><tr><th>조합 (전경 / 배경)</th><th>용도 · 기준</th><th>Light</th><th>Dark</th><th>Admin</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <h3 class="ds-sub">컬러 사용 비율</h3>
+      <div class="ds-demo ds-demo--row" style="gap: 0; padding: 0; height: 56px; border-radius: var(--radius-md); overflow: hidden">
+        <div style="flex: 60; height: 100%; background: var(--color-bg-page); display: grid; place-items: center; font: var(--font-caption); color: var(--color-text-secondary)">60% 배경·여백 (page / subtle)</div>
+        <div style="flex: 30; height: 100%; background: var(--color-text-secondary); display: grid; place-items: center; font: var(--font-caption); color: var(--color-bg-page)">30% 텍스트·보조 UI</div>
+        <div style="flex: 10; height: 100%; background: var(--color-action-primary); display: grid; place-items: center; font: var(--font-caption); color: var(--color-text-on-brand)">10%</div>
+      </div>
+      <p class="ds-p" style="margin-top: var(--space-3)">외부 페이지: 메인 블루는 페이지당 Primary CTA 2~3개. 관리자: 90% 뉴트럴 / 7% 상태색(배지 한정) / 3% Primary 액션.</p>
+    </section>
+
+    <!-- ================================================================ 03 TYPOGRAPHY -->
+    <section class="ds-section" id="typography" aria-labelledby="h-typo">
+      <header><div class="ds-section__num">SECTION 03</div><h2 id="h-typo">타이포그래피</h2>
+        <p><strong>SUIT Variable 단일 패밀리</strong>(400–800). 한글·영문·숫자 모두 동일. JetBrains Mono는 2026.08 사용 중단 — 숫자·코드·금액은 <code class="ds-inline-code">.t-num</code>(tabular-nums)으로 정렬합니다.</p></header>
+      <div class="ds-demo">
+        <div class="ds-typo-row"><div><b>Display</b><small>800 · 56/64 · 모바일 40/48</small><small>.gluck-text-display</small></div><div class="gluck-text-display">양산을 위한 정밀 SLA</div></div>
+        <div class="ds-typo-row"><div><b>H1</b><small>700 · 40/52 · 모바일 32/42</small></div><div class="gluck-text-h1">시제품을 넘어 실제 생산으로</div></div>
+        <div class="ds-typo-row"><div><b>H2</b><small>700 · 32/42</small></div><div class="gluck-text-h2">산업용 SLA 3D프린팅 양산 제조</div></div>
+        <div class="ds-typo-row"><div><b>H3</b><small>600 · 24/32</small></div><div class="gluck-text-h3">후가공 → 사상 → 도색 → 조립 → 패키징</div></div>
+        <div class="ds-typo-row"><div><b>H4</b><small>600 · 20/28</small></div><div class="gluck-text-h4">견적 요청 폼 그룹 · 모듈 헤더</div></div>
+        <div class="ds-typo-row"><div><b>Body Large</b><small>500 · 18/28</small></div><div class="gluck-text-body-lg">GLUCK은 산업용 SLA 3D프린팅 기술을 기반으로, 시제품을 넘어 실제 생산 가능한 부품과 제품을 만드는 양산 제조 파트너입니다.</div></div>
+        <div class="ds-typo-row"><div><b>Body</b><small>400 · 16/26</small></div><div class="gluck-text-body">금형 없는 소량~중량 양산, 다품종 생산, 복잡 형상 구현과 DfAM 기반 설계 컨설팅을 한 곳에서 제공합니다. 표면 조도·후가공·조립·패키징까지 일체로 대응합니다.</div></div>
+        <div class="ds-typo-row"><div><b>Body Small</b><small>400 · 14/22</small></div><div class="gluck-text-body-sm">보조 설명, 메타 정보, 테이블 셀. 관리자 화면의 기본 본문 크기.</div></div>
+        <div class="ds-typo-row"><div><b>Caption</b><small>500 · 13/20</small></div><div class="gluck-text-caption">레이블 · 태그 · 폼 헬퍼 · 배지</div></div>
+        <div class="ds-typo-row"><div><b>Label</b><small>600 · 12/16 · +4% tracking</small></div><div class="gluck-text-label">SECTION LABEL · TABLE HEADER</div></div>
+      </div>
+      <div class="ds-demo-pair" style="margin-top: var(--space-4)">
+        <div class="ds-demo"><span class="ds-demo__label">.t-num — 숫자 정렬</span>
+          <table class="ds-matrix" style="max-width: 320px"><thead><tr><th>항목</th><th style="text-align:right">기본</th><th style="text-align:right">.t-num</th></tr></thead>
+            <tbody><tr><td>SLA 장비</td><td style="text-align:right">45기</td><td class="t-num" style="text-align:right">45기</td></tr>
+            <tr><td>누적 파트</td><td style="text-align:right">1,000,000+</td><td class="t-num" style="text-align:right">1,000,000+</td></tr>
+            <tr><td>견적 금액</td><td style="text-align:right">₩11,780,000</td><td class="t-num" style="text-align:right">₩11,780,000</td></tr>
+            <tr><td>리드타임</td><td style="text-align:right">7일</td><td class="t-num" style="text-align:right">7일</td></tr></tbody></table>
+        </div>
+        <div class="ds-demo"><span class="ds-demo__label">WEIGHTS</span>
+          <div style="display:grid; gap: 6px; font-size: 20px; line-height: 1.4">
+            <div style="font-weight:400">400 Regular — 본문</div><div style="font-weight:500">500 Medium — 리드·캡션</div><div style="font-weight:600">600 SemiBold — 버튼·H3·H4</div><div style="font-weight:700">700 Bold — H1·H2</div><div style="font-weight:800">800 ExtraBold — Display</div>
+          </div>
+        </div>
+      </div>
+      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg><div><strong>본문 최대 줄 길이 70ch</strong>, 한글 <code class="ds-inline-code">word-break: keep-all</code> 기본 적용. 검증되지 않은 최상급 표현("국내 최대", "최고의")은 카피 가이드에 따라 금지 — 수치는 출처 표기 필수.</div></div>
+    </section>
+
+    <!-- ================================================================ 04 LAYOUT -->
+    <section class="ds-section" id="layout" aria-labelledby="h-layout">
+      <header><div class="ds-section__num">SECTION 04</div><h2 id="h-layout">레이아웃 · 스페이싱</h2>
+        <p>4px 베이스. v1.1에는 문서에만 있던 스케일이 v2에서는 CSS 변수로 존재합니다 — 아래 막대는 <code class="ds-inline-code">width: var(--space-n)</code>으로 그려집니다.</p></header>
+      <div class="ds-demo-pair">
+        <div class="ds-demo"><span class="ds-demo__label">SPACING SCALE</span><div data-space-scale></div></div>
+        <div class="ds-demo"><span class="ds-demo__label">CONTAINER · BREAKPOINTS</span>
+          <table class="ds-matrix"><thead><tr><th>구간</th><th>범위</th><th>컨테이너</th><th>거터</th><th>컬럼</th></tr></thead>
+            <tbody><tr><td>xl Desktop</td><td>≥ 1280</td><td>1200px</td><td>24px</td><td>12</td></tr>
+            <tr><td>lg</td><td>1024–1279</td><td>1200px</td><td>24px</td><td>12 → 8</td></tr>
+            <tr><td>md Tablet</td><td>768–1023</td><td>720px</td><td>20px</td><td>8</td></tr>
+            <tr><td>sm Mobile</td><td>&lt; 768</td><td>100%</td><td>16px</td><td>4</td></tr></tbody></table>
+          <p class="ds-p" style="margin-top: var(--space-3)">공장 태블릿(관리자)은 md 구간 — 터치 타깃 최소 <b>44px</b>(<code class="ds-inline-code">--size-touch-min</code>). 섹션 상하 96 → 모바일 64, 히어로 120 → 64.</p>
+        </div>
+      </div>
+      <h3 class="ds-sub">12 컬럼 그리드 (.gluck-grid · --span)</h3>
+      <div class="ds-demo ds-demo--subtle">
+        <div class="gluck-grid ds-grid-demo" style="--grid-gap: var(--space-3)">
+          <div style="--span:12">12</div>
+          <div style="--span:6">6</div><div style="--span:6">6</div>
+          <div style="--span:4">4</div><div style="--span:4">4</div><div style="--span:4">4</div>
+          <div style="--span:3">3</div><div style="--span:3">3</div><div style="--span:3">3</div><div style="--span:3">3</div>
+          <div style="--span:8">8 (메인)</div><div style="--span:4">4 (사이드)</div>
+        </div>
+      </div>
+      <pre class="ds-code">&lt;div class="gluck-container"&gt;
+  &lt;section class="gluck-section"&gt;
+    &lt;div class="gluck-grid"&gt;
+      &lt;article style="--span: 8"&gt;…&lt;/article&gt;
+      &lt;aside   style="--span: 4"&gt;…&lt;/aside&gt;</pre>
+    </section>
+
+    <!-- ================================================================ 05 SHAPE -->
+    <section class="ds-section" id="shape" aria-labelledby="h-shape">
+      <header><div class="ds-section__num">SECTION 05</div><h2 id="h-shape">라디우스 · 엘리베이션 · Z-index</h2>
+        <p>v1.1 페이지에는 1·2·3px 등 문서에 없는 라디우스가 산발적으로 있었습니다. v2는 7단계 토큰만 허용합니다.</p></header>
+      <div class="ds-demo"><span class="ds-demo__label">RADIUS</span>
+        <div class="ds-radius">
+          <div style="border-radius: var(--radius-xs)">xs 4<br>태그·칩</div><div style="border-radius: var(--radius-sm)">sm 6<br>Input</div><div style="border-radius: var(--radius-md)">md 8<br>Button</div>
+          <div style="border-radius: var(--radius-lg)">lg 12<br>카드·모달</div><div style="border-radius: var(--radius-xl)">xl 16<br>히어로 미디어</div><div style="border-radius: var(--radius-pill)">pill<br>필터칩</div><div style="border-radius: var(--radius-circle)">circle<br>아바타</div>
+        </div>
+      </div>
+      <div class="ds-demo" style="margin-top: var(--space-4)"><span class="ds-demo__label">ELEVATION</span>
+        <div class="ds-shadow">
+          <div style="box-shadow: var(--shadow-none)">none — 기본 카드</div><div style="box-shadow: var(--shadow-sm)">sm — 카드 hover</div><div style="box-shadow: var(--shadow-md)">md — 드롭다운·토스트</div><div style="box-shadow: var(--shadow-lg)">lg — 모달·스티키 패널</div>
+        </div>
+      </div>
+      <div class="ds-demo ds-demo--flush" style="margin-top: var(--space-4)">
+        <table class="ds-table"><thead><tr><th>Z 토큰</th><th>값</th><th>용도</th></tr></thead><tbody>
+          <tr><td><code>--z-base</code></td><td>0</td><td>일반 흐름</td></tr><tr><td><code>--z-raised</code></td><td>10</td><td>카드 hover, sticky 테이블 헤더</td></tr><tr><td><code>--z-sticky</code></td><td>100</td><td>헤더·탑바</td></tr>
+          <tr><td><code>--z-dropdown</code></td><td>200</td><td>메뉴·셀렉트</td></tr><tr><td><code>--z-overlay</code></td><td>300</td><td>드로어·백드롭</td></tr><tr><td><code>--z-modal</code></td><td>400</td><td>다이얼로그</td></tr><tr><td><code>--z-toast</code></td><td>500</td><td>토스트</td></tr><tr><td><code>--z-tooltip</code></td><td>600</td><td>툴팁·스킵 링크</td></tr>
+        </tbody></table>
+      </div>
+    </section>
+
+    <!-- ================================================================ 06 MOTION -->
+    <section class="ds-section" id="motion" aria-labelledby="h-motion">
+      <header><div class="ds-section__num">SECTION 06</div><h2 id="h-motion">모션</h2>
+        <p>duration 4단계 + easing 3종. <code class="ds-inline-code">prefers-reduced-motion</code> 사용자에게는 전역으로 애니메이션이 제거됩니다(OS 설정에서 확인 가능). 마우스를 올려 보세요.</p></header>
+      <div class="ds-motion">
+        <div style="--d: var(--duration-fast)"><b>fast · 100ms</b><i></i>hover 색 변화</div>
+        <div style="--d: var(--duration-base)"><b>base · 150ms</b><i></i>버튼·입력 상태</div>
+        <div style="--d: var(--duration-slow)"><b>slow · 250ms</b><i></i>드로어·모달·툴팁</div>
+        <div style="--d: var(--duration-reveal)"><b>reveal · 600ms</b><i></i>스크롤 리빌 (1회)</div>
+      </div>
+      <pre class="ds-code">transition: background var(--duration-base) var(--ease-standard);
+<span class="c">/* ease-standard: cubic-bezier(.22,.61,.36,1) · ease-in · ease-out */</span></pre>
+    </section>
+
+    <!-- ================================================================ 07 ICONS -->
+    <section class="ds-section" id="icons" aria-labelledby="h-icons">
+      <header><div class="ds-section__num">SECTION 07</div><h2 id="h-icons">아이콘</h2>
+        <p>아이콘 세트는 <strong>Lucide</strong>(ISC)로 확정. 스프라이트(<code class="ds-inline-code">assets/icons/icons.svg</code>) + <code class="ds-inline-code">&lt;use&gt;</code>. 이모지·문자(≡, ▾, 🌐) 대체 금지. 사이즈 16/20/24/32, 스트로크는 사이즈별 자동(2 / 1.75 / 1.5).</p></header>
+      <div class="ds-icons" data-icon-grid></div>
+      <div class="ds-demo-pair" style="margin-top: var(--space-4)">
+        <pre class="ds-code" style="margin:0">&lt;svg class="gluck-icon" aria-hidden="true"&gt;&lt;use href="#i-search"/&gt;&lt;/svg&gt;   <span class="c">장식 (라벨 텍스트 동반)</span>
+&lt;svg class="gluck-icon" role="img" aria-label="검색"&gt;…&lt;/svg&gt;         <span class="c">단독 의미</span>
+&lt;button class="gluck-btn gluck-btn--icon" aria-label="닫기"&gt;…      <span class="c">아이콘 버튼은 aria-label 필수</span></pre>
+        <div class="ds-demo ds-demo--row"><span class="ds-demo__label">SIZES</span>
+          <svg class="gluck-icon gluck-icon--sm" role="img" aria-label="16px"><use href="#i-settings"/></svg>
+          <svg class="gluck-icon" role="img" aria-label="20px"><use href="#i-settings"/></svg>
+          <svg class="gluck-icon gluck-icon--lg" role="img" aria-label="24px"><use href="#i-settings"/></svg>
+          <svg class="gluck-icon gluck-icon--xl" role="img" aria-label="32px"><use href="#i-settings"/></svg>
+          <span class="gluck-text-caption gluck-text-tertiary">16 · 20 · 24 · 32</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ 08 BUTTONS -->
+    <section class="ds-section" id="buttons" aria-labelledby="h-buttons">
+      <header><div class="ds-section__num">SECTION 08</div><h2 id="h-buttons">버튼</h2>
+        <p>7 variant × 4 size × 6 state. 클래스명 <code class="ds-inline-code">.gluck-btn--primary</code>가 곧 운영 클래스명입니다. Primary는 <strong>영업 전환 액션 전용</strong>(견적 요청·샘플 신청) — 페이지당 2~3개.</p></header>
+      <div class="ds-demo ds-demo--flush">
+        <table class="ds-matrix">
+          <thead><tr><th>Variant</th><th>Default</th><th>Hover</th><th>Focus</th><th>Active</th><th>Disabled</th><th>Loading</th></tr></thead>
+          <tbody data-btn-matrix></tbody>
+        </table>
+      </div>
+      <h3 class="ds-sub">사이즈 · 아이콘</h3>
+      <div class="ds-demo ds-demo--row">
+        <button class="gluck-btn gluck-btn--primary gluck-btn--xs">xs 28</button>
+        <button class="gluck-btn gluck-btn--primary gluck-btn--sm">sm 36</button>
+        <button class="gluck-btn gluck-btn--primary">md 44 · 바로 견적 요청</button>
+        <button class="gluck-btn gluck-btn--primary gluck-btn--lg">lg 56 · 바로 견적 요청 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+        <button class="gluck-btn gluck-btn--outline"><svg class="gluck-icon" aria-hidden="true"><use href="#i-download"/></svg> 회사소개서</button>
+        <button class="gluck-btn gluck-btn--ghost gluck-btn--icon" aria-label="설정"><svg class="gluck-icon" aria-hidden="true"><use href="#i-settings"/></svg></button>
+        <button class="gluck-btn gluck-btn--outline gluck-btn--icon gluck-btn--sm" aria-label="닫기"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+      <h3 class="ds-sub">CTA 위계 · 영업 파이프라인 매핑</h3>
+      <div class="ds-demo ds-demo--flush"><table class="ds-table"><thead><tr><th>순위</th><th>라벨 (고정 카피)</th><th>Variant</th><th>영업 단계</th><th>배치</th></tr></thead><tbody>
+        <tr><td>1</td><td><button class="gluck-btn gluck-btn--primary gluck-btn--sm">바로 견적 요청</button></td><td>primary</td><td>MQL → SQL 전환점</td><td>모든 페이지 1-tap 거리</td></tr>
+        <tr><td>2</td><td><button class="gluck-btn gluck-btn--primary gluck-btn--sm">샘플 신청하기</button></td><td>primary</td><td>MQL 너처링</td><td>Hero · 후가공 · 산업 페이지</td></tr>
+        <tr><td>3</td><td><button class="gluck-btn gluck-btn--secondary gluck-btn--sm">문의하기</button></td><td>secondary</td><td>Lead 진입</td><td>헤더 · 페이지 하단</td></tr>
+        <tr><td>4</td><td><button class="gluck-btn gluck-btn--outline gluck-btn--sm">제조사례 더보기</button></td><td>outline</td><td>신뢰 강화</td><td>포트폴리오 종료점</td></tr>
+        <tr><td>5</td><td><button class="gluck-btn gluck-btn--link gluck-btn--sm">로그인 / 회원가입</button></td><td>link / tertiary</td><td>재구매·관리</td><td>헤더</td></tr>
+      </tbody></table></div>
+      <div class="ds-demo" data-theme="dark" style="margin-top: var(--space-4)"><span class="ds-demo__label">ON DARK — 같은 클래스, 테마만 다름</span>
+        <div class="gluck-row"><button class="gluck-btn gluck-btn--primary">바로 견적 요청</button><button class="gluck-btn gluck-btn--secondary">문의하기</button><button class="gluck-btn gluck-btn--outline">제조사례</button><button class="gluck-btn gluck-btn--ghost">로그인</button><button class="gluck-btn gluck-btn--tertiary">회원가입</button></div>
+      </div>
+    </section>
+
+    <!-- ================================================================ 09 FORMS -->
+    <section class="ds-section" id="forms" aria-labelledby="h-forms">
+      <header><div class="ds-section__num">SECTION 09</div><h2 id="h-forms">폼 컨트롤</h2>
+        <p>v1.1에는 focus 외 상태가 없었습니다. v2: 상태 7종(default · hover · focus · filled · error · disabled · readonly) + 컨트롤 9종. 모든 입력은 <code class="ds-inline-code">&lt;label for&gt;</code>와 <code class="ds-inline-code">aria-describedby</code>로 연결됩니다. 견적 폼 필드명은 CRM 스키마와 1:1이므로 임의 변경 금지.</p></header>
+      <div class="ds-demo ds-demo--grid">
+        <div class="gluck-field"><label class="gluck-label" for="f1">Default</label><input class="gluck-input" id="f1" placeholder="회사명을 입력하세요"></div>
+        <div class="gluck-field"><label class="gluck-label" for="f2">Hover</label><input class="gluck-input" id="f2" data-state="hover" placeholder="회사명을 입력하세요"></div>
+        <div class="gluck-field"><label class="gluck-label" for="f3">Focus</label><input class="gluck-input" id="f3" data-state="focus" placeholder="회사명을 입력하세요"></div>
+        <div class="gluck-field"><label class="gluck-label" for="f4">Filled</label><input class="gluck-input" id="f4" value="글룩 주식회사"><span class="gluck-help">사업자등록증 상호와 동일하게</span></div>
+        <div class="gluck-field is-invalid"><label class="gluck-label is-required" for="f5">Error</label><input class="gluck-input" id="f5" value="glucklab" aria-invalid="true" aria-describedby="f5e"><span class="gluck-error" id="f5e"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-alert"/></svg>이메일 형식이 아닙니다 (예: name@company.com)</span></div>
+        <div class="gluck-field"><label class="gluck-label" for="f6">Disabled</label><input class="gluck-input" id="f6" value="변경 불가" disabled></div>
+        <div class="gluck-field"><label class="gluck-label" for="f7">Read-only</label><input class="gluck-input" id="f7" value="Q-2026-0918-031" readonly></div>
+        <div class="gluck-field"><label class="gluck-label" for="f8">Select</label><select class="gluck-select" id="f8"><option>공정 선택</option><option>SLA</option><option>SLA + 도색</option><option>SLA + 도색 + 조립</option></select></div>
+        <div class="gluck-field"><label class="gluck-label" for="f9">Search (icon)</label><div class="gluck-input-group"><svg class="gluck-icon" aria-hidden="true"><use href="#i-search"/></svg><input class="gluck-input" id="f9" type="search" placeholder="견적번호 · 고객사"></div></div>
+      </div>
+      <div class="ds-demo ds-demo--grid" style="margin-top: var(--space-4)">
+        <div class="gluck-stack" style="--stack-gap: var(--space-2)"><span class="gluck-label">Checkbox</span>
+          <label class="gluck-check"><input type="checkbox" checked> 도색 (RAL 지정)</label>
+          <label class="gluck-check"><input type="checkbox"> UV 코팅</label>
+          <label class="gluck-check"><input type="checkbox" id="indet"> 전체 선택 (indeterminate)</label>
+          <label class="gluck-check"><input type="checkbox" disabled> 비활성</label></div>
+        <div class="gluck-stack" style="--stack-gap: var(--space-2)"><span class="gluck-label">Radio</span>
+          <label class="gluck-check"><input type="radio" name="r" checked> 시제품 (1~10개)</label>
+          <label class="gluck-check"><input type="radio" name="r"> 소량 양산 (10~100)</label>
+          <label class="gluck-check"><input type="radio" name="r"> 중량 양산 (100+)</label>
+          <label class="gluck-check"><input type="radio" name="r" disabled> 비활성</label></div>
+        <div class="gluck-stack" style="--stack-gap: var(--space-3)"><span class="gluck-label">Switch</span>
+          <label class="gluck-switch"><input type="checkbox" role="switch" checked> 견적 알림 이메일</label>
+          <label class="gluck-switch"><input type="checkbox" role="switch"> NDA 프로젝트</label>
+          <label class="gluck-switch"><input type="checkbox" role="switch" disabled> 비활성</label></div>
+        <div class="gluck-field"><label class="gluck-label" for="f10">Textarea</label><textarea class="gluck-textarea" id="f10" placeholder="요구 사항, 후가공, 납기 등"></textarea></div>
+      </div>
+      <h3 class="ds-sub">파일 업로드 존 — 상태 4종</h3>
+      <div class="ds-demo ds-demo--grid">
+        <div class="gluck-dropzone" tabindex="0"><svg class="gluck-icon gluck-icon--lg" aria-hidden="true"><use href="#i-upload"/></svg><span><strong>파일 선택</strong> 또는 드래그</span><span class="gluck-text-caption">STL · STEP · OBJ · 최대 100MB</span></div>
+        <div class="gluck-dropzone is-dragover"><svg class="gluck-icon gluck-icon--lg" aria-hidden="true"><use href="#i-upload"/></svg><span>여기에 놓으세요</span></div>
+        <div class="gluck-dropzone" style="gap: var(--space-3)"><div class="gluck-spinner"></div><span>bracket_v3.step 분석 중 · 68%</span><div class="gluck-progress" style="width: 70%"><span style="width: 68%"></span></div></div>
+        <div class="gluck-dropzone is-error"><svg class="gluck-icon gluck-icon--lg" aria-hidden="true"><use href="#i-circle-alert"/></svg><span>지원하지 않는 형식 (.zip)</span><span class="gluck-text-caption">STL · STEP · OBJ만 업로드 가능</span></div>
+      </div>
+      <h3 class="ds-sub">견적 요청 폼 — 실제 조립 예시 (검증 동작)</h3>
+      <div class="ds-demo">
+        <form class="gluck-stack" id="quoteForm" novalidate style="--stack-gap: var(--space-6)">
+          <fieldset class="gluck-fieldset"><legend>1. 담당자 정보</legend>
+            <div class="gluck-form-grid">
+              <div class="gluck-field"><label class="gluck-label is-required" for="q_company">회사명</label><input class="gluck-input" id="q_company" name="company" required autocomplete="organization"><span class="gluck-error" id="q_company_e"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-alert"/></svg>회사명을 입력하세요</span></div>
+              <div class="gluck-field"><label class="gluck-label is-required" for="q_name">담당자명</label><input class="gluck-input" id="q_name" name="name" required autocomplete="name"><span class="gluck-error" id="q_name_e"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-alert"/></svg>담당자명을 입력하세요</span></div>
+              <div class="gluck-field"><label class="gluck-label is-required" for="q_email">이메일</label><input class="gluck-input" id="q_email" name="email" type="email" required autocomplete="email" placeholder="name@company.com"><span class="gluck-error" id="q_email_e"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-alert"/></svg>올바른 이메일을 입력하세요</span></div>
+              <div class="gluck-field"><label class="gluck-label" for="q_tel">연락처</label><input class="gluck-input" id="q_tel" name="tel" type="tel" autocomplete="tel" placeholder="010-0000-0000"></div>
+            </div></fieldset>
+          <fieldset class="gluck-fieldset"><legend>2. 프로젝트</legend>
+            <div class="gluck-form-grid">
+              <div class="gluck-field"><label class="gluck-label is-required" for="q_industry">산업군</label><select class="gluck-select" id="q_industry" name="industry" required><option value="">선택</option><option>모빌리티</option><option>의료기기</option><option>로봇</option><option>IoT/전자</option><option>브랜드 굿즈</option><option>문화재/아트</option><option>대형 조형물</option></select><span class="gluck-error" id="q_industry_e"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-alert"/></svg>산업군을 선택하세요</span></div>
+              <div class="gluck-field"><label class="gluck-label" for="q_qty">수량</label><input class="gluck-input t-num" id="q_qty" name="qty" type="number" min="1" placeholder="예: 200" aria-describedby="q_qty_h"><span class="gluck-help" id="q_qty_h">미정이면 비워 두세요 — 담당자가 제안합니다</span></div>
+              <div class="gluck-field is-full"><span class="gluck-label" id="q_post_l">후가공</span><div class="gluck-row" role="group" aria-labelledby="q_post_l"><label class="gluck-check"><input type="checkbox" name="post" value="sanding"> 사상</label><label class="gluck-check"><input type="checkbox" name="post" value="paint"> 도색</label><label class="gluck-check"><input type="checkbox" name="post" value="uv"> UV 코팅</label><label class="gluck-check"><input type="checkbox" name="post" value="assembly"> 조립</label><label class="gluck-check"><input type="checkbox" name="post" value="packaging"> 패키징</label></div></div>
+              <div class="gluck-field is-full"><label class="gluck-label" for="q_memo">요구 사항</label><textarea class="gluck-textarea" id="q_memo" name="memo" placeholder="표면 조도, 공차, 납기, 도색 컬러(RAL) 등"></textarea></div>
+            </div></fieldset>
+          <label class="gluck-check"><input type="checkbox" name="privacy" id="q_privacy" required> <span>개인정보 수집·이용에 동의합니다 <span class="gluck-text-tertiary">(필수)</span></span></label>
+          <div class="gluck-form-actions"><button type="button" class="gluck-btn gluck-btn--ghost">임시 저장</button><button type="submit" class="gluck-btn gluck-btn--primary gluck-btn--lg" id="quoteSubmit">바로 견적 요청 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ================================================================ 10 TAGS -->
+    <section class="ds-section" id="tags" aria-labelledby="h-tags">
+      <header><div class="ds-section__num">SECTION 10</div><h2 id="h-tags">태그 · 배지</h2>
+        <p>태그는 <strong>분류</strong>(산업군 7 · 공정/역량), 배지는 <strong>상태</strong>(success · warning · danger · info · neutral). 상태는 텍스트가 아니라 색+점으로 즉시 인지되도록 — 단, 색만으로 구분하지 않고 항상 라벨 동반.</p></header>
+      <div class="ds-demo"><span class="ds-demo__label">INDUSTRY (공식 분류 7종)</span>
+        <div class="gluck-row" style="--row-gap: var(--space-2)"><span class="gluck-tag gluck-tag--industry">모빌리티</span><span class="gluck-tag gluck-tag--industry">의료기기</span><span class="gluck-tag gluck-tag--industry">로봇</span><span class="gluck-tag gluck-tag--industry">IoT/전자</span><span class="gluck-tag gluck-tag--industry">브랜드 굿즈</span><span class="gluck-tag gluck-tag--industry">문화재/아트</span><span class="gluck-tag gluck-tag--industry">대형 조형물</span></div>
+        <div class="gluck-row" style="--row-gap: var(--space-2); margin-top: var(--space-4)"><span class="gluck-tag gluck-tag--capability">SLA</span><span class="gluck-tag gluck-tag--capability">DfAM</span><span class="gluck-tag gluck-tag--capability">사상</span><span class="gluck-tag gluck-tag--capability">도색</span><span class="gluck-tag gluck-tag--capability">UV 코팅</span><span class="gluck-tag gluck-tag--capability">조립</span><span class="gluck-tag gluck-tag--capability">패키징</span><span class="gluck-tag">기본</span><span class="gluck-tag gluck-tag--lg gluck-tag--pill">large pill</span></div>
+      </div>
+      <div class="ds-demo-pair" style="margin-top: var(--space-4)">
+        <div class="ds-demo"><span class="ds-demo__label">SELECTABLE · REMOVABLE (클릭)</span>
+          <div class="gluck-row" style="--row-gap: var(--space-2)" data-tag-toggle><button class="gluck-tag gluck-tag--lg" aria-pressed="true">모빌리티</button><button class="gluck-tag gluck-tag--lg" aria-pressed="false">의료기기</button><button class="gluck-tag gluck-tag--lg" aria-pressed="false">로봇</button><button class="gluck-tag gluck-tag--lg" aria-pressed="false" disabled>비활성</button></div>
+          <div class="gluck-row" style="--row-gap: var(--space-2); margin-top: var(--space-3)"><span class="gluck-tag gluck-tag--pill">필터: 도색 <button class="gluck-tag__remove" aria-label="도색 필터 제거"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></span><span class="gluck-tag gluck-tag--pill">2026.09 <button class="gluck-tag__remove" aria-label="기간 필터 제거"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></span></div>
+        </div>
+        <div class="ds-demo"><span class="ds-demo__label">STATUS BADGES</span>
+          <div class="gluck-row" style="--row-gap: var(--space-2)"><span class="gluck-badge gluck-badge--success">Deal 성사</span><span class="gluck-badge gluck-badge--warning">팔로업 필요</span><span class="gluck-badge gluck-badge--danger">LOSS</span><span class="gluck-badge gluck-badge--info">SQL 진행 중</span><span class="gluck-badge">보류</span><span class="gluck-badge gluck-badge--brand gluck-badge--no-dot">NEW</span><span class="gluck-count">12</span></div>
+          <table class="ds-matrix" style="margin-top: var(--space-4)"><tbody><tr><td>success</td><td>승인·발송 완료·Deal 성사</td></tr><tr><td>warning</td><td>검토 대기·임박·팔로업</td></tr><tr><td>danger</td><td>실패·LOSS·결제 필요·삭제</td></tr><tr><td>info</td><td>진행 중·SQL</td></tr><tr><td>neutral</td><td>미분류·보류·취소</td></tr></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ 11 CARDS -->
+    <section class="ds-section" id="cards" aria-labelledby="h-cards">
+      <header><div class="ds-section__num">SECTION 11</div><h2 id="h-cards">카드</h2>
+        <p>포트폴리오 카드는 <strong>이미지 alt 필수</strong>, 비공개 사례는 NDA 배지 + 익명 처리. 고객사명은 노출 동의 확인 전 게시 금지.</p></header>
+      <div class="gluck-grid" style="--grid-gap: var(--space-5)">
+        <a class="gluck-card gluck-card--flush gluck-card--interactive" href="#cards" style="--span:4">
+          <div class="gluck-card__media"><img class="gluck-media-16-9" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'><rect width='16' height='9' fill='%23D7E1F4'/><path d='M4 6.5 8 3l4 3.5' fill='none' stroke='%230047CC' stroke-width='.3'/></svg>" alt="SLA 출력 후 도색·조립을 마친 자동차 내장 브라켓 시제품 20종" loading="lazy"><span class="gluck-badge gluck-badge--info gluck-badge--no-dot">모빌리티</span></div>
+          <div class="gluck-card__body"><h3 class="gluck-card__title">내장 브라켓 20종 · 소량 양산</h3><dl class="gluck-card__meta"><div><dt>수량</dt> <dd class="t-num">200 ea</dd></div><div><dt>리드타임</dt> <dd class="t-num">12일</dd></div></dl><div class="gluck-card__tags"><span class="gluck-tag gluck-tag--capability">SLA</span><span class="gluck-tag gluck-tag--capability">도색</span><span class="gluck-tag gluck-tag--capability">조립</span></div></div>
+        </a>
+        <a class="gluck-card gluck-card--flush gluck-card--interactive" href="#cards" style="--span:4">
+          <div class="gluck-card__media"><img class="gluck-media-16-9" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'><rect width='16' height='9' fill='%23E6E8EC'/><circle cx='8' cy='4.5' r='2.4' fill='none' stroke='%232D3139' stroke-width='.3'/></svg>" alt="익명 처리된 의료기기 하우징 — NDA 프로젝트" loading="lazy"><span class="gluck-badge gluck-badge--no-dot">NDA</span></div>
+          <div class="gluck-card__body"><h3 class="gluck-card__title">의료기기 하우징 (비공개)</h3><dl class="gluck-card__meta"><div><dt>수량</dt> <dd class="t-num">1,200 ea</dd></div><div><dt>공차</dt> <dd class="t-num">±0.1 mm</dd></div></dl><div class="gluck-card__tags"><span class="gluck-tag gluck-tag--capability">SLA</span><span class="gluck-tag gluck-tag--capability">UV 코팅</span></div></div>
+        </a>
+        <div class="gluck-card" style="--span:4; display: grid; gap: var(--space-3); align-content: start">
+          <svg class="gluck-icon gluck-icon--xl gluck-text-brand" aria-hidden="true"><use href="#i-factory"/></svg>
+          <h3 class="gluck-card__title">산업군 카드 · 정보형</h3>
+          <p class="gluck-text-body-sm gluck-text-secondary">padding 24 · radius lg · border default · hover 없음(비인터랙티브). 아이콘은 브랜드 컬러, 본문은 secondary.</p>
+          <button class="gluck-btn gluck-btn--outline gluck-btn--sm" style="justify-self: start">사례 보기 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ 12 NAVIGATION -->
+    <section class="ds-section" id="navigation" aria-labelledby="h-nav">
+      <header><div class="ds-section__num">SECTION 12</div><h2 id="h-nav">내비게이션 · 푸터</h2>
+        <p>헤더는 워드마크 SVG를 사용하고, 1024px 이하에서 드로어로 전환됩니다(<code class="ds-inline-code">aria-expanded</code>). 현재 페이지는 <code class="ds-inline-code">aria-current="page"</code>. 푸터 채널 정보는 <code class="ds-inline-code">tokens/brand.json</code> 상수 — 폐기된 gluck.co.kr / customer@gluck.co.kr은 린트에서 차단됩니다.</p></header>
+      <div class="ds-demo ds-demo--flush" style="overflow: visible">
+        <header class="gluck-header" style="position: relative; border-radius: var(--radius-lg) var(--radius-lg) 0 0" id="demoHeader">
+          <div class="gluck-container gluck-header__inner">
+            <a class="gluck-logo" href="#navigation" aria-label="GLUCK 홈"><svg viewBox="0 0 407 87" aria-hidden="true"><use href="#lg-wordmark"/></svg></a>
+            <nav class="gluck-header__nav" aria-label="주요 메뉴"><a href="#navigation">기술</a><a href="#navigation" aria-current="page">제조사례</a><a href="#navigation">산업</a><a href="#navigation">회사</a><a href="#navigation">채용</a></nav>
+            <div class="gluck-header__actions">
+              <details class="gluck-menu is-desktop"><summary class="gluck-btn gluck-btn--ghost gluck-btn--sm" aria-label="언어 선택: 한국어"><svg class="gluck-icon" aria-hidden="true"><use href="#i-globe"/></svg> KO <svg class="gluck-icon" aria-hidden="true"><use href="#i-chevron-down"/></svg></summary><ul class="gluck-menu__list gluck-menu__list--right" role="menu"><li><a role="menuitem" href="#navigation">한국어</a></li><li><a role="menuitem" href="#navigation">English</a></li></ul></details>
+              <a class="gluck-btn gluck-btn--ghost gluck-btn--sm is-desktop" href="#navigation">로그인</a>
+              <a class="gluck-btn gluck-btn--primary gluck-btn--sm" href="#navigation">바로 견적 요청</a>
+              <button class="gluck-btn gluck-btn--ghost gluck-btn--sm gluck-btn--icon gluck-header__toggle" aria-expanded="false" aria-label="메뉴 열기"><svg class="gluck-icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
+            </div>
+          </div>
+        </header>
+        <div style="padding: var(--space-4) var(--space-6); border-top: 1px solid var(--color-border-default); display: flex; flex-wrap: wrap; gap: var(--space-6); align-items: center">
+          <nav class="gluck-breadcrumb" aria-label="현재 위치"><a href="#navigation">홈</a><svg class="gluck-icon" aria-hidden="true"><use href="#i-chevron-right"/></svg><a href="#navigation">제조사례</a><svg class="gluck-icon" aria-hidden="true"><use href="#i-chevron-right"/></svg><span aria-current="page">모빌리티</span></nav>
+          <div class="gluck-tabs" role="tablist" aria-label="사례 분류" data-tabs><button role="tab" aria-selected="true">전체 <span class="gluck-text-tertiary">128</span></button><button role="tab" aria-selected="false">시제품</button><button role="tab" aria-selected="false">양산</button><button role="tab" aria-selected="false">아트</button></div>
+          <nav class="gluck-pagination" aria-label="페이지" style="padding: 0; margin-left: auto"><span class="t-num">1–24 / 128</span><div class="gluck-pagination__pages"><button aria-label="이전" disabled><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-left"/></svg></button><button aria-current="page">1</button><button>2</button><button>3</button><span style="padding: 0 4px; align-self: center">…</span><button>6</button><button aria-label="다음"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-right"/></svg></button></div></nav>
+        </div>
+        <footer class="gluck-footer" style="border-radius: 0 0 var(--radius-lg) var(--radius-lg); padding-block: var(--space-10) var(--space-6)">
+          <div class="gluck-container">
+            <div class="gluck-footer__grid">
+              <div><a class="gluck-logo gluck-logo--on-dark" href="#navigation" aria-label="GLUCK" style="--logo-h: 22px; margin-bottom: var(--space-4)"><svg viewBox="0 0 407 87" aria-hidden="true"><use href="#lg-wordmark"/></svg></a>
+                <p class="gluck-footer__info">주식회사 글룩 · 대표 홍재욱<br>사업자등록번호 440-81-00060<br>서울 마포구 와우산로 29가길 9 글룩빌딩<br>파주 제1·제2 팩토리</p></div>
+              <div><h4>문의</h4><ul role="list"><li><a href="mailto:support@glucklab.com">support@glucklab.com</a></li><li><a href="tel:1555-0096" class="t-num">1555-0096</a></li><li><a href="https://glucklab.com" rel="noopener">glucklab.com</a></li></ul></div>
+              <div><h4>서비스</h4><ul role="list"><li><a href="#navigation">바로 견적 요청</a></li><li><a href="#navigation">샘플 신청</a></li><li><a href="#navigation">회사소개서</a></li></ul></div>
+              <div><h4>채널</h4><ul role="list"><li><a href="#navigation">Instagram @gluck_3dprinting</a></li><li><a href="#navigation">SCULPIA @sculpia_official</a></li><li><a href="#navigation">채용</a></li></ul></div>
+            </div>
+            <div class="gluck-footer__bottom"><span>© 2026 GLUCK Inc.</span><span><a href="#navigation">개인정보처리방침</a> · <a href="#navigation">이용약관</a></span></div>
+          </div>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ================================================================ 13 OVERLAY -->
+    <section class="ds-section" id="overlay" aria-labelledby="h-overlay">
+      <header><div class="ds-section__num">SECTION 13</div><h2 id="h-overlay">오버레이 · 피드백</h2>
+        <p>결정 규칙: <strong>Toast</strong> = 결과 알림, 4초 자동 소멸, 액션 없음(danger는 수동 닫기) · <strong>Inline Alert</strong> = 사용자가 고쳐야 하는 오류, 자동 소멸 금지 · <strong>Modal</strong> = 파괴적 확인 또는 컨텍스트 유지가 필요한 짧은 입력만, 스크롤 콘텐츠는 페이지로. 조직 내 토스트 구현이 4갈래였던 것을 하나로 통일합니다.</p></header>
+      <div class="ds-demo ds-demo--row">
+        <button class="gluck-btn gluck-btn--outline" data-toast="success">Toast · success</button>
+        <button class="gluck-btn gluck-btn--outline" data-toast="info">Toast · info</button>
+        <button class="gluck-btn gluck-btn--outline" data-toast="warning">Toast · warning</button>
+        <button class="gluck-btn gluck-btn--outline" data-toast="danger">Toast · danger (수동 닫기)</button>
+        <span style="width: 1px; height: 28px; background: var(--color-border-default)"></span>
+        <button class="gluck-btn gluck-btn--secondary" data-modal="modalInfo">Modal · 정보</button>
+        <button class="gluck-btn gluck-btn--danger" data-modal="modalDelete">Modal · 삭제 확인</button>
+        <span style="width: 1px; height: 28px; background: var(--color-border-default)"></span>
+        <span class="gluck-tooltip"><button class="gluck-btn gluck-btn--ghost gluck-btn--icon" aria-describedby="tt1" aria-label="도움말"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg></button><span role="tooltip" id="tt1">Tooltip — hover · focus 모두 표시</span></span>
+        <details class="gluck-menu"><summary class="gluck-btn gluck-btn--outline">Dropdown <svg class="gluck-icon" aria-hidden="true"><use href="#i-chevron-down"/></svg></summary>
+          <ul class="gluck-menu__list" role="menu"><li><button role="menuitem"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-pencil"/></svg> 수정</button></li><li><button role="menuitem"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-copy"/></svg> 복제</button></li><li><button role="menuitem"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-download"/></svg> PDF 내보내기</button></li><li><hr></li><li><button role="menuitem" class="is-danger"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-trash-2"/></svg> 삭제</button></li></ul></details>
+      </div>
+      <div class="ds-demo ds-demo--grid" style="margin-top: var(--space-4)">
+        <div class="gluck-alert gluck-alert--danger" role="alert"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-alert"/></svg><div><strong>파일을 분석할 수 없습니다</strong>메시 오류 3건 — 노멀 방향을 확인한 뒤 다시 업로드하세요.</div></div>
+        <div class="gluck-alert gluck-alert--warning"><svg class="gluck-icon" aria-hidden="true"><use href="#i-triangle-alert"/></svg><div><strong>견적 유효기간 D-2</strong>2026-09-20 이후에는 재견적이 필요합니다.</div></div>
+        <div class="gluck-alert gluck-alert--success"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-check"/></svg><div><strong>발송 완료</strong>견적서가 support@glucklab.com 참조로 전달되었습니다.</div></div>
+        <div class="gluck-alert"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg><div><strong>안내</strong>NDA 프로젝트는 포트폴리오에 익명으로만 게시됩니다.</div></div>
+      </div>
+      <div class="gluck-banner gluck-banner--brand" style="margin-top: var(--space-4); border-radius: var(--radius-md)"><svg class="gluck-icon" aria-hidden="true"><use href="#i-package"/></svg><span><b>Scalable Mass Production</b> — 금형 없는 양산, 지금 견적을 받아보세요.</span><a class="gluck-btn gluck-btn--sm" style="background: var(--gluck-white); color: var(--gluck-blue-700)" href="#overlay">바로 견적 요청</a></div>
+
+      <dialog class="gluck-modal" id="modalInfo" aria-labelledby="modalInfoT">
+        <div class="gluck-modal__header"><h2 class="gluck-modal__title" id="modalInfoT">견적 조건 안내</h2><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--sm gluck-modal__close" data-close aria-label="닫기"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+        <div class="gluck-modal__body">견적은 파일 분석 후 <strong>영업일 1일 내</strong> 회신됩니다. 수량·후가공이 미정이어도 접수 가능하며 담당자가 옵션을 제안합니다. <code class="ds-inline-code">&lt;dialog&gt;</code> 기반 — 포커스 트랩·ESC·백드롭 클릭 닫기 내장.</div>
+        <div class="gluck-modal__footer"><button class="gluck-btn gluck-btn--ghost" data-close>닫기</button><button class="gluck-btn gluck-btn--primary" data-close>확인</button></div>
+      </dialog>
+      <dialog class="gluck-modal" id="modalDelete" data-size="sm" aria-labelledby="modalDelT">
+        <div class="gluck-modal__header"><h2 class="gluck-modal__title" id="modalDelT">견적 3건을 삭제할까요?</h2></div>
+        <div class="gluck-modal__body">선택한 <strong>3건</strong>(Q-2026-0918-031 외 2)이 영구 삭제되며 되돌릴 수 없습니다. 고객에게 발송된 견적서는 회수되지 않습니다.</div>
+        <div class="gluck-modal__footer"><button class="gluck-btn gluck-btn--ghost" data-close autofocus>취소</button><button class="gluck-btn gluck-btn--danger" data-close data-toast="danger" data-toast-msg="3건이 삭제되었습니다">삭제</button></div>
+      </dialog>
+    </section>
+
+    <!-- ================================================================ 14 STATES -->
+    <section class="ds-section" id="states" aria-labelledby="h-states">
+      <header><div class="ds-section__num">SECTION 14</div><h2 id="h-states">로딩 · 빈 상태 · 권한</h2>
+        <p>비동기 상태와 권한 상태는 화면마다 다르게 만들기 가장 쉬운 부분입니다. 기준 구현을 고정합니다.</p></header>
+      <div class="ds-demo ds-demo--grid">
+        <div class="gluck-stack" style="--stack-gap: var(--space-3)"><span class="gluck-label">Spinner 16 · 24 · 40</span><div class="gluck-row"><div class="gluck-spinner gluck-spinner--sm" role="status" aria-label="로딩 중"></div><div class="gluck-spinner" role="status" aria-label="로딩 중"></div><div class="gluck-spinner gluck-spinner--lg" role="status" aria-label="로딩 중"></div></div><button class="gluck-btn gluck-btn--primary" data-loading="true" style="justify-self:start">견적 계산 중</button></div>
+        <div class="gluck-stack" style="--stack-gap: var(--space-2)"><span class="gluck-label">Skeleton</span><span class="gluck-skeleton gluck-skeleton--title"></span><span class="gluck-skeleton gluck-skeleton--text"></span><span class="gluck-skeleton gluck-skeleton--text" style="width: 80%"></span><span class="gluck-skeleton gluck-skeleton--rect"></span></div>
+        <div class="gluck-stack" style="--stack-gap: var(--space-2)"><span class="gluck-label">Progress</span><div class="gluck-progress" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" aria-label="업로드 진행률"><span style="width: 68%"></span></div><span class="gluck-text-caption gluck-text-tertiary t-num">bracket_v3.step · 68% · 12.4 MB / 18.2 MB</span></div>
+      </div>
+      <div class="ds-demo-pair" style="margin-top: var(--space-4)">
+        <div class="ds-demo ds-demo--flush"><div class="gluck-empty"><svg class="gluck-icon gluck-icon--xl" aria-hidden="true"><use href="#i-inbox"/></svg><div class="gluck-empty__title">아직 견적 요청이 없습니다</div><p class="gluck-empty__desc">STL·STEP 파일을 업로드하면 영업일 1일 내 견적을 받을 수 있습니다.</p><button class="gluck-btn gluck-btn--primary">바로 견적 요청</button></div></div>
+        <div class="ds-demo ds-demo--flush"><div class="gluck-empty gluck-empty--compact"><svg class="gluck-icon gluck-icon--lg" aria-hidden="true"><use href="#i-search"/></svg><div class="gluck-empty__title" style="font: var(--font-body-sm); font-weight: 600">검색 결과가 없습니다</div><p class="gluck-empty__desc">"현대" 에 해당하는 고객사가 없습니다. 필터를 줄여 보세요.</p><button class="gluck-btn gluck-btn--outline gluck-btn--sm">필터 초기화</button></div></div>
+      </div>
+      <h3 class="ds-sub">권한 상태 — hidden · disabled(+이유) · read-only · locked</h3>
+      <div class="ds-demo ds-demo--grid">
+        <div class="gluck-stack" style="--stack-gap: var(--space-2)"><span class="gluck-label">disabled + 이유 툴팁</span><span class="gluck-tooltip"><button class="gluck-btn gluck-btn--danger-outline" aria-disabled="true" aria-describedby="tt2">견적 삭제</button><span role="tooltip" id="tt2">관리자 권한이 필요합니다</span></span></div>
+        <div class="gluck-field"><label class="gluck-label" for="ro1">read-only (뷰어 권한)</label><input class="gluck-input" id="ro1" value="₩11,780,000" readonly></div>
+        <div class="gluck-locked gluck-card" data-lock-msg="🔒 영업팀 이상 열람 가능" style="padding: var(--space-4)"><div class="gluck-text-caption gluck-text-tertiary">마진율</div><div class="gluck-text-h3 t-num">31.2%</div></div>
+      </div>
+    </section>
+
+    <!-- ================================================================ 15 TABLE -->
+    <section class="ds-section" id="table" aria-labelledby="h-table">
+      <header><div class="ds-section__num">SECTION 15</div><h2 id="h-table">데이터 테이블</h2>
+        <p>관리자 화면의 80%는 이 패턴입니다. 정렬(<code class="ds-inline-code">aria-sort</code>) · 전체/개별 선택(indeterminate) · 일괄 액션 바 · 행 액션(hover/focus 노출, 터치는 상시) · sticky 헤더 · 밀도 3단 · 빈/로딩 상태 · 페이지네이션. 헤더를 클릭해 보세요.</p></header>
+      <div class="ds-demo ds-demo--flush">
+        <div class="gluck-table-toolbar">
+          <span class="gluck-table-toolbar__count t-num" id="tblCount">30,293건</span>
+          <span class="gluck-filterbar__spacer"></span>
+          <div class="gluck-density" role="group" aria-label="밀도" data-density-ctl><button aria-pressed="false" data-d="compact">Compact</button><button aria-pressed="true" data-d="default">Default</button><button aria-pressed="false" data-d="relaxed">Relaxed</button></div>
+          <button class="gluck-btn gluck-btn--outline gluck-btn--xs" data-tbl-state="loading">로딩 상태</button><button class="gluck-btn gluck-btn--outline gluck-btn--xs" data-tbl-state="empty">빈 상태</button><button class="gluck-btn gluck-btn--outline gluck-btn--xs" data-tbl-state="data">데이터</button>
+        </div>
+        <div class="gluck-bulk-bar" id="bulkBar"><span><b id="bulkCount">0</b>건 선택</span><div class="gluck-btn-group"><button class="gluck-btn gluck-btn--xs gluck-btn--outline">상태 변경</button><button class="gluck-btn gluck-btn--xs gluck-btn--outline">담당자 배정</button><button class="gluck-btn gluck-btn--xs gluck-btn--danger-outline" data-modal="modalDelete">삭제</button></div></div>
+        <div class="gluck-table-wrap" style="border: 0; border-radius: 0; --table-max-h: 420px" data-density="default" id="tblWrap">
+          <table class="gluck-table" id="quoteTable">
+            <caption class="sr-only">견적 요청 목록</caption>
+            <thead><tr>
+              <th class="col-check" scope="col"><label class="gluck-check"><input type="checkbox" id="chkAll" aria-label="전체 선택"></label></th>
+              <th scope="col" aria-sort="none" data-key="id"><button type="button">견적번호 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-up-down"/></svg></button></th>
+              <th scope="col" aria-sort="none" data-key="company"><button type="button">고객사 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-up-down"/></svg></button></th>
+              <th scope="col">품목 · 수량</th>
+              <th scope="col">공정</th>
+              <th scope="col">상태</th>
+              <th scope="col" class="is-num" aria-sort="none" data-key="amount"><button type="button">금액 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-up-down"/></svg></button></th>
+              <th scope="col" aria-sort="descending" data-key="date"><button type="button">접수일 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-up-down"/></svg></button></th>
+              <th scope="col" class="col-actions"><span class="sr-only">액션</span></th>
+            </tr></thead>
+            <tbody id="tblBody"></tbody>
+          </table>
+        </div>
+        <nav class="gluck-pagination" aria-label="페이지" style="border-top: 1px solid var(--color-border-default)"><span class="t-num">1–8 / 30,293</span><label class="gluck-text-caption" style="display:inline-flex; align-items:center; gap: 6px">페이지당 <select class="gluck-select gluck-input--sm" style="min-height: 30px; width: auto; padding-right: 32px" aria-label="페이지당 행 수"><option>8</option><option>25</option><option>50</option></select></label><div class="gluck-pagination__pages"><button aria-label="이전" disabled><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-left"/></svg></button><button aria-current="page">1</button><button>2</button><button>3</button><button>4</button><span style="padding: 0 4px; align-self: center">…</span><button>3,787</button><button aria-label="다음"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-right"/></svg></button></div></nav>
+      </div>
+    </section>
+
+    <!-- ================================================================ 16 ADMIN -->
+    <section class="ds-section" id="admin" aria-labelledby="h-admin">
+      <header><div class="ds-section__num">SECTION 16</div><h2 id="h-admin">관리자 앱 셸 (Madmin · Hermes OS)</h2>
+        <p>v1.1의 <code class="ds-inline-code">.adm-*</code> 별도 컴포넌트 22개를 폐기하고, <strong>같은 컴포넌트에 <code class="ds-inline-code">data-theme="admin"</code>만 붙입니다.</strong> 아래 프레임 전체가 admin 테마: 앱 배경 #F7F8FA, 사이드바 라이트, Primary는 브랜드 파생 #0047CC(7.57:1). 사이드바 접힘 버튼과 밀도 토글이 동작합니다.</p></header>
+      <div class="ds-shell-frame" data-theme="admin">
+        <div class="gluck-shell" id="shell">
+          <aside class="gluck-sidebar">
+            <div class="gluck-sidebar__brand"><a class="gluck-logo" href="#admin" aria-label="Madmin 홈"><svg viewBox="0 0 81 87" aria-hidden="true" style="height: 20px"><use href="#lg-symbol"/></svg></a><a class="gluck-logo" href="#admin" aria-label="GLUCK"><svg viewBox="0 0 407 87" aria-hidden="true"><use href="#lg-wordmark"/></svg></a><span class="gluck-env-badge gluck-sidebar__env">STAGING</span></div>
+            <nav aria-label="관리자 메뉴">
+              <div class="gluck-sidebar__group">영업</div>
+              <a href="#admin"><svg class="gluck-icon" aria-hidden="true"><use href="#i-layout-dashboard"/></svg><span>대시보드</span></a>
+              <a href="#admin" aria-current="page"><svg class="gluck-icon" aria-hidden="true"><use href="#i-clipboard-list"/></svg><span>견적 요청</span><span class="gluck-count">12</span></a>
+              <a href="#admin"><svg class="gluck-icon" aria-hidden="true"><use href="#i-package"/></svg><span>주문</span></a>
+              <a href="#admin"><svg class="gluck-icon" aria-hidden="true"><use href="#i-building-2"/></svg><span>고객사</span></a>
+              <div class="gluck-sidebar__group">생산</div>
+              <a href="#admin"><svg class="gluck-icon" aria-hidden="true"><use href="#i-factory"/></svg><span>팩토리 현황</span></a>
+              <a href="#admin"><svg class="gluck-icon" aria-hidden="true"><use href="#i-calendar"/></svg><span>일정</span></a>
+              <div class="gluck-sidebar__group">시스템</div>
+              <a href="#admin"><svg class="gluck-icon" aria-hidden="true"><use href="#i-settings"/></svg><span>설정</span></a>
+            </nav>
+            <div class="gluck-sidebar__footer"><span class="gluck-avatar">JH</span><div><strong>김정현</strong><span>영업팀 · Editor</span></div><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="로그아웃" style="margin-left:auto"><svg class="gluck-icon" aria-hidden="true"><use href="#i-log-out"/></svg></button></div>
+          </aside>
+          <div class="gluck-shell__main">
+            <div class="gluck-topbar">
+              <button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--sm" id="shellToggle" aria-label="사이드바 접기" aria-expanded="true"><svg class="gluck-icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
+              <nav class="gluck-breadcrumb" aria-label="현재 위치"><a href="#admin">영업</a><svg class="gluck-icon" aria-hidden="true"><use href="#i-chevron-right"/></svg><span aria-current="page">견적 요청</span></nav>
+              <div class="gluck-input-group gluck-topbar__search"><svg class="gluck-icon" aria-hidden="true"><use href="#i-search"/></svg><input class="gluck-input gluck-input--sm" type="search" placeholder="견적번호 · 고객사 · 담당자  ( / )" aria-label="전체 검색"></div>
+              <div class="gluck-topbar__actions"><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--sm" aria-label="알림 3건"><svg class="gluck-icon" aria-hidden="true"><use href="#i-bell"/></svg></button><span class="gluck-avatar" style="width:28px;height:28px;font-size:11px">JH</span></div>
+            </div>
+            <div class="gluck-page">
+              <div class="gluck-page-header"><div><h1>견적 요청</h1><p>오늘 접수 12건 · 미배정 4건 · 유효기간 임박 2건</p></div><div class="gluck-btn-group"><button class="gluck-btn gluck-btn--outline gluck-btn--sm"><svg class="gluck-icon" aria-hidden="true"><use href="#i-download"/></svg> 내보내기</button><button class="gluck-btn gluck-btn--primary gluck-btn--sm"><svg class="gluck-icon" aria-hidden="true"><use href="#i-plus"/></svg> 수동 등록</button></div></div>
+              <div class="gluck-kpi-grid">
+                <div class="gluck-card gluck-kpi"><span class="gluck-kpi__label">이번 주 접수</span><span class="gluck-kpi__value">68</span><span class="gluck-kpi__delta is-up"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-up"/></svg>+12% vs 지난주</span></div>
+                <div class="gluck-card gluck-kpi"><span class="gluck-kpi__label">전환율 (MQL→SQL)</span><span class="gluck-kpi__value">34.1%</span><span class="gluck-kpi__delta is-up"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-up"/></svg>+2.3pt</span></div>
+                <div class="gluck-card gluck-kpi"><span class="gluck-kpi__label">평균 회신 시간</span><span class="gluck-kpi__value">5.2h</span><span class="gluck-kpi__delta is-down"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-down"/></svg>목표 4h</span></div>
+                <div class="gluck-card gluck-kpi"><span class="gluck-kpi__label">견적 금액 합계</span><span class="gluck-kpi__value">₩412M</span><span class="gluck-kpi__delta gluck-text-tertiary">이번 달</span></div>
+              </div>
+              <div class="gluck-filterbar">
+                <div class="gluck-input-group"><svg class="gluck-icon" aria-hidden="true"><use href="#i-search"/></svg><input class="gluck-input" type="search" placeholder="검색" aria-label="목록 검색"></div>
+                <select class="gluck-select" aria-label="상태"><option>상태: 전체</option><option>신규</option><option>검토 중</option><option>발송</option><option>성사</option><option>LOSS</option></select>
+                <select class="gluck-select" aria-label="담당자"><option>담당자: 전체</option><option>김정현</option><option>이수민</option></select>
+                <div role="group" aria-label="기간" class="gluck-row" style="--row-gap: 4px"><button class="gluck-pill" aria-pressed="true">7일</button><button class="gluck-pill" aria-pressed="false">30일</button><button class="gluck-pill" aria-pressed="false">분기</button><button class="gluck-pill" aria-pressed="false"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-calendar"/></svg> 직접</button></div>
+                <span class="gluck-filterbar__spacer"></span>
+                <span class="gluck-tag gluck-tag--pill">도색 <button class="gluck-tag__remove" aria-label="도색 필터 제거"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></span>
+                <button class="gluck-btn gluck-btn--ghost gluck-btn--sm"><svg class="gluck-icon" aria-hidden="true"><use href="#i-filter"/></svg> 필터</button>
+              </div>
+              <div class="gluck-card gluck-card--flush">
+                <div class="gluck-table-wrap" style="border: 0; border-radius: 0" data-density="default">
+                  <table class="gluck-table" data-clone-of="quoteTable"><caption class="sr-only">견적 요청 목록 (관리자)</caption><thead></thead><tbody></tbody></table>
+                </div>
+                <nav class="gluck-pagination" aria-label="페이지" style="border-top: 1px solid var(--color-border-default)"><span class="t-num">1–8 / 30,293</span><div class="gluck-pagination__pages"><button aria-label="이전" disabled><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-left"/></svg></button><button aria-current="page">1</button><button>2</button><button>3</button><button aria-label="다음"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-right"/></svg></button></div></nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg><div><strong>ADR-002 · Admin Primary 블루.</strong> v1.1 관리자 확장은 <code class="ds-inline-code">#3182F6</code>(흰 글자 대비 3.71 → AA 미달)을 별도 도입했습니다. v2 권장안은 브랜드 파생 <code class="ds-inline-code">blue-700 #0047CC</code>(7.57) — 브랜드와 한 계열이면서 채도가 낮아 장시간 작업에 적합. 대안(#3182F6 유지)을 택하면 DESIGN.md 블루 표에 'Ops Blue'로 정식 등록해야 합니다. 브랜드팀 1회 결정 필요. 테마 정책: <b>운영 툴 = 라이트 고정</b>, 참조·쇼케이스 페이지 = 다크 허용.</div></div>
+    </section>
+
+    <!-- ================================================================ 17 GOVERNANCE -->
+    <section class="ds-section" id="governance" aria-labelledby="h-gov">
+      <header><div class="ds-section__num">SECTION 17</div><h2 id="h-gov">운영 규칙 · 체크리스트</h2>
+        <p>규칙은 사람의 기억이 아니라 <strong>도구</strong>가 지킵니다. 저장소 CI에서 아래 검사가 돌고, 형제 저장소는 워크플로 한 줄로 같은 검사를 재사용합니다.</p></header>
+      <div class="ds-demo ds-demo--flush"><table class="ds-table"><thead><tr><th>검사</th><th>스크립트</th><th>실패 조건</th></tr></thead><tbody>
+        <tr><td>HEX 리터럴</td><td><code>check-colors</code></td><td><code>dist/</code> 밖에서 <code>#RRGGBB</code> 발견 (허용: 서드파티 3색, <code>data-swatch</code>)</td></tr>
+        <tr><td>토큰 계약</td><td><code>check-tokens</code></td><td>문서·HTML에 쓰인 <code>--*</code> 이름이 dist에 미선언</td></tr>
+        <tr><td>대비</td><td><code>contrast</code></td><td>텍스트 역할 토큰 &lt; 4.5:1 · 비텍스트 &lt; 3:1 (이 페이지 §02 표 = 같은 계산)</td></tr>
+        <tr><td>금지 문자열</td><td><code>check-forbidden</code></td><td><code>gluck.co.kr</code> · <code>customer@gluck</code> · <code>hr@gluck</code> · <code>JetBrains</code> · <code>Pretendard</code></td></tr>
+        <tr><td>접근성</td><td><code>pa11y</code></td><td>color-contrast · label · button-name · html-has-lang</td></tr>
+        <tr><td>채택률</td><td><code>adoption-audit</code></td><td>(보고용) 저장소별 <code>--gluck-</code> 사용 · 하드코딩 수 · 서체 · 폐기 채널</td></tr>
+      </tbody></table></div>
+
+      <h3 class="ds-sub">채택 현황 — 기준선 2026-09 <span class="gluck-badge gluck-badge--danger gluck-badge--no-dot">0 / 6</span></h3>
+      <div class="ds-demo ds-demo--flush"><table class="ds-table ds-adopt"><thead><tr><th>저장소</th><th>DS 토큰</th><th>서체</th><th>키 컬러</th><th>폐기 채널</th><th>마이그레이션 순서</th></tr></thead><tbody>
+        <tr><td>gluck-brand-resource-center</td><td class="ds-ng">자체 :root</td><td class="ds-ok">SUIT</td><td class="ds-ok">#0059FF</td><td class="ds-ok">—</td><td>② 별칭 치환만</td></tr>
+        <tr><td>gluck-quote-prototype</td><td class="ds-ng">tailwind 수동</td><td class="ds-ok">SUIT</td><td class="ds-ok">#0059FF</td><td class="ds-ok">—</td><td>③ preset 참조</td></tr>
+        <tr><td>design-system/recruit</td><td class="ds-ng">--g-* 축약</td><td class="ds-ok">SUIT</td><td class="ds-ng">#0036DC 히어로</td><td class="ds-ng">gluck.co.kr · hr@</td><td>① 같은 저장소</td></tr>
+        <tr><td>openfactory</td><td class="ds-ng">--accent</td><td class="ds-ng">Pretendard</td><td class="ds-ng">#4B8DFF</td><td class="ds-ok">—</td><td>④ 서체+색</td></tr>
+        <tr><td>gluck-brochure-site</td><td class="ds-ng">--blue</td><td class="ds-ng">Pretendard 폴백</td><td class="ds-ng">#1E5EFF</td><td class="ds-ng">customer@ ×5</td><td>⑤ + PDF 재출력</td></tr>
+        <tr><td>Madmin · Hermes OS</td><td class="ds-ng">—</td><td>—</td><td class="ds-ng">#3182F6</td><td>—</td><td>⑥ admin 테마 적용</td></tr>
+      </tbody></table></div>
+
+      <h3 class="ds-sub">PR 체크리스트 (컴포넌트·토큰 변경 시)</h3>
+      <div class="ds-demo"><div class="ds-check">
+        <label><input type="checkbox" class="sr-only"><span class="gluck-badge gluck-badge--no-dot">1</span> 변경 유형: Type A 토큰 값 · B 컴포넌트 · C 신규 · D 문서 · E 긴급 패치</label>
+        <label><span class="gluck-badge gluck-badge--no-dot">2</span> <code class="ds-inline-code">tokens.json</code>만 수정했고 <code class="ds-inline-code">dist/</code>는 빌드 산출물인가</label>
+        <label><span class="gluck-badge gluck-badge--no-dot">3</span> 새 색이 있다면 §02 대비표에 행을 추가했고 AA를 통과하는가</label>
+        <label><span class="gluck-badge gluck-badge--no-dot">4</span> 라이트·다크·admin 3테마에서 렌더를 확인했는가</label>
+        <label><span class="gluck-badge gluck-badge--no-dot">5</span> 키보드만으로 조작 가능한가 (focus-visible · ESC · Tab 순서)</label>
+        <label><span class="gluck-badge gluck-badge--no-dot">6</span> CHANGELOG.md에 항목을 추가했고 버전(semver)을 올렸는가</label>
+        <label><span class="gluck-badge gluck-badge--no-dot">7</span> 영향받는 형제 저장소를 체크했는가 (BRC · quote · recruit · openfactory · brochure · admin)</label>
+      </div></div>
+
+      <div class="ds-dd" style="margin-top: var(--space-4)">
+        <div class="do"><h5><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-check"/></svg> 변경 절차</h5><ul><li>브랜드 확정 → <b>같은 주</b> DS 패치·태그 (SLA)</li><li>이슈 템플릿 → PR(리뷰 1인) → CI 통과 → 태그 → 형제 저장소 알림</li><li>ADR로 결정 기록: 001 네이밍 · 002 Admin 블루 · 003 다크 정책</li></ul></div>
+        <div class="dont"><h5><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-alert"/></svg> 금지</h5><ul><li>main 직접 커밋 · dist/ 손 편집</li><li>"임시" 로컬 색 추가 (다음 릴리스에서 토큰으로 승격하거나 삭제)</li><li>채용·캠페인 페이지를 DS 저장소에 호스팅</li></ul></div>
+      </div>
+    </section>
+
+    <!-- ================================================================ 18 CHANGELOG -->
+    <section class="ds-section" id="changelog" aria-labelledby="h-log">
+      <header><div class="ds-section__num">SECTION 18</div><h2 id="h-log">변경 이력 · 로드맵</h2></header>
+      <ul class="ds-changelog" role="list">
+        <li><b>2.0.0-preview · 2026-09-18</b> — 토큰 3계층 + 테마 레이어(dark·admin) 도입 · dist 배포 구조 · JetBrains Mono 제거(SUIT 단일) · 그레이 6단계 확정 표기 · <code class="ds-inline-code">--text-tertiary</code> #B3B8C2 → #6B7280 · Primary hover #337AFF → #0047CC · WCAG 큰 텍스트 정의 정정 · 워드마크 SVG/파비콘 · 폼 상태 7종·컨트롤 9종 · 오버레이/피드백/테이블/앱 셸 실구현 · a11y 베이스(focus-visible·skip·reduced-motion) · 대비표 실시간 계산</li>
+        <li><b>1.1.0 · 2026-07</b> — 관리자 확장(DESIGN-ADMIN.md) · 상태 컬러 문서화 · recruit 페이지 추가</li>
+        <li><b>1.0.0 · 2026-05</b> — 컬러·타이포·버튼·헤더·태그·카드·견적 폼·푸터 초판</li>
+      </ul>
+      <h3 class="ds-sub">다음</h3>
+      <div class="ds-demo ds-demo--flush"><table class="ds-table"><thead><tr><th>시기</th><th>항목</th><th>산출물</th></tr></thead><tbody>
+        <tr><td>NOW</td><td>tokens.json 원본 + 빌드 스크립트 · CHANGELOG · git tag · 형제 저장소 ①②③ 마이그레이션</td><td><code>tokens/gluck.tokens.json</code> · <code>scripts/build-tokens.mjs</code> · <code>v2.0.0</code></td></tr>
+        <tr><td>NEXT</td><td>브랜드팀 결정 3건(다크 팔레트 · Admin 블루 · gray-400) · Tailwind preset · 린트 CI · 오픈팩토리·브로슈어 마이그레이션</td><td><code>dist/gluck-tailwind-preset.js</code> · <code>.github/workflows/design-lint.yml</code></td></tr>
+        <tr><td>LATER</td><td>Do/Don't 이미지 · 시각 회귀 테스트 · Figma Variables(사용 확정 시) · recruit 저장소 분리</td><td><code>docs/components.html</code> + Playwright · <code>dist/gluck-tokens.figma.json</code></td></tr>
+      </tbody></table></div>
+    </section>
+
+  </main>
+</div>
+
+<div class="gluck-toast-region" id="toastRegion" aria-live="polite" aria-atomic="false"></div>
+
+<script>
+(function () {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const root = document.documentElement;
+
+  /* ---------------- theme toggle ---------------- */
+  const themeBtn = $('#themeToggle');
+  function applyTheme(t) {
+    root.dataset.theme = t;
+    const dark = t === 'dark';
+    themeBtn.setAttribute('aria-pressed', String(dark));
+    themeBtn.querySelector('use').setAttribute('href', dark ? '#i-sun' : '#i-moon');
+    themeBtn.querySelector('span').textContent = dark ? '라이트 모드' : '다크 모드';
+    $('meta[name="theme-color"]').setAttribute('content', dark ? '#0F1115' : '#0059FF');
+    renderTokens();
+  }
+  themeBtn.addEventListener('click', () => {
+    const t = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('gluck-theme', t); } catch (e) {}
+    applyTheme(t);
+  });
+
+  /* ---------------- nav: mobile toggle + scrollspy ---------------- */
+  const nav = $('#dsNav'), navToggle = $('#navToggle');
+  navToggle.addEventListener('click', () => { const open = nav.classList.toggle('is-open'); navToggle.setAttribute('aria-expanded', String(open)); });
+  nav.addEventListener('click', e => { if (e.target.closest('a')) { nav.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); } });
+  const links = $$('a[href^="#"]', nav);
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { links.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === '#' + en.target.id)); } });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  $$('.ds-section').forEach(s => io.observe(s));
+
+  /* ---------------- copy buttons ---------------- */
+  $$('[data-copy]').forEach(b => b.addEventListener('click', () => {
+    const txt = b.parentElement.innerText.replace(/^\s*\S*\s*/, '').trim();
+    navigator.clipboard && navigator.clipboard.writeText(txt).then(() => toast('success', '복사됨', '설치 스니펫이 클립보드에 복사되었습니다.'));
+  }));
+
+  /* ---------------- color helpers ---------------- */
+  function resolve(token, scopeEl) {
+    const probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;color:var(' + token + ')';
+    (scopeEl || document.body).appendChild(probe);
+    const c = getComputedStyle(probe).color; probe.remove();
+    return c;
+  }
+  function parse(c) {
+    const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null;
+    const p = m[1].split(',').map(s => parseFloat(s)); return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
+  }
+  function hex(c) { const p = parse(c); if (!p) return c; const h = n => Math.round(n).toString(16).padStart(2, '0').toUpperCase(); return '#' + h(p.r) + h(p.g) + h(p.b) + (p.a < 1 ? ' · ' + Math.round(p.a * 100) + '%' : ''); }
+  function blend(fg, bg) { if (fg.a >= 1) return fg; return { r: fg.r * fg.a + bg.r * (1 - fg.a), g: fg.g * fg.a + bg.g * (1 - fg.a), b: fg.b * fg.a + bg.b * (1 - fg.a), a: 1 }; }
+  function lum(c) { const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b); }
+  function ratio(fg, bg, page) {
+    let F = parse(fg), B = parse(bg); if (!F || !B) return null;
+    const P = page ? parse(page) : { r: 255, g: 255, b: 255, a: 1 };
+    B = blend(B, P); F = blend(F, B);
+    const l1 = lum(F), l2 = lum(B); return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  }
+
+  /* ---------------- swatches (primitive) ---------------- */
+  $$('[data-swatches]').forEach(grid => {
+    grid.innerHTML = grid.dataset.swatches.split(',').map(t => {
+      const v = resolve(t); const badge = /-(200|300|400)$|gray-400|dark-/.test(t) && !/gray-300|blue-400/.test(t) ? '<span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">Draft</span>' : (t === '--gluck-blue-600' ? '<span class="gluck-badge gluck-badge--brand gluck-badge--no-dot">KEY</span>' : (t === '--gluck-gray-300' || t === '--gluck-blue-400' ? '<span class="gluck-badge gluck-badge--danger gluck-badge--no-dot">텍스트 금지</span>' : ''));
+      const onWhite = ratio(v, 'rgb(255,255,255)');
+      return `<div class="ds-swatch"><div class="ds-swatch__chip" style="background: var(${t})">${badge}</div><div class="ds-swatch__info"><b>${t.replace('--gluck-', '')}</b><span>${hex(v)}</span><span>on white ${onWhite ? onWhite.toFixed(2) : '–'}:1</span></div></div>`;
+    }).join('');
+  });
+
+  /* ---------------- semantic lists + contrast table (re-render on theme change) ---------------- */
+  const SEM = ['--color-bg-page', '--color-bg-surface', '--color-bg-subtle', '--color-bg-inverse', '--color-text-primary', '--color-text-secondary', '--color-text-tertiary', '--color-text-link', '--color-border-default', '--color-border-input', '--color-focus-ring', '--color-action-primary', '--color-action-primary-hover', '--color-action-selected-bg', '--color-status-success-text', '--color-status-danger-bg'];
+  const PAIRS = [
+    ['--color-text-primary', '--color-bg-page', '본문 · 4.5', 4.5],
+    ['--color-text-secondary', '--color-bg-page', '보조 본문 · 4.5', 4.5],
+    ['--color-text-tertiary', '--color-bg-page', '캡션·헬퍼 · 4.5', 4.5],
+    ['--color-text-link', '--color-bg-page', '링크 · 4.5', 4.5],
+    ['--color-text-on-brand', '--color-action-primary', 'Primary 버튼 라벨 14–16px · 4.5', 4.5],
+    ['--color-text-on-brand', '--color-action-primary-hover', 'Primary hover 라벨 · 4.5', 4.5],
+    ['--color-text-on-inverse', '--color-action-secondary', 'Secondary 버튼 라벨 · 4.5', 4.5],
+    ['--color-action-selected-text', '--color-action-selected-bg', '선택 메뉴·태그 · 4.5', 4.5],
+    ['--color-status-success-text', '--color-status-success-bg', 'success 배지 · 4.5', 4.5],
+    ['--color-status-warning-text', '--color-status-warning-bg', 'warning 배지 · 4.5', 4.5],
+    ['--color-status-danger-text', '--color-status-danger-bg', 'danger 배지 · 4.5', 4.5],
+    ['--color-status-info-text', '--color-status-info-bg', 'info 배지 · 4.5', 4.5],
+    ['--color-text-danger', '--color-bg-page', '에러 메시지 · 4.5', 4.5],
+    ['--color-border-input', '--color-bg-surface', '입력 보더 (비텍스트) · 3', 3],
+    ['--color-focus-ring', '--color-bg-page', '포커스 링 (비텍스트) · 3', 3],
+    ['--color-text-disabled', '--color-bg-page', '비활성 텍스트 (WCAG 예외·참고)', 0],
+  ];
+  const scopes = { page: document.body, dark: $('[data-semantic-list][data-scope="dark"]').parentElement, admin: $('[data-semantic-list][data-scope="admin"]').parentElement };
+  function renderTokens() {
+    Object.entries(scopes).forEach(([k, el]) => {
+      const list = $('[data-semantic-list][data-scope="' + k + '"]');
+      list.innerHTML = SEM.map(t => { const v = resolve(t, el); return `<div class="ds-sem-row"><i style="background:${v}"></i><b>${t.replace('--color-', '')}</b><span>${hex(v)}</span></div>`; }).join('');
+    });
+    const tb = $('#contrastTable tbody');
+    tb.innerHTML = PAIRS.map(([fg, bg, use, min]) => {
+      const cells = ['page', 'dark', 'admin'].map(k => {
+        const el = scopes[k]; const page = resolve('--color-bg-page', el);
+        const r = ratio(resolve(fg, el), resolve(bg, el), page); if (r == null) return '<td>–</td>';
+        const pass = min ? r >= min : null;
+        const badge = pass === null ? '<span class="gluck-badge">참고</span>' : pass ? '<span class="gluck-badge gluck-badge--success">PASS</span>' : '<span class="gluck-badge gluck-badge--danger">FAIL</span>';
+        return `<td><span class="ratio">${r.toFixed(2)}</span> ${badge}</td>`;
+      }).join('');
+      return `<tr><td><code>${fg.replace('--color-', '')}</code> / <code>${bg.replace('--color-', '')}</code></td><td>${use}</td>${cells}</tr>`;
+    }).join('');
+  }
+
+  /* ---------------- spacing scale ---------------- */
+  $('[data-space-scale]').innerHTML = ['0', '1', '2', '3', '4', '5', '6', '8', '10', '12', '16', '20', '24', '32'].map(n => {
+    const v = getComputedStyle(root).getPropertyValue('--space-' + n).trim();
+    return `<div class="ds-space-row"><b>--space-${n}</b><span>${v || '0'}</span><i style="width: var(--space-${n}); min-width: 2px"></i></div>`;
+  }).join('');
+
+  /* ---------------- icon grid ---------------- */
+  const iconGrid = $('[data-icon-grid]');
+  iconGrid.innerHTML = $$('symbol[id^="i-"]').map(s => { const n = s.id.slice(2); return `<div><svg class="gluck-icon gluck-icon--lg" role="img" aria-label="${n}"><use href="#${s.id}"/></svg>${n}</div>`; }).join('');
+
+  /* ---------------- button matrix ---------------- */
+  const VARIANTS = [['primary', '바로 견적 요청'], ['secondary', '문의하기'], ['tertiary', '회원가입'], ['outline', '제조사례'], ['ghost', '로그인'], ['danger', '삭제'], ['link', '더보기']];
+  $('[data-btn-matrix]').innerHTML = VARIANTS.map(([v, l]) => {
+    const b = (attrs = '') => `<button class="gluck-btn gluck-btn--${v} gluck-btn--sm" ${attrs}>${l}</button>`;
+    return `<tr><td>${v}</td><td>${b()}</td><td>${b('data-state="hover"')}</td><td>${b('data-state="focus"')}</td><td>${b('data-state="active"')}</td><td>${b('disabled')}</td><td>${b('data-loading="true"')}</td></tr>`;
+  }).join('');
+
+  /* ---------------- indeterminate demo ---------------- */
+  const ind = $('#indet'); if (ind) ind.indeterminate = true;
+
+  /* ---------------- tag toggle · tabs · pills ---------------- */
+  document.addEventListener('click', e => {
+    const tag = e.target.closest('[data-tag-toggle] .gluck-tag'); if (tag && !tag.disabled) { tag.setAttribute('aria-pressed', tag.getAttribute('aria-pressed') !== 'true'); }
+    const tab = e.target.closest('[data-tabs] [role="tab"]'); if (tab) { $$('[role="tab"]', tab.parentElement).forEach(t => t.setAttribute('aria-selected', String(t === tab))); }
+    const pill = e.target.closest('.gluck-pill'); if (pill) { $$('.gluck-pill', pill.parentElement).forEach(p => p.setAttribute('aria-pressed', String(p === pill))); }
+    const rm = e.target.closest('.gluck-tag__remove'); if (rm) { rm.closest('.gluck-tag').remove(); }
+  });
+
+  /* ---------------- header drawer demo ---------------- */
+  const dh = $('#demoHeader'); const dt = $('.gluck-header__toggle', dh);
+  dt.addEventListener('click', () => { const o = dh.classList.toggle('is-open'); dt.setAttribute('aria-expanded', String(o)); dt.setAttribute('aria-label', o ? '메뉴 닫기' : '메뉴 열기'); });
+
+  /* ---------------- toast ---------------- */
+  const region = $('#toastRegion'); const ICON = { success: 'circle-check', info: 'info', warning: 'triangle-alert', danger: 'circle-alert' };
+  const TITLE = { success: '저장되었습니다', info: '안내', warning: '확인이 필요합니다', danger: '실패했습니다' };
+  const MSG = { success: '견적 Q-2026-0918-031이 발송 대기로 이동했습니다.', info: '새 견적 요청 2건이 접수되었습니다.', warning: '유효기간이 2일 남은 견적이 있습니다.', danger: '서버 오류로 발송하지 못했습니다. 다시 시도하세요.' };
+  function toast(status, title, msg) {
+    const el = document.createElement('div');
+    el.className = 'gluck-toast gluck-toast--' + status; el.setAttribute('role', status === 'danger' ? 'alert' : 'status');
+    el.innerHTML = `<svg class="gluck-icon" aria-hidden="true"><use href="#i-${ICON[status]}"/></svg><div><div class="gluck-toast__title">${title || TITLE[status]}</div><div class="gluck-toast__msg">${msg || MSG[status]}</div></div><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs gluck-toast__close" aria-label="닫기"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button>`;
+    el.querySelector('button').addEventListener('click', () => el.remove());
+    region.appendChild(el);
+    if (status !== 'danger') setTimeout(() => el.remove(), 4000);
+    while (region.children.length > 3) region.firstChild.remove();
+  }
+  document.addEventListener('click', e => { const b = e.target.closest('[data-toast]'); if (b) toast(b.dataset.toast, null, b.dataset.toastMsg || null); });
+
+  /* ---------------- modal ---------------- */
+  document.addEventListener('click', e => {
+    const o = e.target.closest('[data-modal]'); if (o) { const d = document.getElementById(o.dataset.modal); if (d && !d.open) d.showModal(); }
+    const c = e.target.closest('[data-close]'); if (c) { c.closest('dialog').close(); }
+  });
+  $$('dialog.gluck-modal').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
+
+  /* ---------------- quote form validation ---------------- */
+  const form = $('#quoteForm');
+  form.addEventListener('submit', e => {
+    e.preventDefault(); let firstBad = null;
+    $$('[required]', form).forEach(inp => {
+      const field = inp.closest('.gluck-field'); let bad = !inp.value || (inp.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(inp.value)) || (inp.type === 'checkbox' && !inp.checked);
+      if (field) { field.classList.toggle('is-invalid', bad); inp.setAttribute('aria-invalid', String(bad)); const err = $('.gluck-error', field); if (err) inp.setAttribute('aria-describedby', err.id); }
+      if (bad && !firstBad) firstBad = inp;
+    });
+    if (firstBad) { firstBad.focus(); toast('danger', '입력을 확인하세요', '필수 항목이 비어 있거나 형식이 올바르지 않습니다.'); return; }
+    const btn = $('#quoteSubmit'); btn.dataset.loading = 'true';
+    setTimeout(() => { delete btn.dataset.loading; toast('success', '견적 요청 접수', '영업일 1일 내 담당자가 회신합니다.'); }, 1200);
+  });
+  form.addEventListener('input', e => { const f = e.target.closest('.gluck-field.is-invalid'); if (f && e.target.value) { f.classList.remove('is-invalid'); e.target.setAttribute('aria-invalid', 'false'); } });
+
+  /* ---------------- data table ---------------- */
+  const ROWS = [
+    { id: 'Q-2026-0918-031', company: '(주)에이치모빌리티', item: '내장 브라켓 20종 · 200ea', proc: ['SLA', '도색', '조립'], status: ['info', 'SQL 진행 중'], amount: 11780000, date: '2026-09-18' },
+    { id: 'Q-2026-0918-030', company: '메디텍바이오', item: '하우징 · 1,200ea', proc: ['SLA', 'UV'], status: ['warning', '팔로업 필요'], amount: 48200000, date: '2026-09-18' },
+    { id: 'Q-2026-0917-028', company: '스튜디오 감각', item: '전시 조형물 · 3ea', proc: ['SLA', '사상', '도색'], status: ['success', 'Deal 성사'], amount: 9600000, date: '2026-09-17' },
+    { id: 'Q-2026-0917-027', company: '로보틱스랩', item: '그리퍼 핑거 · 60ea', proc: ['SLA'], status: ['neutral', '보류'], amount: 2340000, date: '2026-09-17' },
+    { id: 'Q-2026-0916-025', company: '(주)에이치모빌리티', item: '커넥터 커버 · 500ea', proc: ['SLA', '도색'], status: ['danger', 'LOSS'], amount: 7150000, date: '2026-09-16' },
+    { id: 'Q-2026-0916-024', company: '브랜드굿즈컴퍼니', item: '피규어 · 2,000ea', proc: ['SLA', '도색', '패키징'], status: ['info', 'SQL 진행 중'], amount: 63000000, date: '2026-09-16' },
+    { id: 'Q-2026-0915-021', company: '문화재연구소', item: '복원 파트 · 12ea', proc: ['SLA', '사상'], status: ['success', '발송 완료'], amount: 4120000, date: '2026-09-15' },
+    { id: 'Q-2026-0915-019', company: 'IoT센서웍스', item: '센서 하우징 · 300ea', proc: ['SLA', 'UV', '조립'], status: ['warning', '검토 대기'], amount: 8900000, date: '2026-09-15' },
+  ];
+  let sortKey = 'date', sortDir = -1, state = 'data';
+  const body = $('#tblBody'), chkAll = $('#chkAll'), bulk = $('#bulkBar'), bulkCount = $('#bulkCount');
+  const won = n => '₩' + n.toLocaleString('ko-KR');
+  function renderTable() {
+    if (state === 'loading') { body.innerHTML = Array.from({ length: 5 }, () => `<tr>${'<td><span class="gluck-skeleton gluck-skeleton--text"></span></td>'.repeat(9)}</tr>`).join(''); return; }
+    if (state === 'empty') { body.innerHTML = `<tr class="is-empty"><td colspan="9"><div class="gluck-empty gluck-empty--compact"><svg class="gluck-icon gluck-icon--lg" aria-hidden="true"><use href="#i-inbox"/></svg><div class="gluck-empty__title" style="font: var(--font-body-sm); font-weight: 600">조건에 맞는 견적이 없습니다</div><p class="gluck-empty__desc">기간이나 상태 필터를 조정해 보세요.</p><button class="gluck-btn gluck-btn--outline gluck-btn--sm">필터 초기화</button></div></td></tr>`; return; }
+    const rows = [...ROWS].sort((a, b) => (a[sortKey] > b[sortKey] ? 1 : a[sortKey] < b[sortKey] ? -1 : 0) * sortDir);
+    body.innerHTML = rows.map(r => `<tr data-id="${r.id}"><td class="col-check"><label class="gluck-check"><input type="checkbox" aria-label="${r.id} 선택"></label></td><td class="is-primary t-num">${r.id}</td><td>${r.company}</td><td>${r.item}</td><td><div class="gluck-row" style="--row-gap:4px">${r.proc.map(p => `<span class="gluck-tag gluck-tag--capability" style="height:22px;padding:0 6px;font-size:11px">${p}</span>`).join('')}</div></td><td><span class="gluck-badge gluck-badge--${r.status[0]}">${r.status[1]}</span></td><td class="is-num is-primary">${won(r.amount)}</td><td class="t-num">${r.date}</td><td class="col-actions"><details class="gluck-menu"><summary class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="${r.id} 액션"><svg class="gluck-icon" aria-hidden="true"><use href="#i-ellipsis"/></svg></summary><ul class="gluck-menu__list gluck-menu__list--right" role="menu"><li><button role="menuitem"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-eye"/></svg> 상세</button></li><li><button role="menuitem"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-pencil"/></svg> 수정</button></li><li><hr></li><li><button role="menuitem" class="is-danger" data-modal="modalDelete"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-trash-2"/></svg> 삭제</button></li></ul></details></td></tr>`).join('');
+    syncSelection();
+  }
+  function syncSelection() {
+    const boxes = $$('tbody input[type="checkbox"]', $('#quoteTable')); const n = boxes.filter(b => b.checked).length;
+    boxes.forEach(b => b.closest('tr').setAttribute('aria-selected', String(b.checked)));
+    chkAll.checked = n > 0 && n === boxes.length; chkAll.indeterminate = n > 0 && n < boxes.length;
+    bulk.classList.toggle('is-visible', n > 0); bulkCount.textContent = n;
+  }
+  chkAll.addEventListener('change', () => { $$('tbody input[type="checkbox"]', $('#quoteTable')).forEach(b => b.checked = chkAll.checked); syncSelection(); });
+  body.addEventListener('change', e => { if (e.target.type === 'checkbox') syncSelection(); });
+  $$('#quoteTable th[aria-sort]').forEach(th => th.querySelector('button').addEventListener('click', () => {
+    const k = th.dataset.key; if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = 1; }
+    $$('#quoteTable th[aria-sort]').forEach(t => t.setAttribute('aria-sort', t === th ? (sortDir === 1 ? 'ascending' : 'descending') : 'none'));
+    renderTable();
+  }));
+  $$('[data-density-ctl] button').forEach(b => b.addEventListener('click', () => {
+    $$('[data-density-ctl] button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    $$('[data-density]').forEach(w => w.dataset.density = b.dataset.d);
+  }));
+  $$('[data-tbl-state]').forEach(b => b.addEventListener('click', () => { state = b.dataset.tblState; renderTable(); cloneAdminTable(); }));
+  renderTable();
+
+  /* admin shell: 같은 테이블 마크업을 복제해 admin 테마 안에서 렌더 (컴포넌트 한 벌 증명) */
+  function cloneAdminTable() {
+    const src = $('#quoteTable'), dst = $('[data-clone-of="quoteTable"]');
+    dst.querySelector('thead').innerHTML = src.querySelector('thead').innerHTML;
+    dst.querySelector('tbody').innerHTML = src.querySelector('tbody').innerHTML;
+    $$('[id]', dst).forEach(el => el.removeAttribute('id'));
+  }
+  cloneAdminTable();
+
+  /* ---------------- initial theme (모든 렌더 함수 정의 후) ---------------- */
+  let saved = null; try { saved = localStorage.getItem('gluck-theme'); } catch (e) {}
+  applyTheme(saved === 'dark' ? 'dark' : 'light');
+
+  const shell = $('#shell'), shellToggle = $('#shellToggle');
+  shellToggle.addEventListener('click', () => {
+    if (window.matchMedia('(max-width: 1023px)').matches) { const o = shell.classList.toggle('is-drawer-open'); shellToggle.setAttribute('aria-expanded', String(o)); return; }
+    const c = shell.classList.toggle('is-collapsed'); shellToggle.setAttribute('aria-expanded', String(!c)); shellToggle.setAttribute('aria-label', c ? '사이드바 펼치기' : '사이드바 접기');
+  });
+})();
+</script>
+</body>
+</html>

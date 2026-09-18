@@ -1,0 +1,373 @@
+/* ==========================================================================
+   GLUCK Design Tokens · v2.0.0-preview
+   GENERATED from tokens/gluck.tokens.json — 이 파일을 직접 수정하지 마세요.
+   --------------------------------------------------------------------------
+   계층
+     1) PRIMITIVE  --gluck-*      원시 값. 컴포넌트에서 직접 참조 금지.
+     2) SEMANTIC   --color-*, --font-*, --space-*, --radius-*, --shadow-*,
+                   --z-*, --duration-*, --ease-*, --container-*, --size-*
+                   → 컴포넌트·제품은 이 계층만 사용.
+     3) THEME      [data-theme="dark"] / [data-theme="admin"]
+                   시맨틱 값만 재바인딩. 원시 값은 바뀌지 않음.
+   소비: <link rel="stylesheet" href=".../dist/gluck-tokens.css">
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ------------------------------------------------------------------
+     1. PRIMITIVE
+     ------------------------------------------------------------------ */
+
+  /* Brand Blue — 키 컬러 #0059FF (CI 보드) + 파생 4종 (2026.08 확정) */
+  --gluck-blue-100: #D7E1F4;   /* 배경 전용. 텍스트 금지 */
+  --gluck-blue-200: #7AA5FF;   /* Draft · 다크 배경 위 강조 텍스트 (BRC v1.1.1 값) */
+  --gluck-blue-300: #4585FF;   /* Draft · 다크 배경 위 텍스트 블루 (BRC v1.1.1 값) */
+  --gluck-blue-400: #337AFF;   /* tone-up · focus ring · 대비 3.91 → 텍스트 금지 */
+  --gluck-blue-500: #1A6AFF;   /* soft · 약한 Primary · 대비 4.62 */
+  --gluck-blue-600: #0059FF;   /* ★ KEY · 대비 5.42 */
+  --gluck-blue-700: #0047CC;   /* tone-down · hover/pressed · 대비 7.57 */
+  --gluck-blue-50:  #EAF3FE;   /* info 배경 (DESIGN-ADMIN 값 승격) */
+  --gluck-blue-150: #C9DEFB;   /* info 보더 (DESIGN-ADMIN 값 승격) */
+
+  /* Gray — 2026.08 브랜드 확정 6단계 */
+  --gluck-gray-50:  #F6F7F9;
+  --gluck-gray-100: #E6E8EC;
+  --gluck-gray-300: #B3B8C2;   /* 대비 1.99 → 텍스트 금지. 보더·비활성 전용 */
+  --gluck-gray-400: #8A9099;   /* Draft · 입력 보더 전용 (비텍스트 대비 3.2:1 확보) */
+  --gluck-gray-500: #6B7280;   /* 대비 4.83 · 3차 텍스트 하한 */
+  --gluck-gray-700: #2D3139;
+  --gluck-gray-900: #1A1D24;
+  --gluck-white:    #FFFFFF;
+  --gluck-black:    #000000;
+
+  /* Dark Surface — Draft (브랜드 리소스 센터 v1.1.1 다크 모드 값 채택, 브랜드 확정 필요) */
+  --gluck-dark-950: #0F1115;   /* 페이지 배경 */
+  --gluck-dark-900: #171A20;   /* 서피스 */
+  --gluck-dark-800: #1D2129;   /* 서피스 2 / sunken */
+  --gluck-dark-700: #262B33;   /* 보더 */
+  --gluck-dark-600: #3A404B;   /* 강조 보더 */
+  --gluck-dark-300: #9AA1AD;   /* 보조 텍스트 (대비 7.4 on 950) */
+  --gluck-dark-100: #C5CAD3;   /* 2차 텍스트 */
+  --gluck-dark-50:  #F2F4F8;   /* 1차 텍스트 */
+
+  /* Status — success / warning / danger (DESIGN-ADMIN v1.1 값 승격, AA 검증) */
+  --gluck-green-700: #15803D;  --gluck-green-200: #C6E6D1;  --gluck-green-100: #EAF6EE;
+  --gluck-amber-700: #B45309;  --gluck-amber-200: #F3DFB8;  --gluck-amber-100: #FDF4E3;
+  --gluck-red-800:   #991B1B;  --gluck-red-700:   #B91C1C;  --gluck-red-200: #F5C6C6;  --gluck-red-100: #FDEDED;
+
+  /* Third-party brand (소셜 로그인 전용 — 허용 목록) */
+  --gluck-3p-google: #4285F4;
+  --gluck-3p-naver:  #03C75A;
+  --gluck-3p-kakao:  #FEE500;
+
+  /* ------------------------------------------------------------------
+     2. SEMANTIC · Color
+     ------------------------------------------------------------------ */
+
+  /* Surface */
+  --color-bg-page:         var(--gluck-white);
+  --color-bg-subtle:       var(--gluck-gray-50);
+  --color-bg-surface:      var(--gluck-white);
+  --color-bg-sunken:       var(--gluck-gray-50);
+  --color-bg-inverse:      var(--gluck-gray-900);
+  --color-bg-brand:        var(--gluck-blue-600);
+  --color-bg-brand-subtle: var(--gluck-blue-100);
+  --color-bg-overlay:      rgba(26, 29, 36, 0.56);
+
+  /* Text */
+  --color-text-primary:     var(--gluck-gray-900);
+  --color-text-secondary:   var(--gluck-gray-700);
+  --color-text-tertiary:    var(--gluck-gray-500);   /* v1.1의 #B3B8C2(1.99:1) 매핑을 폐기 */
+  --color-text-disabled:    var(--gluck-gray-300);
+  --color-text-placeholder: var(--gluck-gray-500);
+  --color-text-brand:       var(--gluck-blue-600);
+  --color-text-link:        var(--gluck-blue-600);
+  --color-text-link-hover:  var(--gluck-blue-700);
+  --color-text-on-brand:    var(--gluck-white);
+  --color-text-on-inverse:  var(--gluck-white);
+  --color-text-danger:      var(--gluck-red-700);
+
+  /* Border */
+  --color-border-default: var(--gluck-gray-100);
+  --color-border-strong:  var(--gluck-gray-300);
+  --color-border-input:   var(--gluck-gray-400);
+  --color-border-focus:   var(--gluck-blue-600);
+  --color-focus-ring:     var(--gluck-blue-400);
+
+  /* Action */
+  --color-action-primary:          var(--gluck-blue-600);
+  --color-action-primary-hover:    var(--gluck-blue-700);   /* v1.1 hover #337AFF(3.91)는 14–16px 라벨 AA 미달 → tone-down으로 */
+  --color-action-primary-active:   var(--gluck-blue-700);
+  --color-action-secondary:        var(--gluck-gray-700);
+  --color-action-secondary-hover:  var(--gluck-gray-900);
+  --color-action-tertiary:         var(--gluck-gray-50);
+  --color-action-tertiary-hover:   var(--gluck-blue-100);
+  --color-action-danger:           var(--gluck-red-700);
+  --color-action-danger-hover:     var(--gluck-red-800);
+  --color-action-disabled-bg:      var(--gluck-gray-100);
+  --color-action-disabled-text:    var(--gluck-gray-500);
+  --color-action-selected-bg:      var(--gluck-blue-100);
+  --color-action-selected-text:    var(--gluck-blue-700);
+
+  /* Status (text / bg / border 3조 × 5) */
+  --color-status-success-text:   var(--gluck-green-700);
+  --color-status-success-bg:     var(--gluck-green-100);
+  --color-status-success-border: var(--gluck-green-200);
+  --color-status-warning-text:   var(--gluck-amber-700);
+  --color-status-warning-bg:     var(--gluck-amber-100);
+  --color-status-warning-border: var(--gluck-amber-200);
+  --color-status-danger-text:    var(--gluck-red-700);
+  --color-status-danger-bg:      var(--gluck-red-100);
+  --color-status-danger-border:  var(--gluck-red-200);
+  --color-status-info-text:      var(--gluck-blue-700);
+  --color-status-info-bg:        var(--gluck-blue-50);
+  --color-status-info-border:    var(--gluck-blue-150);
+  --color-status-neutral-text:   var(--gluck-gray-500);
+  --color-status-neutral-bg:     var(--gluck-gray-50);
+  --color-status-neutral-border: var(--gluck-gray-100);
+
+  /* ------------------------------------------------------------------
+     2. SEMANTIC · Typography (SUIT 단일 패밀리 — 2026.08 확정)
+     ------------------------------------------------------------------ */
+  --font-sans: 'SUIT Variable', 'SUIT', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-mono: var(--font-sans);   /* @deprecated JetBrains Mono 중단(2026.08). 숫자는 .t-num 사용 */
+
+  --font-weight-regular:   400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+  --font-weight-extrabold: 800;
+
+  --font-size-display: 56px;  --line-height-display: 64px;
+  --font-size-h1:      40px;  --line-height-h1:      52px;
+  --font-size-h2:      32px;  --line-height-h2:      42px;
+  --font-size-h3:      24px;  --line-height-h3:      32px;
+  --font-size-h4:      20px;  --line-height-h4:      28px;
+  --font-size-body-lg: 18px;  --line-height-body-lg: 28px;
+  --font-size-body:    16px;  --line-height-body:    26px;
+  --font-size-body-sm: 14px;  --line-height-body-sm: 22px;
+  --font-size-caption: 13px;  --line-height-caption: 20px;
+  --font-size-label:   12px;  --line-height-label:   16px;
+
+  --font-display: var(--font-weight-extrabold) var(--font-size-display)/var(--line-height-display) var(--font-sans);
+  --font-h1:      var(--font-weight-bold)      var(--font-size-h1)/var(--line-height-h1)           var(--font-sans);
+  --font-h2:      var(--font-weight-bold)      var(--font-size-h2)/var(--line-height-h2)           var(--font-sans);
+  --font-h3:      var(--font-weight-semibold)  var(--font-size-h3)/var(--line-height-h3)           var(--font-sans);
+  --font-h4:      var(--font-weight-semibold)  var(--font-size-h4)/var(--line-height-h4)           var(--font-sans);
+  --font-body-lg: var(--font-weight-medium)    var(--font-size-body-lg)/var(--line-height-body-lg) var(--font-sans);
+  --font-body:    var(--font-weight-regular)   var(--font-size-body)/var(--line-height-body)       var(--font-sans);
+  --font-body-sm: var(--font-weight-regular)   var(--font-size-body-sm)/var(--line-height-body-sm) var(--font-sans);
+  --font-caption: var(--font-weight-medium)    var(--font-size-caption)/var(--line-height-caption) var(--font-sans);
+  --font-label:   var(--font-weight-semibold)  var(--font-size-label)/var(--line-height-label)     var(--font-sans);
+  --font-button:  var(--font-weight-semibold)  14px/20px var(--font-sans);
+  --font-button-lg: var(--font-weight-semibold) 16px/20px var(--font-sans);
+
+  /* ------------------------------------------------------------------
+     2. SEMANTIC · Spacing (4px base)
+     ------------------------------------------------------------------ */
+  --space-0: 0;      --space-1: 4px;    --space-2: 8px;    --space-3: 12px;
+  --space-4: 16px;   --space-5: 20px;   --space-6: 24px;   --space-8: 32px;
+  --space-10: 40px;  --space-12: 48px;  --space-16: 64px;  --space-20: 80px;
+  --space-24: 96px;  --space-32: 128px;
+  --space-1-5: 6px;  --space-2-5: 10px; --space-3-5: 14px;   /* 반단계 — 컴팩트 컨트롤 내부 전용 */
+
+  /* Radius */
+  --radius-xs: 4px;   --radius-sm: 6px;   --radius-md: 8px;   --radius-lg: 12px;
+  --radius-xl: 16px;  --radius-pill: 999px;  --radius-circle: 50%;
+
+  /* Border */
+  --border-width: 1px;
+  --border-width-strong: 1.5px;
+
+  /* Elevation */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.12);
+
+  /* Z-index */
+  --z-base: 0;      --z-raised: 10;     --z-sticky: 100;   --z-dropdown: 200;
+  --z-overlay: 300; --z-modal: 400;     --z-toast: 500;    --z-tooltip: 600;
+
+  /* Motion */
+  --duration-fast:   100ms;   /* hover 색 변화 */
+  --duration-base:   150ms;   /* 버튼·입력 상태 */
+  --duration-slow:   250ms;   /* 드로어·모달·툴팁 */
+  --duration-reveal: 600ms;   /* 스크롤 리빌 */
+  --ease-standard: cubic-bezier(.22, .61, .36, 1);
+  --ease-in:       cubic-bezier(.4, 0, 1, 1);
+  --ease-out:      cubic-bezier(0, 0, .2, 1);
+
+  /* Layout */
+  --container-xl: 1200px;   /* Desktop ≥1280 · 12col */
+  --container-lg: 720px;    /* Tablet 768–1279 · 8col */
+  --gutter: 24px;
+  --grid-gap: 24px;
+  --section-y: 96px;
+  --hero-y: 120px;
+  --topbar-h: 64px;
+  --sidebar-w: 240px;
+  --sidebar-w-collapsed: 64px;
+
+  /* Breakpoints — 참조값 (@media 안에서는 var() 사용 불가 → 빌드 시 리터럴로 치환) */
+  --bp-sm: 480px;  --bp-md: 768px;  --bp-lg: 1024px;  --bp-xl: 1280px;
+
+  /* Component sizes */
+  --size-control-xs: 28px;
+  --size-control-sm: 36px;
+  --size-control-md: 44px;
+  --size-control-lg: 56px;
+  --size-touch-min:  44px;
+  --size-icon-sm: 16px;  --size-icon-md: 20px;  --size-icon-lg: 24px;  --size-icon-xl: 32px;
+
+  /* Table density (관리자) */
+  --table-row-h: 48px;
+  --table-cell-x: 16px;
+}
+
+/* Mobile (<768) 반응형 토큰 재바인딩 */
+@media (max-width: 767px) {
+  :root {
+    --font-size-display: 40px;  --line-height-display: 48px;
+    --font-size-h1: 32px;       --line-height-h1: 42px;
+    --font-size-h2: 26px;       --line-height-h2: 34px;
+    --font-size-h3: 22px;       --line-height-h3: 30px;
+    --gutter: 16px;
+    --grid-gap: 16px;
+    --section-y: 64px;
+    --hero-y: 64px;
+    --topbar-h: 56px;
+  }
+}
+
+/* ==========================================================================
+   3. THEME · Dark  — 시맨틱만 재바인딩. 서브트리에도 적용 가능 (<div data-theme="dark">)
+   ========================================================================== */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg-page:         var(--gluck-dark-950);
+  --color-bg-subtle:       var(--gluck-dark-800);
+  --color-bg-surface:      var(--gluck-dark-900);
+  --color-bg-sunken:       var(--gluck-dark-800);
+  --color-bg-inverse:      var(--gluck-gray-50);
+  --color-bg-brand:        var(--gluck-blue-600);
+  --color-bg-brand-subtle: rgba(51, 122, 255, .16);
+  --color-bg-overlay:      rgba(0, 0, 0, .64);
+
+  --color-text-primary:     var(--gluck-dark-50);
+  --color-text-secondary:   var(--gluck-dark-100);
+  --color-text-tertiary:    var(--gluck-dark-300);
+  --color-text-disabled:    var(--gluck-dark-600);
+  --color-text-placeholder: var(--gluck-dark-300);
+  --color-text-brand:       var(--gluck-blue-300);
+  --color-text-link:        var(--gluck-blue-300);
+  --color-text-link-hover:  var(--gluck-blue-200);
+  --color-text-on-inverse:  var(--gluck-gray-900);
+  --color-text-danger:      #F09595;
+
+  --color-border-default: var(--gluck-dark-700);
+  --color-border-strong:  var(--gluck-dark-600);
+  --color-border-input:   var(--gluck-dark-300);
+  --color-border-focus:   var(--gluck-blue-300);
+  --color-focus-ring:     var(--gluck-blue-300);
+
+  --color-action-primary:         var(--gluck-blue-600);
+  --color-action-primary-hover:   var(--gluck-blue-500);
+  --color-action-primary-active:  var(--gluck-blue-700);
+  --color-action-secondary:       var(--gluck-dark-50);
+  --color-action-secondary-hover: var(--gluck-white);
+  --color-action-tertiary:        var(--gluck-dark-800);
+  --color-action-tertiary-hover:  rgba(51, 122, 255, .16);
+  --color-action-disabled-bg:     var(--gluck-dark-800);
+  --color-action-disabled-text:   var(--gluck-dark-600);
+  --color-action-selected-bg:     rgba(51, 122, 255, .16);
+  --color-action-selected-text:   var(--gluck-blue-200);
+
+  --color-status-success-text:   #6FCF97;  --color-status-success-bg: rgba(21,128,61,.18);  --color-status-success-border: rgba(21,128,61,.4);
+  --color-status-warning-text:   #F5B759;  --color-status-warning-bg: rgba(180,83,9,.18);   --color-status-warning-border: rgba(180,83,9,.4);
+  --color-status-danger-text:    #F09595;  --color-status-danger-bg:  rgba(185,28,28,.18);  --color-status-danger-border:  rgba(185,28,28,.4);
+  --color-status-info-text:      var(--gluck-blue-200);  --color-status-info-bg: rgba(51,122,255,.16);  --color-status-info-border: rgba(51,122,255,.4);
+  --color-status-neutral-text:   var(--gluck-dark-300);  --color-status-neutral-bg: var(--gluck-dark-800);  --color-status-neutral-border: var(--gluck-dark-700);
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.5);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.6);
+}
+
+/* OS 다크 선호 시 자동 적용 — 단, 페이지가 light/admin을 명시하면 존중 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="admin"]) {
+    color-scheme: dark;
+    --color-bg-page:         var(--gluck-dark-950);
+    --color-bg-subtle:       var(--gluck-dark-800);
+    --color-bg-surface:      var(--gluck-dark-900);
+    --color-bg-sunken:       var(--gluck-dark-800);
+    --color-bg-inverse:      var(--gluck-gray-50);
+    --color-bg-brand-subtle: rgba(51, 122, 255, .16);
+    --color-bg-overlay:      rgba(0, 0, 0, .64);
+    --color-text-primary:     var(--gluck-dark-50);
+    --color-text-secondary:   var(--gluck-dark-100);
+    --color-text-tertiary:    var(--gluck-dark-300);
+    --color-text-disabled:    var(--gluck-dark-600);
+    --color-text-placeholder: var(--gluck-dark-300);
+    --color-text-brand:       var(--gluck-blue-300);
+    --color-text-link:        var(--gluck-blue-300);
+    --color-text-link-hover:  var(--gluck-blue-200);
+    --color-text-on-inverse:  var(--gluck-gray-900);
+    --color-text-danger:      #F09595;
+    --color-border-default: var(--gluck-dark-700);
+    --color-border-strong:  var(--gluck-dark-600);
+    --color-border-input:   var(--gluck-dark-300);
+    --color-border-focus:   var(--gluck-blue-300);
+    --color-focus-ring:     var(--gluck-blue-300);
+    --color-action-primary-hover:   var(--gluck-blue-500);
+    --color-action-secondary:       var(--gluck-dark-50);
+    --color-action-secondary-hover: var(--gluck-white);
+    --color-action-tertiary:        var(--gluck-dark-800);
+    --color-action-tertiary-hover:  rgba(51, 122, 255, .16);
+    --color-action-disabled-bg:     var(--gluck-dark-800);
+    --color-action-disabled-text:   var(--gluck-dark-600);
+    --color-action-selected-bg:     rgba(51, 122, 255, .16);
+    --color-action-selected-text:   var(--gluck-blue-200);
+    --color-status-success-text: #6FCF97; --color-status-success-bg: rgba(21,128,61,.18); --color-status-success-border: rgba(21,128,61,.4);
+    --color-status-warning-text: #F5B759; --color-status-warning-bg: rgba(180,83,9,.18);  --color-status-warning-border: rgba(180,83,9,.4);
+    --color-status-danger-text:  #F09595; --color-status-danger-bg:  rgba(185,28,28,.18); --color-status-danger-border:  rgba(185,28,28,.4);
+    --color-status-info-text: var(--gluck-blue-200); --color-status-info-bg: rgba(51,122,255,.16); --color-status-info-border: rgba(51,122,255,.4);
+    --color-status-neutral-text: var(--gluck-dark-300); --color-status-neutral-bg: var(--gluck-dark-800); --color-status-neutral-border: var(--gluck-dark-700);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+    --shadow-md: 0 4px 12px rgba(0,0,0,.5);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,.6);
+  }
+}
+
+/* ==========================================================================
+   3. THEME · Admin (Madmin · Hermes OS · 내부 운영 툴)
+   별도 컴포넌트(.adm-*)가 아니라 시맨틱 재바인딩으로 구현 → 컴포넌트는 한 벌.
+   ADR-002 · Admin Primary: 브랜드 파생 #0047CC(7.57:1) 채택. (대안 #3182F6은 3.71:1로 AA 미달)
+   ========================================================================== */
+[data-theme="admin"] {
+  color-scheme: light;
+  --color-bg-page:      #F7F8FA;                 /* Draft · 카드 대비용 앱 배경 */
+  --color-bg-subtle:    #F1F3F6;                 /* Draft · 필터바·테이블 헤더 */
+  --color-bg-surface:   var(--gluck-white);
+  --color-bg-sunken:    #F1F3F6;
+  --color-text-secondary: #5B6472;               /* Draft · 셀 텍스트 (5.98:1) */
+  --color-text-tertiary:  var(--gluck-gray-500); /* v1.1 #8B93A1(3.09:1) 폐기 */
+  --color-border-default: #E4E7EC;               /* Draft */
+  --color-border-strong:  #CDD3DC;               /* Draft */
+  --color-action-primary:        var(--gluck-blue-700);
+  --color-action-primary-hover:  #003DB3;        /* Draft · blue-800 후보 */
+  --color-action-primary-active: #003399;        /* Draft · blue-900 후보 */
+  --color-action-selected-bg:    var(--gluck-blue-50);
+  --color-action-selected-text:  var(--gluck-blue-700);
+  --color-text-link:             var(--gluck-blue-700);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, .05);
+  --table-row-h: 48px;
+}
+
+/* 테이블 밀도 — 테마와 무관하게 컨테이너 단위로 지정 (<div data-density="compact">) */
+[data-density="compact"] { --table-row-h: 40px; --table-cell-x: 12px; }
+[data-density="default"] { --table-row-h: 48px; --table-cell-x: 16px; }
+[data-density="relaxed"] { --table-row-h: 56px; --table-cell-x: 20px; }
