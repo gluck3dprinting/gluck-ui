@@ -68,11 +68,12 @@ body { background: var(--color-bg-page); }
 .ds-table th, .ds-table td { padding: var(--space-2-5) var(--space-3); text-align: left; border-bottom: var(--border-width) solid var(--color-border-default); vertical-align: top; }
 .ds-table th { background: var(--color-bg-sunken); font: var(--font-caption); color: var(--color-text-secondary); }
 .ds-table tr:last-child td { border-bottom: 0; }
+.ds-table code { word-break: break-all; }
 .ds-table code, .ds-inline-code { font: inherit; font-size: 13px; padding: 1px 6px; border-radius: var(--radius-xs); background: var(--color-bg-subtle); color: var(--color-text-primary); border: 1px solid var(--color-border-default); }
 .ds-note { display: flex; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-md); border: var(--border-width) solid var(--color-border-default); background: var(--color-bg-subtle); font: var(--font-body-sm); color: var(--color-text-secondary); margin-top: var(--space-4); }
 .ds-note .gluck-icon { flex: none; color: var(--color-text-brand); margin-top: 2px; }
 .ds-note strong { color: var(--color-text-primary); }
-.ds-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-3); }
+.ds-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--space-3); }
 .ds-swatch { border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-surface); }
 .ds-swatch__chip { height: 72px; position: relative; }
 .ds-swatch__chip .gluck-badge { position: absolute; top: 6px; right: 6px; }
@@ -213,7 +214,7 @@ body { background: var(--color-bg-page); }
   <a class="gluck-logo" href="#top" aria-label="GLUCK 디자인 시스템 홈"><svg viewBox="0 0 407 87" role="img" aria-hidden="true"><use href="#lg-wordmark"/></svg></a>
   <span class="ds-topbar__name">사내 공용 디자인 시스템</span>
   <div class="ds-topbar__meta" aria-label="시스템 메타">
-    <span>VERSION <b>2.0.0-preview</b></span><span>FONT <b>SUIT</b></span><span>KEY <b>#0059FF</b></span><span>THEMES <b>Light · Dark · Admin</b></span>
+    <span>서체 <b>SUIT</b></span><span>키 컬러 <b>#0059FF</b></span><span>테마 <b>라이트 · 다크 · 관리자</b></span>
   </div>
   <div class="ds-topbar__actions">
     <button class="gluck-btn gluck-btn--outline gluck-btn--sm" id="themeToggle" aria-pressed="false" aria-label="다크 모드 전환">
@@ -249,14 +250,13 @@ body { background: var(--color-bg-page); }
     <a href="#admin">관리자 앱 셸 <small>16</small></a>
     <div class="ds-nav__group">Governance</div>
     <a href="#governance">운영 규칙 · 체크리스트 <small>17</small></a>
-    <a href="#changelog">변경 이력 · 로드맵 <small>18</small></a>
   </nav>
 
   <main class="ds-main" id="main">
 
     <!-- ================================================================ HERO -->
     <section class="ds-hero" aria-labelledby="heroTitle">
-      <div class="ds-hero__eyebrow">GLUCK 사내 공용 디자인 시스템 · v2 Preview</div>
+      <div class="ds-hero__eyebrow">GLUCK 사내 공용 디자인 시스템</div>
       <h1 id="heroTitle">우리가 만드는 모든 시스템의<br><span>공통 UI 기준</span>입니다.</h1>
       <p>홈페이지, 견적 시스템, 채용 페이지, 브로슈어, Madmin·Hermes OS처럼 <strong>각자 만들고 있는 시스템에 그대로 가져다 쓰는</strong> GLUCK의 공용 디자인 시스템입니다. 색·글자·간격·버튼·입력창·테이블 같은 UI 값이 <strong>토큰 하나</strong>로 정해져 있어서, CSS 한 줄만 넣으면 어떤 시스템이든 같은 GLUCK 화면이 됩니다.</p>
       <div class="gluck-row" style="margin-top: var(--space-6)"><a class="gluck-btn gluck-btn--primary" href="#start">내 시스템에 적용하기 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a><a class="gluck-btn gluck-btn--outline" href="#buttons">컴포넌트 보기</a><a class="gluck-btn gluck-btn--ghost" href="#color">컬러 토큰</a></div>
@@ -271,39 +271,64 @@ body { background: var(--color-bg-page); }
     <!-- ================================================================ 00 START -->
     <section class="ds-section" id="start" aria-labelledby="h-start">
       <header><div class="ds-section__num">SECTION 00</div><h2 id="h-start">내 시스템에 적용하기</h2>
-        <p>복사해서 붙여 넣지 않습니다. 아래 CSS를 <strong>링크 한 줄</strong>로 가져다 쓰면, 이후 색이나 버튼 규격이 바뀌어도 모든 시스템에 함께 반영됩니다. 값은 <code class="ds-inline-code">tokens/gluck.tokens.json</code> 한 곳에서만 관리합니다.</p></header>
+        <p>디자인 파일을 복사하거나 색 코드를 옮겨 적을 필요가 없습니다. 아래 CSS 주소 <strong>한 줄을 내 시스템에 연결</strong>하면 끝이고, 이후 색이나 버튼 규격이 바뀌어도 모든 시스템에 자동으로 반영됩니다. 개발 지식이 없어도 3단계면 됩니다.</p></header>
 
-      <h3 class="ds-sub">1. 파이프라인 — 값이 흐르는 경로</h3>
-      <div class="ds-pipeline">
-        <div class="is-src"><b>tokens/gluck.tokens.json</b>손으로 편집하는 유일한 값 파일 (W3C DTCG)</div>
-        <div><b>scripts/build-tokens</b><span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">예정</span> JSON → CSS 변수 / Tailwind preset / Figma JSON 생성 (현재 수동 동기화)</div>
-        <div><b>dist/</b>gluck-tokens.css · gluck.css (+ tailwind preset 예정)</div>
-        <div><b>git tag v2.x</b>jsDelivr @tag 로 버전 고정 소비</div>
-        <div><b>제품</b>홈페이지 · 견적 · 채용 · 브로슈어 · Madmin · Hermes</div>
+      <h3 class="ds-sub"><span class="gluck-badge gluck-badge--brand gluck-badge--no-dot">STEP 1</span> 내 시스템의 공통 &lt;head&gt;에 이 한 줄을 붙여 넣기</h3>
+      <p class="ds-p">모든 페이지가 함께 쓰는 HTML 파일(예: <code class="ds-inline-code">index.html</code>, 레이아웃·템플릿 파일)의 <code class="ds-inline-code">&lt;head&gt;</code> 안, 기존 CSS보다 <b>위쪽</b>에 넣습니다. 오른쪽 위 복사 버튼을 누르면 그대로 복사됩니다.</p>
+      <pre class="ds-code"><button class="gluck-btn gluck-btn--xs gluck-btn--ghost ds-code__copy" data-copy aria-label="코드 복사"><svg class="gluck-icon" aria-hidden="true"><use href="#i-copy"/></svg></button>&lt;<span class="k">link</span> rel="stylesheet" href="<span class="s">https://gluck3dprinting.github.io/gluck-ui/dist/gluck.css</span>"&gt;</pre>
+      <div class="ds-demo ds-demo--flush" style="margin-top: var(--space-4)">
+        <table class="ds-table"><thead><tr><th style="width: 30%">내 시스템이…</th><th>어디에 넣나요</th></tr></thead><tbody>
+          <tr><td>순수 HTML 페이지</td><td><code>index.html</code> 등 각 파일의 <code>&lt;head&gt;</code> (공통 헤더 파일이 있으면 거기 한 번만)</td></tr>
+          <tr><td>React · Next.js</td><td><code>app/layout.tsx</code>의 <code>&lt;head&gt;</code> 또는 <code>pages/_document.tsx</code></td></tr>
+          <tr><td>Vue · Nuxt</td><td><code>index.html</code> 또는 <code>nuxt.config</code>의 <code>app.head.link</code></td></tr>
+          <tr><td>워드프레스 · 웹플로 · 노코드 툴</td><td>설정의 "헤더(head) 코드 삽입" 영역에 붙여 넣기</td></tr>
+          <tr><td>관리자 툴 (Madmin · Hermes OS)</td><td>공통 레이아웃 <code>&lt;head&gt;</code> + 아래 "관리자 툴이라면 한 줄 더" 참고</td></tr>
+        </tbody></table>
       </div>
 
-      <h3 class="ds-sub">2. 설치 — 한 줄</h3>
-      <pre class="ds-code"><button class="gluck-btn gluck-btn--xs gluck-btn--ghost ds-code__copy" data-copy aria-label="코드 복사"><svg class="gluck-icon" aria-hidden="true"><use href="#i-copy"/></svg></button><span class="c">&lt;!-- head --&gt;</span>
-&lt;<span class="k">link</span> rel="stylesheet" href="<span class="s">https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0-preview/dist/gluck.css</span>"&gt;
-&lt;<span class="k">meta</span> name="gluck-ds-version" content="<span class="s">2.0.0</span>"&gt;
-&lt;<span class="k">link</span> rel="icon" href="<span class="s">https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0-preview/assets/logo/GLUCK_Favicon.ico</span>"&gt;
+      <h3 class="ds-sub"><span class="gluck-badge gluck-badge--brand gluck-badge--no-dot">STEP 2</span> 화면 요소에 GLUCK 클래스 이름 붙이기</h3>
+      <p class="ds-p">버튼·입력창·배지 같은 요소에 아래처럼 <b>클래스 이름</b>만 붙이면 이 페이지와 똑같은 모양이 됩니다. 어떤 클래스가 있는지는 각 컴포넌트 섹션(08~16)에 있고, 그 이름이 곧 실제 사용하는 이름입니다.</p>
+      <div class="ds-demo-pair">
+        <pre class="ds-code" style="margin: 0"><button class="gluck-btn gluck-btn--xs gluck-btn--ghost ds-code__copy" data-copy aria-label="코드 복사"><svg class="gluck-icon" aria-hidden="true"><use href="#i-copy"/></svg></button>&lt;<span class="k">button</span> class="<span class="s">gluck-btn gluck-btn--primary</span>"&gt;바로 견적 요청&lt;/button&gt;
+&lt;<span class="k">input</span> class="<span class="s">gluck-input</span>" placeholder="회사명"&gt;
+&lt;<span class="k">span</span> class="<span class="s">gluck-badge gluck-badge--success</span>"&gt;Deal 성사&lt;/span&gt;</pre>
+        <div class="ds-demo"><span class="ds-demo__label">결과</span>
+          <div class="gluck-stack" style="--stack-gap: var(--space-3); align-items: flex-start"><button class="gluck-btn gluck-btn--primary">바로 견적 요청</button><input class="gluck-input" placeholder="회사명" aria-label="회사명 예시" style="max-width: 260px"><span class="gluck-badge gluck-badge--success">Deal 성사</span></div>
+        </div>
+      </div>
 
-<span class="c">&lt;!-- 테마: 생략 = 라이트 · OS 다크 자동 존중. 관리자 툴은 admin 고정 --&gt;</span>
-&lt;<span class="k">html</span> lang="ko" data-theme="<span class="s">admin</span>"&gt;
-
-<span class="c">&lt;!-- 토큰만 필요하면 --&gt;</span>
-&lt;<span class="k">link</span> rel="stylesheet" href="<span class="s">…/dist/gluck-tokens.css</span>"&gt;</pre>
-
-      <h3 class="ds-sub">3. 사용 규칙 3가지</h3>
+      <h3 class="ds-sub"><span class="gluck-badge gluck-badge--brand gluck-badge--no-dot">STEP 3</span> 적용됐는지 확인하기</h3>
       <div class="ds-dd">
-        <div class="do"><p class="ds-dd__title"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-check"/></svg> DO</p>
-          <ul><li>색·간격·라디우스는 <b>시맨틱 토큰</b>만: <code>var(--color-text-secondary)</code>, <code>var(--space-4)</code></li>
-          <li>버튼·입력·배지는 <code>.gluck-*</code> 클래스 조립. 유틸리티로 재구현 금지</li>
-          <li>로컬 별칭은 <code>--blue: var(--gluck-blue-600)</code> 형태만 (HEX 직접 기입 금지)</li></ul></div>
-        <div class="dont"><p class="ds-dd__title"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-alert"/></svg> DON'T</p>
-          <ul><li><code>#0059FF</code>, <code>#1E5EFF</code> 같은 HEX 리터럴 — CI 린트에서 실패</li>
-          <li>컴포넌트에서 <code>--gluck-*</code> 원시 토큰 직접 참조 (테마 전환이 깨짐)</li>
-          <li>JetBrains Mono · Pretendard 로드 — 서체는 SUIT 단일 (2026.08 확정)</li></ul></div><!-- lint-ignore: 금지 예시 -->
+        <div class="do"><p class="ds-dd__title"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-check"/></svg> 이렇게 보이면 성공</p>
+          <ul><li>버튼이 GLUCK 블루(#0059FF), 글자가 SUIT 서체</li><li>입력창 테두리가 회색이고 클릭하면 파란 테두리</li><li>브라우저 F12 → Network 탭에 <code>gluck.css</code> 가 <code>200</code></li></ul></div>
+        <div class="dont"><p class="ds-dd__title"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-alert"/></svg> 안 될 때 확인할 것</p>
+          <ul><li>주소 오타 — 위 복사 버튼으로 다시 붙여 넣기</li><li><code>&lt;head&gt;</code> 밖(본문)에 넣음</li><li>내 CSS가 같은 요소를 뒤에서 덮어씀 — 그 요소의 내 스타일을 지우거나 GLUCK 링크를 더 아래로</li></ul></div>
+      </div>
+
+      <h3 class="ds-sub">관리자 툴이라면 한 줄 더</h3>
+      <p class="ds-p">Madmin·Hermes OS처럼 하루 종일 데이터를 다루는 화면은 <code class="ds-inline-code">&lt;html&gt;</code> 태그에 <code class="ds-inline-code">data-theme="admin"</code>을 붙입니다. 회색 앱 배경, 채도 낮은 블루, 밀도 높은 테이블로 바뀝니다. 홈페이지·랜딩은 생략(기본 라이트), 다크를 지원하려면 <code class="ds-inline-code">data-theme="dark"</code>.</p>
+      <pre class="ds-code"><button class="gluck-btn gluck-btn--xs gluck-btn--ghost ds-code__copy" data-copy aria-label="코드 복사"><svg class="gluck-icon" aria-hidden="true"><use href="#i-copy"/></svg></button>&lt;<span class="k">html</span> lang="ko" data-theme="<span class="s">admin</span>"&gt;</pre>
+
+      <h3 class="ds-sub">자주 묻는 질문</h3>
+      <div class="ds-demo ds-demo--flush"><table class="ds-table"><tbody>
+        <tr><td style="width: 30%"><b>기존 디자인이 깨지나요?</b></td><td>아니요. 모든 클래스가 <code>gluck-</code>로 시작해 기존 스타일과 충돌하지 않습니다. 클래스를 붙인 요소만 바뀝니다.</td></tr>
+        <tr><td><b>색만 가져다 쓰고 싶어요</b></td><td><code>https://gluck3dprinting.github.io/gluck-ui/dist/gluck-tokens.css</code> 만 연결하면 <code>var(--color-action-primary)</code> 같은 변수를 내 CSS에서 바로 쓸 수 있습니다. (Section 02)</td></tr>
+        <tr><td><b>버전을 고정하고 싶어요</b></td><td>업데이트를 직접 검토한 뒤 올리고 싶다면 <code>https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0-preview/dist/gluck.css</code> 처럼 태그를 지정합니다.</td></tr>
+        <tr><td><b>파일을 내려받아 써도 되나요?</b></td><td>사내망 등 외부 접근이 안 되는 경우에만. <code>dist/</code> 폴더를 통째로 복사하고 <b>값은 수정하지 않습니다</b>. 업데이트가 자동 반영되지 않으므로 링크 방식을 권장합니다.</td></tr>
+        <tr><td><b>파비콘·로고는?</b></td><td><code>&lt;link rel="icon" href="https://gluck3dprinting.github.io/gluck-ui/assets/logo/GLUCK_Favicon.ico"&gt;</code> · 로고 SVG는 Section 01</td></tr>
+        <tr><td><b>질문·수정 요청</b></td><td><a href="https://github.com/gluck3dprinting/gluck-ui/issues" target="_blank" rel="noopener">GitHub Issues</a> 에 남기면 됩니다. 색·규격 변경은 Section 17 절차로 반영됩니다.</td></tr>
+      </tbody></table></div>
+
+      <h3 class="ds-sub">지켜야 할 규칙 3가지</h3>
+      <div class="ds-dd">
+        <div class="do"><p class="ds-dd__title"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-check"/></svg> 이렇게</p>
+          <ul><li>색·간격은 이름으로 쓰기: <code>var(--color-text-secondary)</code>, <code>var(--space-4)</code></li>
+          <li>버튼·입력·배지는 <code>.gluck-*</code> 클래스 그대로 사용</li>
+          <li>내 변수를 만들 땐 <code>--blue: var(--color-action-primary)</code> 처럼 GLUCK 이름을 가리키기</li></ul></div>
+        <div class="dont"><p class="ds-dd__title"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-alert"/></svg> 이러면 안 돼요</p>
+          <ul><li><code>#0059FF</code> 같은 색 코드를 직접 타이핑 (나중에 바뀌면 내 시스템만 남습니다)</li>
+          <li>이 페이지의 CSS 내용을 복사해서 내 파일에 붙여 넣기 (링크로 연결해야 업데이트가 반영됩니다)</li>
+          <li>다른 서체 추가 — 서체는 SUIT 하나입니다</li></ul></div>
       </div>
     </section>
 
@@ -349,11 +374,11 @@ body { background: var(--color-bg-page); }
 
       <h3 class="ds-sub">Primitive · Brand Blue <span class="gluck-badge gluck-badge--success gluck-badge--no-dot">2026.08 확정</span></h3>
       <div class="ds-swatches" data-swatches="--gluck-blue-100,--gluck-blue-200,--gluck-blue-300,--gluck-blue-400,--gluck-blue-500,--gluck-blue-600,--gluck-blue-700"></div>
-      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg><div><strong>blue-600 = 키 컬러 #0059FF.</strong> 400(#337AFF)은 흰 글자 대비 3.91로 14–16px 버튼 라벨에 부적합 → v2에서 hover는 700(#0047CC)로 변경. 200·300은 다크 배경 위 텍스트용으로 브랜드 리소스 센터 값을 채택한 <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">Draft</span> — 브랜드팀 확정 필요.</div></div>
+      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg><div><strong>blue-600 = 키 컬러 #0059FF.</strong> 400(#337AFF)은 흰 글자 대비 3.91로 버튼 라벨에 부적합 → 버튼 hover는 700(#0047CC). 200·300은 다크 배경 위 텍스트용으로 브랜드 리소스 센터 값을 채택한 <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">Draft</span> — 브랜드팀 확정 필요.</div></div>
 
       <h3 class="ds-sub">Primitive · Gray <span class="gluck-badge gluck-badge--success gluck-badge--no-dot">6단계 확정</span></h3>
       <div class="ds-swatches" data-swatches="--gluck-gray-50,--gluck-gray-100,--gluck-gray-300,--gluck-gray-400,--gluck-gray-500,--gluck-gray-700,--gluck-gray-900"></div>
-      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-triangle-alert"/></svg><div><strong>gray-300(#B3B8C2)은 텍스트 금지.</strong> 흰 배경 대비 1.99:1. v1.1은 이 값을 <code class="ds-inline-code">--text-tertiary</code>로 매핑해 캡션·헬퍼 10곳에 썼습니다. v2에서 3차 텍스트는 gray-500(4.83:1). gray-400(#8A9099)은 입력 보더의 비텍스트 대비 3:1을 위해 추가한 <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">Draft</span>.</div></div>
+      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-triangle-alert"/></svg><div><strong>gray-300(#B3B8C2)은 텍스트 금지.</strong> 흰 배경 대비 1.99:1이라 캡션·헬퍼에도 쓰지 않습니다. 3차 텍스트는 gray-500(4.83:1). gray-400(#8A9099)은 입력 보더의 비텍스트 대비 3:1을 위해 추가한 <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">Draft</span>.</div></div>
 
       <h3 class="ds-sub">Primitive · Dark Surface <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">Draft</span></h3>
       <div class="ds-swatches" data-swatches="--gluck-dark-950,--gluck-dark-900,--gluck-dark-800,--gluck-dark-700,--gluck-dark-600,--gluck-dark-300,--gluck-dark-100,--gluck-dark-50"></div>
@@ -370,7 +395,7 @@ body { background: var(--color-bg-page); }
       </div>
 
       <h3 class="ds-sub">대비 검증 — 운영 룰 (실시간 계산)</h3>
-      <p class="ds-p">WCAG 2.2 기준: 일반 텍스트 <b>4.5:1</b>, 큰 텍스트(<b>24px 이상</b> 또는 <b>18.66px 이상 Bold</b>) 3:1, 비텍스트 UI(보더·포커스링·아이콘) 3:1. v1.1 문서는 큰 텍스트를 "18px / 14px bold"로 잘못 정의해(pt↔px 혼동) 버튼 hover가 통과로 표기돼 있었습니다. 아래는 현재 로드된 토큰 값으로 실제 계산한 결과입니다.</p>
+      <p class="ds-p">WCAG 2.2 기준: 일반 텍스트 <b>4.5:1</b>, 큰 텍스트(<b>24px 이상</b> 또는 <b>18.66px 이상 Bold</b>) 3:1, 비텍스트 UI(보더·포커스링·아이콘) 3:1. 아래 표는 현재 로드된 토큰 값으로 실제 계산한 결과입니다.</p>
       <div class="ds-demo ds-demo--flush">
         <table class="ds-table ds-contrast" id="contrastTable">
           <thead><tr><th>조합 (전경 / 배경)</th><th>용도 · 기준</th><th>Light</th><th>Dark</th><th>Admin</th></tr></thead>
@@ -424,7 +449,7 @@ body { background: var(--color-bg-page); }
     <!-- ================================================================ 04 LAYOUT -->
     <section class="ds-section" id="layout" aria-labelledby="h-layout">
       <header><div class="ds-section__num">SECTION 04</div><h2 id="h-layout">레이아웃 · 스페이싱</h2>
-        <p>4px 베이스. v1.1에는 문서에만 있던 스케일이 v2에서는 CSS 변수로 존재합니다 — 아래 막대는 <code class="ds-inline-code">width: var(--space-n)</code>으로 그려집니다.</p></header>
+        <p>4px 베이스. 모든 간격은 CSS 변수로 제공됩니다 — 아래 막대는 <code class="ds-inline-code">width: var(--space-n)</code>으로 그려집니다.</p></header>
       <div class="ds-demo-pair">
         <div class="ds-demo"><span class="ds-demo__label">SPACING SCALE</span><div data-space-scale></div></div>
         <div class="ds-demo"><span class="ds-demo__label">CONTAINER · BREAKPOINTS</span>
@@ -456,7 +481,7 @@ body { background: var(--color-bg-page); }
     <!-- ================================================================ 05 SHAPE -->
     <section class="ds-section" id="shape" aria-labelledby="h-shape">
       <header><div class="ds-section__num">SECTION 05</div><h2 id="h-shape">라디우스 · 엘리베이션 · Z-index</h2>
-        <p>v1.1 페이지에는 1·2·3px 등 문서에 없는 라디우스가 산발적으로 있었습니다. v2는 7단계 토큰만 허용합니다.</p></header>
+        <p>라디우스는 아래 7단계 토큰만 사용합니다. 그림자 3단계, z-index 8단계도 변수로 고정되어 있습니다.</p></header>
       <div class="ds-demo"><span class="ds-demo__label">RADIUS</span>
         <div class="ds-radius">
           <div style="border-radius: var(--radius-xs)">xs 4<br>태그·칩</div><div style="border-radius: var(--radius-sm)">sm 6<br>Input</div><div style="border-radius: var(--radius-md)">md 8<br>Button</div>
@@ -545,7 +570,7 @@ body { background: var(--color-bg-page); }
     <!-- ================================================================ 09 FORMS -->
     <section class="ds-section" id="forms" aria-labelledby="h-forms">
       <header><div class="ds-section__num">SECTION 09</div><h2 id="h-forms">폼 컨트롤</h2>
-        <p>v1.1에는 focus 외 상태가 없었습니다. v2: 상태 7종(default · hover · focus · filled · error · disabled · readonly) + 컨트롤 9종. 모든 입력은 <code class="ds-inline-code">&lt;label for&gt;</code>와 <code class="ds-inline-code">aria-describedby</code>로 연결됩니다. 견적 폼 필드명은 CRM 스키마와 1:1이므로 임의 변경 금지.</p></header>
+        <p>상태 7종(default · hover · focus · filled · error · disabled · readonly) × 컨트롤 9종. 모든 입력은 <code class="ds-inline-code">&lt;label for&gt;</code>와 <code class="ds-inline-code">aria-describedby</code>로 연결됩니다. 견적 폼 필드명은 CRM 스키마와 1:1이므로 임의 변경 금지.</p></header>
       <div class="ds-demo ds-demo--grid">
         <div class="gluck-field"><label class="gluck-label" for="f1">Default</label><input class="gluck-input" id="f1" placeholder="회사명을 입력하세요"></div>
         <div class="gluck-field"><label class="gluck-label" for="f2">Hover</label><input class="gluck-input" id="f2" data-state="hover" placeholder="회사명을 입력하세요"></div>
@@ -608,7 +633,7 @@ body { background: var(--color-bg-page); }
     <section class="ds-section" id="tags" aria-labelledby="h-tags">
       <header><div class="ds-section__num">SECTION 10</div><h2 id="h-tags">태그 · 배지</h2>
         <p>태그는 <strong>분류</strong>(산업군 7 · 공정/역량), 배지는 <strong>상태</strong>(success · warning · danger · info · neutral). 상태는 텍스트가 아니라 색+점으로 즉시 인지되도록 — 단, 색만으로 구분하지 않고 항상 라벨 동반.</p></header>
-      <div class="ds-demo"><span class="ds-demo__label">INDUSTRY (산업군 태그 7종 · v1.1 기준)</span>
+      <div class="ds-demo"><span class="ds-demo__label">INDUSTRY (산업군 태그 7종)</span>
         <div class="gluck-row" style="--row-gap: var(--space-2)"><span class="gluck-tag gluck-tag--industry">모빌리티</span><span class="gluck-tag gluck-tag--industry">의료기기</span><span class="gluck-tag gluck-tag--industry">로봇</span><span class="gluck-tag gluck-tag--industry">IoT/전자</span><span class="gluck-tag gluck-tag--industry">브랜드 굿즈</span><span class="gluck-tag gluck-tag--industry">문화재/아트</span><span class="gluck-tag gluck-tag--industry">대형 조형물</span></div>
         <div class="gluck-row" style="--row-gap: var(--space-2); margin-top: var(--space-4)"><span class="gluck-tag gluck-tag--capability">SLA</span><span class="gluck-tag gluck-tag--capability">DfAM</span><span class="gluck-tag gluck-tag--capability">사상</span><span class="gluck-tag gluck-tag--capability">도색</span><span class="gluck-tag gluck-tag--capability">UV 코팅</span><span class="gluck-tag gluck-tag--capability">조립</span><span class="gluck-tag gluck-tag--capability">패키징</span><span class="gluck-tag">기본</span><span class="gluck-tag gluck-tag--lg gluck-tag--pill">large pill</span></div>
       </div>
@@ -649,7 +674,7 @@ body { background: var(--color-bg-page); }
     <!-- ================================================================ 12 NAVIGATION -->
     <section class="ds-section" id="navigation" aria-labelledby="h-nav">
       <header><div class="ds-section__num">SECTION 12</div><h2 id="h-nav">내비게이션 · 푸터</h2>
-        <p>헤더는 워드마크 SVG를 사용하고, 1024px 이하에서 드로어로 전환됩니다(<code class="ds-inline-code">aria-expanded</code>). 현재 페이지는 <code class="ds-inline-code">aria-current="page"</code>. 푸터 채널 정보는 <code class="ds-inline-code">tokens/gluck.tokens.json › brand</code> 상수 — 폐기된 gluck.co.kr / customer@gluck.co.kr은 린트에서 차단됩니다.</p></header><!-- lint-ignore: 규칙 설명 -->
+        <p>헤더는 워드마크 SVG를 사용하고, 1024px 이하에서 드로어로 전환됩니다(<code class="ds-inline-code">aria-expanded</code>). 현재 페이지는 <code class="ds-inline-code">aria-current="page"</code>. 푸터의 채널 정보는 공식 값만 사용합니다: glucklab.com · support@glucklab.com · 1555-0096.</p></header>
       <div class="ds-demo ds-demo--flush" style="overflow: visible">
         <header class="gluck-header" style="position: relative; border-radius: var(--radius-lg) var(--radius-lg) 0 0" id="demoHeader">
           <div class="gluck-container gluck-header__inner">
@@ -686,7 +711,7 @@ body { background: var(--color-bg-page); }
     <!-- ================================================================ 13 OVERLAY -->
     <section class="ds-section" id="overlay" aria-labelledby="h-overlay">
       <header><div class="ds-section__num">SECTION 13</div><h2 id="h-overlay">오버레이 · 피드백</h2>
-        <p>결정 규칙: <strong>Toast</strong> = 결과 알림, 4초 자동 소멸, 액션 없음(danger는 수동 닫기) · <strong>Inline Alert</strong> = 사용자가 고쳐야 하는 오류, 자동 소멸 금지 · <strong>Modal</strong> = 파괴적 확인 또는 컨텍스트 유지가 필요한 짧은 입력만, 스크롤 콘텐츠는 페이지로. 조직 내 토스트 구현이 4갈래였던 것을 하나로 통일합니다.</p></header>
+        <p>결정 규칙: <strong>Toast</strong> = 결과 알림, 4초 자동 소멸, 액션 없음(danger는 수동 닫기) · <strong>Inline Alert</strong> = 사용자가 고쳐야 하는 오류, 자동 소멸 금지 · <strong>Modal</strong> = 파괴적 확인 또는 컨텍스트 유지가 필요한 짧은 입력만, 스크롤 콘텐츠는 페이지로.</p></header>
       <div class="ds-demo ds-demo--row">
         <button class="gluck-btn gluck-btn--outline" data-toast="success">Toast · success</button>
         <button class="gluck-btn gluck-btn--outline" data-toast="info">Toast · info</button>
@@ -725,7 +750,7 @@ body { background: var(--color-bg-page); }
       <header><div class="ds-section__num">SECTION 14</div><h2 id="h-states">로딩 · 빈 상태 · 권한</h2>
         <p>비동기 상태와 권한 상태는 화면마다 다르게 만들기 가장 쉬운 부분입니다. 기준 구현을 고정합니다.</p></header>
       <div class="ds-demo ds-demo--grid">
-        <div class="gluck-stack" style="--stack-gap: var(--space-3)"><span class="gluck-label">Spinner 16 · 24 · 40</span><div class="gluck-row"><div class="gluck-spinner gluck-spinner--sm" role="status" aria-label="로딩 중"></div><div class="gluck-spinner" role="status" aria-label="로딩 중"></div><div class="gluck-spinner gluck-spinner--lg" role="status" aria-label="로딩 중"></div></div><button class="gluck-btn gluck-btn--primary" data-loading="true" style="justify-self:start">견적 계산 중</button></div>
+        <div class="gluck-stack" style="--stack-gap: var(--space-3)"><span class="gluck-label">Spinner 16 · 24 · 40</span><div class="gluck-row"><div class="gluck-spinner gluck-spinner--sm" role="status" aria-label="로딩 중"></div><div class="gluck-spinner" role="status" aria-label="로딩 중"></div><div class="gluck-spinner gluck-spinner--lg" role="status" aria-label="로딩 중"></div></div><button class="gluck-btn gluck-btn--primary gluck-self-start" data-loading="true">견적 계산 중</button></div>
         <div class="gluck-stack" style="--stack-gap: var(--space-2)"><span class="gluck-label">Skeleton</span><span class="gluck-skeleton gluck-skeleton--title"></span><span class="gluck-skeleton gluck-skeleton--text"></span><span class="gluck-skeleton gluck-skeleton--text" style="width: 80%"></span><span class="gluck-skeleton gluck-skeleton--rect"></span></div>
         <div class="gluck-stack" style="--stack-gap: var(--space-2)"><span class="gluck-label">Progress</span><div class="gluck-progress" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" aria-label="업로드 진행률"><span style="width: 68%"></span></div><span class="gluck-text-caption gluck-text-tertiary t-num">bracket_v3.step · 68% · 12.4 MB / 18.2 MB</span></div>
       </div>
@@ -737,7 +762,7 @@ body { background: var(--color-bg-page); }
       <div class="ds-demo ds-demo--grid">
         <div class="gluck-stack" style="--stack-gap: var(--space-2)"><span class="gluck-label">disabled + 이유 툴팁</span><span class="gluck-tooltip"><button class="gluck-btn gluck-btn--danger-outline" aria-disabled="true" aria-describedby="tt2">견적 삭제</button><span role="tooltip" id="tt2">관리자 권한이 필요합니다</span></span></div>
         <div class="gluck-field"><label class="gluck-label" for="ro1">read-only (뷰어 권한)</label><input class="gluck-input" id="ro1" value="₩11,780,000" readonly></div>
-        <div class="gluck-locked gluck-card" data-lock-msg="🔒 영업팀 이상 열람 가능" style="padding: var(--space-4)"><div class="gluck-text-caption gluck-text-tertiary">마진율</div><div class="gluck-text-h3 t-num">31.2%</div></div>
+        <div class="gluck-locked gluck-card" data-lock-msg="잠금 · 영업팀 이상 열람 가능" style="padding: var(--space-4)"><div class="gluck-text-caption gluck-text-tertiary">마진율</div><div class="gluck-text-h3 t-num">31.2%</div></div>
       </div>
     </section>
 
@@ -777,7 +802,7 @@ body { background: var(--color-bg-page); }
     <!-- ================================================================ 16 ADMIN -->
     <section class="ds-section" id="admin" aria-labelledby="h-admin">
       <header><div class="ds-section__num">SECTION 16</div><h2 id="h-admin">관리자 앱 셸 (Madmin · Hermes OS)</h2>
-        <p>v1.1의 <code class="ds-inline-code">.adm-*</code> 별도 컴포넌트 22개를 폐기하고, <strong>같은 컴포넌트에 <code class="ds-inline-code">data-theme="admin"</code>만 붙입니다.</strong> 아래 프레임 전체가 admin 테마: 앱 배경 #F7F8FA, 사이드바 라이트, Primary는 브랜드 파생 #0047CC(7.57:1). 사이드바 접힘 버튼과 밀도 토글이 동작합니다.</p></header>
+        <p>관리자 화면도 <strong>같은 컴포넌트를 쓰고 <code class="ds-inline-code">data-theme="admin"</code>만 붙입니다.</strong> 아래 프레임 전체가 관리자 테마입니다 — 회색 앱 배경, 라이트 사이드바, 채도 낮은 Primary. 사이드바 접기 버튼과 테이블 밀도 토글이 실제로 동작합니다.</p></header>
       <div class="ds-shell-frame" data-theme="admin">
         <div class="gluck-shell" id="shell">
           <aside class="gluck-sidebar">
@@ -830,30 +855,30 @@ body { background: var(--color-bg-page); }
           </div>
         </div>
       </div>
-      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg><div><strong>ADR-002 · Admin Primary 블루.</strong> v1.1 관리자 확장은 <code class="ds-inline-code">#3182F6</code>(흰 글자 대비 3.71 → AA 미달)을 별도 도입했습니다. v2 권장안은 브랜드 파생 <code class="ds-inline-code">blue-700 #0047CC</code>(7.57) — 브랜드와 한 계열이면서 채도가 낮아 장시간 작업에 적합. 대안(#3182F6 유지)을 택하면 DESIGN.md 블루 표에 'Ops Blue'로 정식 등록해야 합니다. 브랜드팀 1회 결정 필요. 테마 정책: <b>운영 툴 = 라이트 고정</b>, 참조·쇼케이스 페이지 = 다크 허용.</div></div>
+      <div class="ds-note"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg><div><strong>관리자 Primary 블루 = <code class="ds-inline-code">blue-700 #0047CC</code></strong> (흰 글자 대비 7.57). 브랜드 블루와 한 계열이면서 채도가 낮아 장시간 작업에 적합합니다. 기존 관리자 화면의 <code class="ds-inline-code">#3182F6</code>은 대비 3.71로 기준 미달이라 쓰지 않습니다 <span class="gluck-badge gluck-badge--warning gluck-badge--no-dot">브랜드팀 확정 대기</span>. 테마 정책: <b>운영 툴 = 라이트 고정</b>, 참조·쇼케이스 페이지만 다크 허용.</div></div>
     </section>
 
     <!-- ================================================================ 17 GOVERNANCE -->
     <section class="ds-section" id="governance" aria-labelledby="h-gov">
       <header><div class="ds-section__num">SECTION 17</div><h2 id="h-gov">운영 규칙 · 체크리스트</h2>
-        <p>규칙은 사람의 기억이 아니라 <strong>도구</strong>가 지킵니다. 저장소 CI에서 아래 검사가 돌고, 형제 저장소는 워크플로 한 줄로 같은 검사를 재사용합니다.</p></header>
+        <p>값은 한 곳에서만 바꾸고, 규칙은 사람의 기억이 아니라 <strong>도구</strong>가 지킵니다.</p></header>
+
+      <h3 class="ds-sub">값이 흐르는 경로</h3>
+      <div class="ds-pipeline">
+        <div class="is-src"><b>tokens/gluck.tokens.json</b>손으로 편집하는 유일한 값 파일</div>
+        <div><b>dist/</b>gluck-tokens.css · gluck.css (JSON에서 생성 — 현재 수동 동기화)</div>
+        <div><b>GitHub Pages · 태그</b>gluck3dprinting.github.io/gluck-ui · jsDelivr @태그</div>
+        <div><b>각 시스템</b>홈페이지 · 견적 · 채용 · 브로슈어 · Madmin · Hermes</div>
+        <div><b>CI 검사</b>아래 표 — 저장소에 push할 때마다 자동</div>
+      </div>
+
+      <h3 class="ds-sub">자동 검사</h3>
       <div class="ds-demo ds-demo--flush"><table class="ds-table"><thead><tr><th>검사</th><th>스크립트</th><th>실패 조건</th></tr></thead><tbody>
         <tr><td>HEX 리터럴</td><td><code>check-colors</code></td><td><code>dist/</code> 밖에서 <code>#RRGGBB</code> 발견 (허용: 서드파티 3색, <code>data-swatch</code>)</td></tr>
         <tr><td>토큰 계약</td><td><code>check-tokens</code></td><td>문서·HTML에 쓰인 <code>--*</code> 이름이 dist에 미선언</td></tr>
         <tr><td>대비</td><td><code>contrast</code></td><td>텍스트 역할 토큰 &lt; 4.5:1 · 비텍스트 &lt; 3:1 (이 페이지 §02 표 = 같은 계산)</td></tr>
         <tr><td>금지 문자열</td><td><code>check-forbidden</code></td><td><code>gluck.co.kr</code> · <code>customer@gluck</code> · <code>hr@gluck</code> · <code>JetBrains</code> · <code>Pretendard</code></td></tr><!-- lint-ignore: 규칙 설명 -->
         <tr><td>접근성</td><td><code>pa11y</code></td><td>color-contrast · label · button-name · html-has-lang</td></tr>
-        <tr><td>채택률</td><td><code>adoption-audit</code></td><td>(보고용) 저장소별 <code>--gluck-</code> 사용 · 하드코딩 수 · 서체 · 폐기 채널</td></tr>
-      </tbody></table></div>
-
-      <h3 class="ds-sub">채택 현황 — 기준선 2026-09 <span class="gluck-badge gluck-badge--danger gluck-badge--no-dot">0 / 6</span></h3>
-      <div class="ds-demo ds-demo--flush"><table class="ds-table ds-adopt"><thead><tr><th>저장소</th><th>DS 토큰</th><th>서체</th><th>키 컬러</th><th>폐기 채널</th><th>마이그레이션 순서</th></tr></thead><tbody>
-        <tr><td>gluck-brand-resource-center</td><td class="ds-ng">자체 :root</td><td class="ds-ok">SUIT</td><td class="ds-ok">#0059FF</td><td class="ds-ok">—</td><td>② 별칭 치환만</td></tr>
-        <tr><td>gluck-quote-prototype</td><td class="ds-ng">tailwind 수동</td><td class="ds-ok">SUIT</td><td class="ds-ok">#0059FF</td><td class="ds-ok">—</td><td>③ preset 참조</td></tr>
-        <tr><td>design-system/recruit</td><td class="ds-ng">--g-* 축약</td><td class="ds-ok">SUIT</td><td class="ds-ng">#0036DC 히어로</td><td class="ds-ng">gluck.co.kr · hr@</td><td>① 같은 저장소</td></tr><!-- lint-ignore: 채택 현황 -->
-        <tr><td>openfactory</td><td class="ds-ng">--accent</td><td class="ds-ng">Pretendard</td><td class="ds-ng">#4B8DFF</td><td class="ds-ok">—</td><td>④ 서체+색</td></tr><!-- lint-ignore: 채택 현황 -->
-        <tr><td>gluck-brochure-site</td><td class="ds-ng">--blue</td><td class="ds-ng">Pretendard 폴백</td><td class="ds-ng">#1E5EFF</td><td class="ds-ng">customer@ ×5</td><td>⑤ + PDF 재출력</td></tr><!-- lint-ignore: 채택 현황 -->
-        <tr><td>Madmin · Hermes OS</td><td class="ds-ng">—</td><td>—</td><td class="ds-ng">#3182F6</td><td>—</td><td>⑥ admin 테마 적용</td></tr>
       </tbody></table></div>
 
       <h3 class="ds-sub">PR 체크리스트 (컴포넌트·토큰 변경 시)</h3>
@@ -871,22 +896,6 @@ body { background: var(--color-bg-page); }
         <div class="do"><p class="ds-dd__title"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-check"/></svg> 변경 절차</p><ul><li>브랜드 확정 → <b>같은 주</b> DS 패치·태그 (SLA)</li><li>이슈 템플릿 → PR(리뷰 1인) → CI 통과 → 태그 → 형제 저장소 알림</li><li>ADR로 결정 기록: 001 네이밍 · 002 Admin 블루 · 003 다크 정책</li></ul></div>
         <div class="dont"><p class="ds-dd__title"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-circle-alert"/></svg> 금지</p><ul><li>main 직접 커밋 · dist/ 손 편집</li><li>"임시" 로컬 색 추가 (다음 릴리스에서 토큰으로 승격하거나 삭제)</li><li>채용·캠페인 페이지를 DS 저장소에 호스팅</li></ul></div>
       </div>
-    </section>
-
-    <!-- ================================================================ 18 CHANGELOG -->
-    <section class="ds-section" id="changelog" aria-labelledby="h-log">
-      <header><div class="ds-section__num">SECTION 18</div><h2 id="h-log">변경 이력 · 로드맵</h2></header>
-      <ul class="ds-changelog" role="list">
-        <li><b>2.0.0-preview · 2026-09-18</b> — 토큰 3계층 + 테마 레이어(dark·admin) 도입 · dist 배포 구조 · JetBrains Mono 제거(SUIT 단일) · 그레이 6단계 확정 표기 · <code class="ds-inline-code">--text-tertiary</code> #B3B8C2 → #6B7280 · Primary hover #337AFF → #0047CC · WCAG 큰 텍스트 정의 정정 · 워드마크 SVG/파비콘 · 폼 상태 7종·컨트롤 9종 · 오버레이/피드백/테이블/앱 셸 실구현 · a11y 베이스(focus-visible·skip·reduced-motion) · 대비표 실시간 계산</li><!-- lint-ignore: 규칙 설명 -->
-        <li><b>1.1.0 · 2026-07</b> — 관리자 확장(DESIGN-ADMIN.md) · 상태 컬러 문서화 · recruit 페이지 추가</li>
-        <li><b>1.0.0 · 2026-05</b> — 컬러·타이포·버튼·헤더·태그·카드·견적 폼·푸터 초판</li>
-      </ul>
-      <h3 class="ds-sub">다음</h3>
-      <div class="ds-demo ds-demo--flush"><table class="ds-table"><thead><tr><th>시기</th><th>항목</th><th>산출물</th></tr></thead><tbody>
-        <tr><td>NOW</td><td>tokens.json 원본 + 빌드 스크립트 · CHANGELOG · git tag · 형제 저장소 ①②③ 마이그레이션</td><td><code>tokens/gluck.tokens.json</code> · <code>scripts/build-tokens.mjs</code> · <code>v2.0.0</code></td></tr>
-        <tr><td>NEXT</td><td>브랜드팀 결정 5건(다크 서피스 · 다크 위 텍스트 블루 200/300 · info 배경/보더 50/150 · Admin 블루 · gray-400) · Tailwind preset · 린트 CI · 오픈팩토리·브로슈어 마이그레이션</td><td><code>dist/gluck-tailwind-preset.js</code> · <code>.github/workflows/design-lint.yml</code></td></tr>
-        <tr><td>LATER</td><td>Do/Don't 이미지 · 시각 회귀 테스트 · Figma Variables(사용 확정 시) · recruit 저장소 분리</td><td><code>docs/components.html</code> + Playwright · <code>dist/gluck-tokens.figma.json</code></td></tr>
-      </tbody></table></div>
     </section>
 
   </main>
