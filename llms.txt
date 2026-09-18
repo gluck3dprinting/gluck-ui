@@ -1,0 +1,129 @@
+# GLUCK 공용 디자인 시스템 — AI 코딩 도구용 참조 (llms.txt)
+
+> 이 파일은 Claude 등 AI 코딩 도구가 GLUCK 사내 시스템을 만들 때 읽는 규칙·참조표입니다.
+> 사람용 문서: https://gluck3dprinting.github.io/gluck-ui/ · 개발자 문서: https://gluck3dprinting.github.io/gluck-ui/dev.html
+> 원본 CSS: https://gluck3dprinting.github.io/gluck-ui/dist/gluck.css (컴포넌트) · https://gluck3dprinting.github.io/gluck-ui/dist/gluck-tokens.css (토큰)
+
+## 0. 반드시 지킬 규칙
+
+1. `<head>`에 다음 한 줄을 넣는다 (기존 CSS보다 위):
+   `<link rel="stylesheet" href="https://gluck3dprinting.github.io/gluck-ui/dist/gluck.css">`
+2. 색·간격·라디우스·그림자·z-index·시간은 **시맨틱 CSS 변수만** 쓴다. HEX(`#0059FF`), px 리터럴(`border-radius: 10px`), `--gluck-*` 원시 토큰 직접 참조 금지.
+3. 버튼·입력·배지·카드·테이블 등은 아래 **`.gluck-*` 클래스를 그대로** 쓴다. Tailwind 유틸리티나 자체 CSS로 같은 컴포넌트를 다시 만들지 않는다.
+4. 서체는 SUIT 하나. 다른 웹폰트를 로드하지 않는다. 숫자·금액·코드는 `.t-num` 클래스로 정렬한다.
+5. 관리자·운영 툴(Madmin, Hermes OS 등)은 `<html lang="ko" data-theme="admin">`. 외부 페이지는 `data-theme` 생략(라이트 + OS 다크 자동). 다크 고정은 `data-theme="dark"`.
+6. 로고는 텍스트로 쓰지 않는다. SVG: `https://gluck3dprinting.github.io/gluck-ui/assets/logo/GLUCK_Wordmark_currentColor.svg` (색은 CSS `color`로). 파비콘: `.../assets/logo/GLUCK_Favicon.ico`. 심볼(G)과 워드마크를 나란히 두지 않는다.
+7. 아이콘은 Lucide만. 이모지·문자(≡ ▾ ×) 대체 금지. 스프라이트: `.../assets/icons/icons.svg` → `<svg class="gluck-icon"><use href="icons.svg#i-search"/></svg>` (같은 도메인이 아니면 스프라이트를 페이지에 인라인).
+8. 접근성: 모든 `<input>`은 `<label for>`, 아이콘 전용 버튼은 `aria-label`, 오류는 색+텍스트, 모달은 `<dialog>`, 포커스 스타일은 제거하지 않는다(전역 `:focus-visible` 제공).
+9. 공식 채널 값만: glucklab.com · support@glucklab.com · 1555-0096. 검증되지 않은 수치·최상급 표현("국내 최대")은 쓰지 않는다.
+10. 이 파일에 없는 컴포넌트가 필요하면 위 토큰으로 조립하고 `gluck-` 접두어를 쓰지 않는다(충돌 방지). 새 컴포넌트 제안은 https://github.com/gluck3dprinting/gluck-ui/issues
+
+## 1. 프로젝트 CLAUDE.md에 붙일 문단
+
+```
+## 디자인 시스템 (필수)
+- GLUCK 공용 디자인 시스템을 따른다. 작업 전에 https://gluck3dprinting.github.io/gluck-ui/llms.txt 를 읽고 규칙·클래스·토큰 이름을 그대로 사용할 것.
+- <head>에 <link rel="stylesheet" href="https://gluck3dprinting.github.io/gluck-ui/dist/gluck.css"> 를 넣는다.
+- 색·간격·라디우스는 var(--color-*), var(--space-*), var(--radius-*) 시맨틱 토큰만. HEX·px 리터럴 금지.
+- 버튼/입력/배지/카드/테이블은 .gluck-* 클래스를 사용하고 재구현하지 않는다.
+- 관리자 툴이면 <html data-theme="admin">.
+```
+
+## 2. 컴포넌트 클래스 참조
+
+### 버튼 `<button>` 또는 `<a>`
+- 기본: `gluck-btn` + variant 하나: `gluck-btn--primary`(영업 전환 액션 전용: 바로 견적 요청·샘플 신청, 페이지당 2~3개) · `--secondary`(문의하기) · `--tertiary` · `--outline` · `--ghost` · `--danger` · `--danger-outline` · `--link` · `--on-brand`(브랜드 블루 배경 위)
+- 크기: `gluck-btn--xs`(28) · `--sm`(36) · 기본(44) · `--lg`(56) · `--block`(전체 폭) · `--icon`(정사각 아이콘 버튼, `aria-label` 필수)
+- 상태: `disabled` 속성 · `data-loading="true"`(스피너) · 그룹은 `<div class="gluck-btn-group">`
+- 아이콘 포함: `<button class="gluck-btn gluck-btn--outline"><svg class="gluck-icon" aria-hidden="true"><use href="#i-download"/></svg> 회사소개서</button>`
+- 소셜 로그인: `gluck-btn--google` · `--naver` · `--kakao` (컨테이너 `gluck-social`)
+
+### 폼
+- 필드 묶음: `<div class="gluck-field"><label class="gluck-label is-required" for="id">라벨</label><input class="gluck-input" id="id"><span class="gluck-help">도움말</span><span class="gluck-error" id="id_e"><svg class="gluck-icon"><use href="#i-circle-alert"/></svg>오류 문구</span></div>`
+- 오류 표시: 필드에 `is-invalid` 클래스 + 입력에 `aria-invalid="true" aria-describedby="id_e"`
+- 컨트롤: `gluck-input`(`--sm`) · `gluck-select` · `gluck-textarea` · 체크박스/라디오 `<label class="gluck-check"><input type="checkbox"> 라벨</label>` · 스위치 `<label class="gluck-switch"><input type="checkbox" role="switch"> 라벨</label>`
+- 아이콘 입력: `<div class="gluck-input-group"><svg class="gluck-icon"><use href="#i-search"/></svg><input class="gluck-input" type="search"></div>`
+- 업로드: `<label class="gluck-dropzone"><input type="file" class="sr-only">…</label>` 상태 `is-dragover` · `is-error` · 파일 칩 `gluck-file-chip`
+- 레이아웃: `gluck-form-grid`(2열, 전체 폭은 `is-full`) · `<fieldset class="gluck-fieldset"><legend>` · 하단 버튼 줄 `gluck-form-actions`
+- 견적 폼 필드명(name)은 CRM 스키마와 1:1 — company, name, email, tel, industry, qty, post[], memo, privacy. 임의 변경 금지.
+
+### 태그 · 배지
+- 태그(분류): `gluck-tag` · `gluck-tag--industry`(산업군 7: 모빌리티·의료기기·로봇·IoT/전자·브랜드 굿즈·문화재/아트·대형 조형물) · `--capability`(공정: SLA·DfAM·사상·도색·UV 코팅·조립·패키징) · `--lg` · `--pill`
+- 선택형 태그: `<button class="gluck-tag" aria-pressed="true|false">` · 제거 버튼 `<button class="gluck-tag__remove" aria-label="… 제거"><svg class="gluck-icon"><use href="#i-x"/></svg></button>`
+- 배지(상태): `gluck-badge` + `--success`(승인·발송 완료·Deal 성사) · `--warning`(검토 대기·임박·팔로업) · `--danger`(실패·LOSS·삭제) · `--info`(진행 중·SQL) · 기본=neutral(미분류·보류) · `--brand` · `--no-dot`(점 제거) · `--pill`
+- 숫자 카운트: `<span class="gluck-count">12</span>`
+
+### 카드
+- `gluck-card` (padding 24) · `gluck-card--flush`(padding 0, 미디어 카드) · `gluck-card--interactive`(`<a>`, hover 상승)
+- 내부: `gluck-card__media`(`<img class="gluck-media-16-9" alt="…">` alt 필수) · `gluck-card__body` · `gluck-card__title` · `gluck-card__meta`(`<dl>`) · `gluck-card__tags`
+- 비공개 사례: NDA 배지 + 익명 처리. 고객사명은 노출 동의 전 게시 금지.
+
+### 헤더 · 내비 · 푸터
+- `<header class="gluck-header"><div class="gluck-container gluck-header__inner"><a class="gluck-logo" aria-label="GLUCK 홈">[워드마크 svg]</a><nav class="gluck-header__nav" aria-label="주요 메뉴"><a aria-current="page">…</a></nav><div class="gluck-header__actions">…<button class="gluck-header__toggle" aria-expanded="false" aria-label="메뉴 열기">…</button></div></div></header>` — 1024px 이하 드로어: JS로 헤더에 `is-open` 토글
+- 브레드크럼 `<nav class="gluck-breadcrumb" aria-label="현재 위치">` · 필터형 탭 `<div class="gluck-tabs" role="group"><button aria-pressed="true">` · 페이지네이션 `<nav class="gluck-pagination">` + `gluck-pagination__pages`(`aria-current="page"`)
+- 푸터 `gluck-footer` · `gluck-footer__grid` · `gluck-footer__info` · `gluck-footer__bottom` · 푸터 로고는 `gluck-logo gluck-logo--on-inverse`
+
+### 오버레이 · 피드백
+- 모달: `<dialog class="gluck-modal" data-size="sm|md|lg" aria-labelledby>` + `gluck-modal__header/__title/__close/__body/__footer`; `dialog.showModal()`로 열기. 파괴적 확인은 대상 건수 명시("선택한 3건을 삭제할까요?")
+- 토스트: 컨테이너 `<div class="gluck-toast-region">`(관리자는 `--admin` 우하단) 안에 `<div class="gluck-toast gluck-toast--success|--warning|--danger" role="status|alert">` + `gluck-toast__title/__msg/__close`. 4초 자동 소멸, danger는 수동 닫기
+- 결정 규칙: Toast = 결과 알림 · Inline Alert(`gluck-alert --success|--warning|--danger`, 기본 info) = 사용자가 고쳐야 하는 오류, 자동 소멸 금지 · Modal = 파괴적 확인·짧은 입력만
+- 툴팁: `<span class="gluck-tooltip"><button aria-describedby="tt1">…</button><span role="tooltip" id="tt1">…</span></span>`
+- 드롭다운: `<details class="gluck-menu"><summary class="gluck-btn …">…</summary><ul class="gluck-menu__list [gluck-menu__list--right]"><li><button class="gluck-menu__item [is-danger]">…</button></li></ul></details>`
+- 배너: `gluck-banner` · `gluck-banner--brand`
+
+### 로딩 · 빈 상태 · 권한
+- `gluck-spinner`(`--sm` 16 · 기본 24 · `--lg` 40, `role="status" aria-label="로딩 중"`) · `gluck-skeleton --text|--title|--rect|--circle` · `gluck-progress`(`<div class="gluck-progress" role="progressbar"><span style="width:68%"></span></div>`)
+- 빈 상태: `<div class="gluck-empty [gluck-empty--compact]"><svg class="gluck-icon gluck-icon--xl"><use href="#i-inbox"/></svg><div class="gluck-empty__title">…</div><p class="gluck-empty__desc">…</p><button class="gluck-btn gluck-btn--primary">…</button></div>`
+- 권한: 숨김(hidden) / 비활성+이유 툴팁(`aria-disabled="true"` + tooltip) / 읽기전용(`readonly`) / 잠금 `<div class="gluck-locked" data-lock-msg="잠금 · 영업팀 이상 열람 가능">`
+
+### 데이터 테이블
+- `<div class="gluck-table-wrap" data-density="compact|default|relaxed"><table class="gluck-table"><caption class="sr-only">…</caption><thead><tr><th class="col-check"><label class="gluck-check"><input type="checkbox" aria-label="전체 선택"></label></th><th scope="col" aria-sort="none|ascending|descending"><button type="button">견적번호 <svg class="gluck-icon"><use href="#i-arrow-up-down"/></svg></button></th>…<th class="col-actions"><span class="sr-only">액션</span></th></tr></thead><tbody><tr aria-selected="false"><td class="col-check">…</td><td class="is-primary t-num">…</td><td class="is-num">₩11,780,000</td>…<td class="col-actions">[gluck-menu]</td></tr></tbody></table></div>`
+- 셀 클래스: `is-num`(우측 정렬 tnum) · `is-primary`(강조) · `is-wrap`(줄바꿈 허용). 기본은 nowrap + 컨테이너 가로 스크롤
+- 툴바 `gluck-table-toolbar` + `__count` · 일괄 액션 바 `gluck-bulk-bar is-visible` · 밀도 토글 `gluck-density`(`aria-pressed`) · 빈 상태는 `<tr class="is-empty"><td colspan>` 안에 `gluck-empty--compact`
+
+### 관리자 앱 셸 (data-theme="admin" 안에서)
+- `<div class="gluck-shell [is-collapsed]"><aside class="gluck-sidebar"><div class="gluck-sidebar__brand">[로고] <span class="gluck-env-badge [--prod]">STAGING</span></div><nav><div class="gluck-sidebar__group">영업</div><a aria-current="page"><svg class="gluck-icon">…</svg><span>견적 요청</span><span class="gluck-count">12</span></a>…</nav><div class="gluck-sidebar__footer"><span class="gluck-avatar">JH</span><div><strong>이름</strong><span>팀 · 역할</span></div></div></aside><div class="gluck-shell__main"><div class="gluck-topbar">[토글 버튼][gluck-breadcrumb][gluck-input-group gluck-topbar__search][gluck-topbar__actions]</div><div class="gluck-page"><div class="gluck-page-header"><div><h1 class="gluck-page-title">…</h1><p>…</p></div><div class="gluck-btn-group">…</div></div><div class="gluck-kpi-grid">[gluck-card gluck-kpi × 4: __label/__value/__delta is-up|is-down]</div><div class="gluck-filterbar">[검색][gluck-select][gluck-pill aria-pressed][gluck-filterbar__spacer]…</div><div class="gluck-card gluck-card--flush">[gluck-table-wrap]</div></div></div></div>`
+- 1024px 이하: 사이드바가 드로어(`is-drawer-open`), 배경 클릭·ESC로 닫기
+
+### 레이아웃 · 텍스트 유틸
+- `gluck-container`(max 1200 + 거터) · `--narrow`(720) · `gluck-section`(상하 96/64) · `gluck-hero`(120/64) · `gluck-grid`(12col, 자식에 `style="--span: 8"`; 태블릿 8col, 모바일 4col) · `gluck-stack`(세로, `--stack-gap`) · `gluck-row`(가로 wrap, `--row-gap`) · `gluck-self-start`
+- 텍스트: `gluck-text-display|h1|h2|h3|h4|body-lg|body|body-sm|caption|label` · 색 `gluck-text-secondary|tertiary|brand` · 숫자 `t-num` · 스크린리더 전용 `sr-only` · 건너뛰기 `skip-link`
+- 미디어 비율: `gluck-media-16-9|4-5|1-1`
+
+## 3. 토큰 참조 (var(--…))
+
+### 색 (시맨틱만 사용 — 테마에 따라 자동 전환)
+- 배경: `--color-bg-page` · `-subtle` · `-surface` · `-sunken` · `-inverse` · `-brand` · `-brand-subtle` · `-overlay`
+- 텍스트: `--color-text-primary` · `-secondary` · `-tertiary` · `-disabled` · `-placeholder` · `-brand` · `-link` · `-link-hover` · `-on-brand` · `-on-inverse` · `-danger`
+- 보더: `--color-border-default` · `-strong` · `-input` · `-focus` · 포커스 링 `--color-focus-ring`
+- 액션: `--color-action-primary` · `-primary-hover` · `-primary-active` · `-secondary` · `-secondary-hover` · `-tertiary` · `-tertiary-hover` · `-danger` · `-danger-hover` · `-disabled-bg` · `-disabled-text` · `-selected-bg` · `-selected-text`
+- 상태: `--color-status-{success|warning|danger|info|neutral}-{text|bg|border}`
+- 원시 값(참고용, 직접 참조 금지): 키 컬러 blue-600 #0059FF · hover blue-700 #0047CC · 그레이 6단계 #F6F7F9 #E6E8EC #B3B8C2 #6B7280 #2D3139 #1A1D24 · gray-300(#B3B8C2)·blue-400(#337AFF)은 텍스트 금지
+
+### 간격 · 형태 · 레이어 · 모션
+- 간격(4px 기준): `--space-0|1|2|3|4|5|6|8|10|12|16|20|24|32` (=0·4·8·12·16·20·24·32·40·48·64·80·96·128px), 반단계 `--space-1-5|2-5|3-5`
+- 라디우스: `--radius-xs`(4 태그) · `-sm`(6 입력) · `-md`(8 버튼) · `-lg`(12 카드·모달) · `-xl`(16) · `-pill` · `-circle`
+- 그림자: `--shadow-none|sm|md|lg` (카드 hover=sm, 드롭다운·토스트=md, 모달=lg) · 보더 `--border-width`(1) · `--border-width-strong`(1.5)
+- z-index: `--z-base`0 · `-raised`10 · `-sticky`100 · `-dropdown`200 · `-overlay`300 · `-modal`400 · `-toast`500 · `-tooltip`600
+- 모션: `--duration-fast`(100ms) · `-base`(150) · `-slow`(250) · `-reveal`(600) · `--ease-standard|in|out` — `prefers-reduced-motion`은 전역 처리됨
+- 레이아웃: `--container-xl`(1200) · `-lg`(720) · `--gutter`(24/20/16) · `--section-y` · `--hero-y` · `--topbar-h` · `--sidebar-w`(240) · `--sidebar-w-collapsed`(64)
+- 크기: `--size-control-xs|sm|md|lg`(28·36·44·56) · `--size-touch-min`(44) · `--size-icon-sm|md|lg|xl`(16·20·24·32)
+
+### 타이포 (SUIT 단일)
+- 합성: `font: var(--font-display|h1|h2|h3|h4|body-lg|body|body-sm|caption|label|button|button-lg)` — display 800 56/64 · h1 700 40/52 · h2 700 32/42 · h3 600 24/32 · h4 600 20/28 · body-lg 500 18/28 · body 400 16/26 · body-sm 400 14/22 · caption 500 13/20 · label 600 12/16 (모바일 자동 축소)
+- 개별: `--font-sans` · `--font-weight-regular|medium|semibold|bold|extrabold` · `--font-size-*` · `--line-height-*`
+
+## 4. 테마
+- `[data-theme="dark"]` / `[data-theme="admin"]` / `[data-theme="light"]` — `<html>` 또는 어떤 요소에나 (서브트리 적용 가능)
+- 테마는 시맨틱 색만 바꾸므로 컴포넌트 코드는 동일. 관리자 테마: 앱 배경 #F7F8FA, Primary blue-700, 테이블 밀도 토큰(`--table-row-h` 40/48/56)
+
+## 5. 아이콘 id (Lucide, `#i-…`)
+arrow-right · arrow-up-down · bell · building-2 · calendar · check · chevron-down · chevron-left · chevron-right · chevron-up · circle-alert · circle-check · clipboard-list · copy · download · ellipsis · external-link · eye · factory · file-text · filter · globe · inbox · info · layout-dashboard · loader-circle · lock · log-out · mail · menu · minus · moon · package · pencil · phone · plus · refresh-cw · search · settings · sun · table-2 · trash-2 · triangle-alert · upload · user · x
+- 로고 심볼: `#lg-wordmark`(viewBox 0 0 407 87) · `#lg-symbol`(0 0 81 87) — `<a class="gluck-logo"><svg viewBox="0 0 407 87"><use href="#lg-wordmark"/></svg></a>`
+
+## 6. 주소
+- 컴포넌트 CSS(권장, 자동 업데이트): https://gluck3dprinting.github.io/gluck-ui/dist/gluck.css
+- 토큰만: https://gluck3dprinting.github.io/gluck-ui/dist/gluck-tokens.css
+- 버전 고정: https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0-preview/dist/gluck.css
+- 로고·파비콘: https://gluck3dprinting.github.io/gluck-ui/assets/logo/ · 아이콘: https://gluck3dprinting.github.io/gluck-ui/assets/icons/icons.svg
+- 저장소·이슈: https://github.com/gluck3dprinting/gluck-ui
