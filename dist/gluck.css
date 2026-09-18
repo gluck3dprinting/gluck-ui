@@ -214,7 +214,8 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-border-default
   background: var(--color-bg-subtle); color: var(--color-text-disabled); border-color: var(--color-border-default); cursor: not-allowed;
 }
 .gluck-input:read-only:not(:disabled), .gluck-textarea:read-only:not(:disabled) { background: var(--color-bg-subtle); border-style: dashed; }
-.gluck-input--sm { min-height: var(--size-control-sm); font-size: 14px; }
+.gluck-input--sm, .gluck-select--sm { min-height: var(--size-control-sm); font-size: 14px; }
+.gluck-select--inline, .gluck-input--inline { width: auto; }   /* 필터바·페이지네이션 등 인라인 배치 */
 .gluck-input-group { position: relative; }
 .gluck-input-group .gluck-icon { position: absolute; left: var(--space-3); top: 50%; transform: translateY(-50%); color: var(--color-text-tertiary); pointer-events: none; }
 .gluck-input-group .gluck-input { padding-left: calc(var(--space-3) + var(--size-icon-md) + var(--space-2)); }
@@ -468,7 +469,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 }
 .gluck-menu__item:hover { background: var(--color-bg-subtle); }
 .gluck-menu__item.is-danger { color: var(--color-status-danger-text); }
-.gluck-menu__list hr { margin: var(--space-1) 0; }
+.gluck-menu__list hr, .gluck-menu__list [role="separator"] { margin: var(--space-1) 0; border: 0; border-top: var(--border-width) solid var(--color-border-default); }
 
 /* --------------------------------------------------------------------------
    FEEDBACK · spinner · skeleton · empty · progress
@@ -510,7 +511,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-table .col-check .gluck-check { vertical-align: middle; }
 .gluck-table .col-actions { width: 48px; text-align: right; }
 .gluck-table .col-actions .gluck-btn { opacity: 0; transition: opacity var(--duration-fast); }
-.gluck-table tbody tr:hover .col-actions .gluck-btn, .gluck-table tbody tr:focus-within .col-actions .gluck-btn { opacity: 1; }
+.gluck-table tbody tr:hover .col-actions .gluck-btn, .gluck-table tbody tr:focus-within .col-actions .gluck-btn, .gluck-table .col-actions .gluck-menu[open] > .gluck-btn { opacity: 1; }
 @media (hover: none) { .gluck-table .col-actions .gluck-btn { opacity: 1; } }
 .gluck-table th[aria-sort] { padding: 0; }
 .gluck-table th[aria-sort] button {
@@ -584,7 +585,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-filterbar .gluck-input, .gluck-filterbar .gluck-select { min-height: var(--size-control-sm); font-size: 14px; width: auto; }
 .gluck-filterbar .gluck-input-group { width: 260px; }
 .gluck-filterbar .gluck-input-group .gluck-input { width: 100%; }
-.gluck-filterbar__spacer { flex: 1; }
+.gluck-filterbar__spacer, .gluck-spacer { flex: 1; }
 .gluck-pill { display: inline-flex; align-items: center; gap: var(--space-1-5); white-space: nowrap; height: 30px; padding: 0 var(--space-3); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-pill); background: var(--color-bg-surface); color: var(--color-text-secondary); font: var(--font-caption); cursor: pointer; }
 .gluck-pill[aria-pressed="true"] { background: var(--color-action-selected-bg); border-color: transparent; color: var(--color-action-selected-text); }
 .gluck-kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }

@@ -4,6 +4,7 @@
 
 ## [2.0.0-preview] — 2026-09-18
 ### Added
+- `llms.txt` (AI 코딩 도구용 규칙·클래스·토큰 참조) · `dist/gluck.js` (드롭다운·툴팁·드로어·모달·토스트 공통 동작, 선택) · `dev.html` 개발자 문서 탭
 - `tokens/gluck.tokens.json` 단일 원본 (DTCG) · `dist/gluck-tokens.css` · `dist/gluck.css`
 - 테마 레이어 `[data-theme="dark"]`, `[data-theme="admin"]` (시맨틱 재바인딩)
 - 비컬러 토큰: space 14 + 반단계 3 · radius 7 · shadow 3 · z 8 · duration 4 · ease 3 · container · bp · control/icon size
