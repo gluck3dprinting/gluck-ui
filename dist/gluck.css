@@ -13,6 +13,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--topbar-h) + var(--space-4)); }
 [hidden]:not([hidden="until-found"]) { display: none !important; }   /* display:flex 컴포넌트에도 hidden 속성이 통함 */
+[data-theme] { color: var(--color-text-primary); }   /* 테마가 다른 서브트리(라이트 페이지 안의 admin 프레임 등)에서 글자색을 다시 잡음 — 상속된 body 색이 남지 않게 */
 body {
   margin: 0;
   background: var(--color-bg-page);

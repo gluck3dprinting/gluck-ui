@@ -10,6 +10,9 @@
 - 자간 토큰 `--tracking-display|heading|title|label|eyebrow` (tokens.json `tracking` 그룹) — 텍스트 유틸·KPI·페이지 제목·사이드바 그룹에 적용
 - Lucide 아이콘 6종 추가 (arrow-up · arrow-down · grip-vertical · history · image · save → 52종)
 - llms.txt: "등록·편집 화면" 섹션(클래스 계약 + UX 규칙 8가지) · 자간 토큰 · 아이콘 목록
+### Fixed
+- 테마가 다른 서브트리(`[data-theme]` 프레임)에서 글자색이 바깥 페이지 색을 상속해 다크 모드의 admin 데모 텍스트가 보이지 않던 문제 — `[data-theme] { color: var(--color-text-primary) }`
+
 ### Changed
 - 문서 페이지(index.html · dev.html)가 `dist/gluck.js`를 직접 사용 — docs.js의 중복 동작(메뉴·모달·툴팁·셸·토스트) 제거
 - 등록 화면 UX 규칙: 명시적 저장 · 더티 표시 · 이탈 경고 · 인라인+요약 검증 · 충돌 시 덮어쓰기 금지 · 초안 복원 · 안전한 삭제 기본값 · 복제 우선 · Toast/Alert 구분
