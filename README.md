@@ -9,7 +9,7 @@
 <!-- 최신 (main) -->
 <link rel="stylesheet" href="https://gluck3dprinting.github.io/gluck-ui/dist/gluck.css">
 <!-- 버전 고정 (태그 발행 후) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0-preview/dist/gluck.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.1.0-preview/dist/gluck.css">
 <meta name="gluck-ds-version" content="2.0.0-preview">
 ```
 
@@ -31,7 +31,7 @@ gluck-ui/
 │  └─ gluck.css               fonts + tokens + base(a11y) + components + utilities  ← 제품은 이 한 줄만 link
 ├─ assets/
 │  ├─ logo/                   워드마크·심볼·파비콘 (brand-resource-center 원본 미러)
-│  └─ icons/icons.svg         Lucide 스프라이트 46종 + 로고 <symbol>
+│  └─ icons/icons.svg         Lucide 스프라이트 52종 + 로고 <symbol>
 └─ CHANGELOG.md
 ```
 

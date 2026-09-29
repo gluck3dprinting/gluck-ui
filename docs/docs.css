@@ -124,6 +124,14 @@ body { background: var(--color-bg-page); }
 .ds-shell-frame { height: 660px; border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); overflow: hidden; }
 .ds-shell-frame .gluck-shell { height: 100%; }
 .ds-shell-frame .gluck-shell__main { overflow: auto; }
+/* 17 등록·편집 화면 프레임 — 프레임 안에서 저장 바·목록·미리보기가 sticky */
+.ds-editor-frame { --frame-h: 860px; position: relative; height: var(--frame-h); overflow: auto; border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); background: var(--color-bg-page); }
+.ds-editor-frame .gluck-editor__library, .ds-editor-frame .gluck-editor__preview { top: calc(56px + var(--space-5)); }
+.ds-editor-frame .gluck-editor__library { max-height: calc(var(--frame-h) - 56px - var(--space-10)); }
+.ds-editor-frame .gluck-canvas { max-height: none; }
+.ds-editor-frame .gluck-busy { position: sticky; left: 50%; top: 68px; transform: translateX(-50%); width: max-content; margin: -44px auto 0; }
+@media (max-width: 1180px) { .ds-editor-frame { height: auto; max-height: none; } }
+.ds-check kbd, .ds-section header kbd, .ds-p kbd { font: inherit; font-size: 12px; padding: 0 5px; border: 1px solid var(--color-border-default); border-bottom-width: 2px; border-radius: var(--radius-xs); background: var(--color-bg-surface); }
 .ds-changelog li { padding: var(--space-3) 0; border-bottom: var(--border-width) solid var(--color-border-default); font: var(--font-body-sm); color: var(--color-text-secondary); }
 .ds-changelog li b { color: var(--color-text-primary); }
 .ds-nav-toggle { display: none; }

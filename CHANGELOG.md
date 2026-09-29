@@ -2,6 +2,18 @@
 
 형식: [Keep a Changelog](https://keepachangelog.com/ko/1.1.0/) · 버전: SemVer
 
+## [2.1.0-preview] — 2026-09-29
+### Added
+- **등록·편집 화면 패턴** (디자인 시스템 §17) — 소재 TDS 생성기·조직도 시스템에서 검증된 등록 UX를 공용 컴포넌트로 승격: `gluck-savebar`(저장 상태·더티·Ctrl+S) · `gluck-editor [--library]`(목록 | 폼 | 스티키 미리보기) · `gluck-form-section`(헤어라인 섹션 제목) · `gluck-seg`(세그먼트) · `gluck-rows`(동적 행: 추가/삭제/이동/그립 드래그·최대 개수) · `gluck-chips`(칩 입력) · `gluck-canvas` + `gluck-sheet`(출력물 미리보기 시트 · `__head/__body/__kv/__tags/__foot`) · `gluck-issues`/`gluck-issue` · `gluck-changes`/`gluck-change` · `gluck-steps`/`gluck-step` · `gluck-status-panel` + `gluck-status-dot` · `gluck-busy` · `gluck-list-group`/`gluck-list-row`
+- 동작하는 데모: 소재(TDS) 등록 화면(목록 전환·복제·새 소재·실시간 시트·인라인+요약 검증·저장 단계·저장 충돌·초안 복원·NAS 끊김·PDF 생성 알약·소프트 삭제) · 조직도형 모달 폼 → 그룹 목록 반영 · 그립 정렬
+- `dist/gluck.js`: 세그먼트 전환(`gluck:change`) · 동적 행(`data-row-add|remove|up|down`, 그립 드래그, `gluck:limit`) · 칩 입력(Enter/쉼표/Backspace, `window.gluckChipAdd`) · `window.gluckSaveState(bar, state, text)`
+- 자간 토큰 `--tracking-display|heading|title|label|eyebrow` (tokens.json `tracking` 그룹) — 텍스트 유틸·KPI·페이지 제목·사이드바 그룹에 적용
+- Lucide 아이콘 6종 추가 (arrow-up · arrow-down · grip-vertical · history · image · save → 52종)
+- llms.txt: "등록·편집 화면" 섹션(클래스 계약 + UX 규칙 8가지) · 자간 토큰 · 아이콘 목록
+### Changed
+- 문서 페이지(index.html · dev.html)가 `dist/gluck.js`를 직접 사용 — docs.js의 중복 동작(메뉴·모달·툴팁·셸·토스트) 제거
+- 등록 화면 UX 규칙: 명시적 저장 · 더티 표시 · 이탈 경고 · 인라인+요약 검증 · 충돌 시 덮어쓰기 금지 · 초안 복원 · 안전한 삭제 기본값 · 복제 우선 · Toast/Alert 구분
+
 ## [2.0.0-preview] — 2026-09-18
 ### Added
 - `llms.txt` (AI 코딩 도구용 규칙·클래스·토큰 참조) · `dist/gluck.js` (드롭다운·툴팁·드로어·모달·토스트 공통 동작, 선택) · `dev.html` 개발자 문서 탭

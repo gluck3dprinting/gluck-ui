@@ -108,10 +108,10 @@
 ├─ <b>dist/</b>
 │  ├─ gluck-tokens.css          <i>:root 시맨틱 변수 + [data-theme="dark"] + [data-theme="admin"]</i>
 │  ├─ gluck.css                 <i>fonts + tokens + base(a11y) + components + utilities — 제품이 link하는 한 파일</i>
-│  └─ gluck.js                  <i>선택 · 드롭다운/툴팁/드로어/모달/토스트 공통 동작 (프레임워크 없는 페이지용)</i>
+│  └─ gluck.js                  <i>선택 · 드롭다운/툴팁/드로어/모달/토스트 + 세그먼트/동적 행/칩 입력/저장 상태 (프레임워크 없는 페이지용)</i>
 ├─ assets/
 │  ├─ logo/                     <i>워드마크·심볼·파비콘 (brand-resource-center 원본 미러)</i>
-│  └─ icons/icons.svg           <i>Lucide 스프라이트 46종 + 로고 &lt;symbol&gt;</i>
+│  └─ icons/icons.svg           <i>Lucide 스프라이트 52종 + 로고 &lt;symbol&gt;</i>
 ├─ docs/docs.css · docs.js      <i>문서 페이지 전용 크롬 — 배포 대상 아님</i>
 ├─ index.html · dev.html        <i>디자인 시스템 페이지 · 이 문서 (둘 다 dist/gluck.css의 소비자)</i>
 ├─ .github/workflows/
@@ -182,9 +182,9 @@
         <p>main에 push하면 1~2분 뒤 Pages에 반영됩니다. 제품은 "최신"(Pages) 또는 "고정"(jsDelivr 태그) 중 하나를 선택합니다.</p></header>
       <div class="ds-demo ds-demo--flush"><table class="ds-table"><thead><tr><th style="width:22%">용도</th><th>URL</th></tr></thead><tbody>
         <tr><td>최신 (자동 업데이트)</td><td><code>https://gluck3dprinting.github.io/gluck-ui/dist/gluck.css</code></td></tr>
-        <tr><td>버전 고정</td><td><code>https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.0.0-preview/dist/gluck.css</code> — 태그를 올린 뒤 제품에서 직접 버전 변경</td></tr>
+        <tr><td>버전 고정</td><td><code>https://cdn.jsdelivr.net/gh/gluck3dprinting/gluck-ui@v2.1.0-preview/dist/gluck.css</code> — 태그를 올린 뒤 제품에서 직접 버전 변경</td></tr>
         <tr><td>토큰만</td><td><code>…/dist/gluck-tokens.css</code></td></tr>
-        <tr><td>공통 동작 스크립트 (선택)</td><td><code>…/dist/gluck.js</code> — 드롭다운·툴팁·드로어·모달·<code>gluckToast()</code></td></tr>
+        <tr><td>공통 동작 스크립트 (선택)</td><td><code>…/dist/gluck.js</code> — 드롭다운·툴팁·드로어·모달·<code>gluckToast()</code>·세그먼트·동적 행·칩 입력·<code>gluckSaveState()</code></td></tr>
         <tr><td>파비콘 · 로고 · 아이콘</td><td><code>…/assets/logo/GLUCK_Favicon.ico</code> · <code>…/assets/logo/GLUCK_Wordmark_currentColor.svg</code> · <code>…/assets/icons/icons.svg</code></td></tr>
         <tr><td>AI 코딩 도구용 참조</td><td><code>https://gluck3dprinting.github.io/gluck-ui/llms.txt</code> — 규칙·클래스·토큰·아이콘 id 전체. 프로젝트 CLAUDE.md에서 이 파일을 읽도록 지시. <b>컴포넌트·토큰을 바꾸면 이 파일도 함께 갱신</b></td></tr>
         <tr><td>버전 표시</td><td>제품 <code>&lt;head&gt;</code>에 <code>&lt;meta name="gluck-ds-version" content="2.0.0-preview"&gt;</code> — 어떤 버전을 쓰는지 추적용</td></tr>
@@ -272,6 +272,7 @@ jobs:
 </div>
 
 <div class="gluck-toast-region" id="toastRegion"></div>
+<script src="dist/gluck.js"></script>
 <script src="docs/docs.js"></script>
 </body>
 </html>

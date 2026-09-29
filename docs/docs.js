@@ -148,61 +148,10 @@
     const rm = e.target.closest('.gluck-tag__remove'); if (rm) { rm.closest('.gluck-tag').remove(); }
   });
 
-  /* ---------------- header drawer demo ---------------- */
-  const dh = $('#demoHeader'); const dt = dh && $('.gluck-header__toggle', dh);
-  if (dt) dt.addEventListener('click', () => { const o = dh.classList.toggle('is-open'); dt.setAttribute('aria-expanded', String(o)); dt.setAttribute('aria-label', o ? '메뉴 닫기' : '메뉴 열기'); });
-
-  /* ---------------- toast ---------------- */
-  let region = $('#toastRegion');
-  if (!region) { region = document.createElement('div'); region.className = 'gluck-toast-region'; region.id = 'toastRegion'; document.body.appendChild(region); } const ICON = { success: 'circle-check', info: 'info', warning: 'triangle-alert', danger: 'circle-alert' };
+  /* ---------------- toast · 모달 · 툴팁 · 메뉴 · 셸 → dist/gluck.js 가 담당 (문서 페이지도 소비자) ---------------- */
   const TITLE = { success: '저장되었습니다', info: '안내', warning: '확인이 필요합니다', danger: '실패했습니다' };
-  const MSG = { success: '견적 Q-2026-0918-031이 발송 대기로 이동했습니다.', info: '새 견적 요청 2건이 접수되었습니다.', warning: '유효기간이 2일 남은 견적이 있습니다.', danger: '서버 오류로 발송하지 못했습니다. 다시 시도하세요.' };
-  function toast(status, title, msg) {
-    const el = document.createElement('div');
-    el.className = 'gluck-toast gluck-toast--' + status; el.setAttribute('role', status === 'danger' ? 'alert' : 'status');
-    el.innerHTML = `<svg class="gluck-icon" aria-hidden="true"><use href="#i-${ICON[status]}"/></svg><div><div class="gluck-toast__title">${title || TITLE[status]}</div><div class="gluck-toast__msg">${msg || MSG[status]}</div></div><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs gluck-toast__close" aria-label="닫기"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button>`;
-    el.querySelector('button').addEventListener('click', () => el.remove());
-    region.appendChild(el);
-    if (status !== 'danger') setTimeout(() => el.remove(), 4000);
-    while (region.children.length > 3) region.firstChild.remove();
-  }
-  document.addEventListener('click', e => { const b = e.target.closest('[data-toast]'); if (b) toast(b.dataset.toast, b.dataset.toastTitle || null, b.dataset.toastMsg || null); });
-
-  /* ---------------- modal ---------------- */
-  document.addEventListener('click', e => {
-    const o = e.target.closest('[data-modal]'); if (o) { const d = document.getElementById(o.dataset.modal); if (d && !d.open) d.showModal(); }
-    const c = e.target.closest('[data-close]'); if (c) { c.closest('dialog').close(); }
-  });
-  $$('dialog.gluck-modal').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
-
-  /* ---------------- tooltip: ESC 닫기 (WCAG 2.2 · 1.4.13) ---------------- */
-  $$('.gluck-tooltip').forEach(t => { ['mouseleave', 'focusout'].forEach(ev => t.addEventListener(ev, () => t.classList.remove('is-dismissed'))); });
-
-  /* ---------------- details 메뉴: 하나만 열림 · 바깥 클릭/ESC 닫기 · overflow 컨테이너 안에서는 fixed 배치 ---------------- */
-  function closeMenus(except) { $$('details.gluck-menu[open]').forEach(o => { if (o !== except) o.open = false; }); }
-  document.addEventListener('toggle', e => {
-    const d = e.target; if (!(d instanceof HTMLDetailsElement) || !d.classList.contains('gluck-menu')) return;
-    const list = d.querySelector('.gluck-menu__list'); if (!list) return;
-    if (d.open) {
-      closeMenus(d);
-      if (d.closest('.gluck-table-wrap, .gluck-card--flush')) {
-        const r = d.querySelector('summary').getBoundingClientRect();
-        list.classList.add('is-fixed');
-        const w = list.offsetWidth, h = list.offsetHeight;
-        const y = r.bottom + h + 8 > innerHeight ? r.top - h - 4 : r.bottom + 4;
-        list.style.setProperty('--menu-y', y + 'px');
-        list.style.setProperty('--menu-x', Math.max(8, Math.min(r.right - w, innerWidth - w - 8)) + 'px');
-      }
-    } else { list.classList.remove('is-fixed'); }
-  }, true);
-  document.addEventListener('click', e => { if (e.target.closest('.gluck-menu__item')) { closeMenus(); return; } if (!e.target.closest('details.gluck-menu')) closeMenus(); });
-  document.addEventListener('scroll', e => { if (e.target !== document) closeMenus(); }, true);
-  document.addEventListener('keydown', e => {
-    if (e.key !== 'Escape') return;
-    closeMenus();
-    $$('.gluck-tooltip').forEach(t => { if (t.matches(':hover, :focus-within')) t.classList.add('is-dismissed'); });
-    const sh = document.querySelector('.gluck-shell.is-drawer-open'); if (sh) { sh.classList.remove('is-drawer-open'); const b = sh.querySelector('#shellToggle'); if (b) b.setAttribute('aria-expanded', 'false'); }
-  });
+  const MSG = { success: '견적 Q-2026-0918-031이 발송 대기로 이동했습니다.', info: '새 견적 요청 2건이 접수되었습니다.', warning: '유효기간이 2일 남은 견적이 있습니다.', danger: '서버 오류로 발송하지 못했습니다. 잠시 후 다시 시도하세요.' };
+  document.addEventListener('click', e => { const b = e.target.closest('[data-toast]'); if (b && !b.dataset.toastTitle) { b.dataset.toastTitle = TITLE[b.dataset.toast] || ''; b.dataset.toastMsg = b.dataset.toastMsg || MSG[b.dataset.toast] || ''; } }, true);
 
   /* ---------------- quote form validation ---------------- */
   const form = $('#quoteForm');
@@ -285,15 +234,219 @@
   adminTbl.addEventListener('click', e => { const th = e.target.closest('th[data-key]'); if (th && e.target.closest('button')) { const b = $(`#quoteTable th[data-key="${th.dataset.key}"] button`); if (b) b.click(); } });
   cloneAdminTable();
 
-  const shell = $('#shell'), shellToggle = $('#shellToggle');
-  const mqShell = window.matchMedia('(max-width: 1023px)');
-  shellToggle.addEventListener('click', () => {
-    if (mqShell.matches) { const o = shell.classList.toggle('is-drawer-open'); shellToggle.setAttribute('aria-expanded', String(o)); return; }
-    const c = shell.classList.toggle('is-collapsed'); shellToggle.setAttribute('aria-expanded', String(!c)); shellToggle.setAttribute('aria-label', c ? '사이드바 펼치기' : '사이드바 접기');
-  });
-  shell.addEventListener('click', e => { if (e.target === shell && shell.classList.contains('is-drawer-open')) { shell.classList.remove('is-drawer-open'); shellToggle.setAttribute('aria-expanded', 'false'); } });
-  mqShell.addEventListener('change', () => { shell.classList.remove('is-drawer-open', 'is-collapsed'); shellToggle.setAttribute('aria-expanded', String(!mqShell.matches)); });
   }   /* end: data table · shell */
+
+  /* ---------------- 17 등록·편집 화면 데모 (있는 페이지에서만) ---------------- */
+  const ed = $('#editorDemo');
+  if (ed) {
+    const bar = $('#edBar'), form = $('#edForm'), saveBtns = [$('#edSave'), $('#edSave2')], resetBtn = $('#edReset');
+    const LABEL = { name: '소재명', code: '코드', process: '공정', status: '게시 상태', desc: '한 줄 설명', fit: '이미지 맞춤', credit: '출처', props: '물성표', tags: '키워드', memo: '내부 메모' };
+    const ITEMS = {
+      pa12:   { name: 'PA12',        code: 'SLS-PA12',   process: 'SLS', desc: '내구성이 높은 범용 나일론 — 기능성 시제품과 소량 양산에 적합', tags: ['내구성', '내화학성', '기능성 부품'], props: [['인장 강도', '48', 'MPa'], ['파단 연신율', '18', '%'], ['열변형 온도', '175', '°C'], ['레이어 두께', '0.1', 'mm']] },
+      pa12gf: { name: 'PA12 GF',     code: 'SLS-PA12GF', process: 'SLS', desc: '글라스 비드 강화 나일론 — 강성과 치수 안정성이 필요한 하우징', tags: ['고강성', '치수 안정성'], props: [['인장 강도', '51', 'MPa'], ['굴곡 탄성률', '3200', 'MPa'], ['열변형 온도', '179', '°C']] },
+      tough:  { name: 'Tough 1500',  code: 'SLA-T1500',  process: 'SLA', desc: '탄성이 있는 강인한 레진 — 스냅핏·반복 하중 부품', tags: ['내충격', '스냅핏'], props: [['인장 강도', '33', 'MPa'], ['파단 연신율', '51', '%'], ['레이어 두께', '0.05', 'mm']] },
+      clear:  { name: 'Clear Resin', code: 'SLA-CLEAR',  process: 'SLA', desc: '투명 레진 — 유체 흐름 확인, 광학 시제품', tags: ['투명', '광학'], props: [['인장 강도', '65', 'MPa'], ['광 투과율', '92', '%']] },
+      pa11:   { name: 'PA11',        code: 'MJF-PA11',   process: 'MJF', desc: '바이오 기반 나일론 — 유연하고 충격에 강한 힌지·클립', tags: ['유연', '내충격', '바이오 기반'], props: [['인장 강도', '52', 'MPa'], ['파단 연신율', '50', '%']] },
+      petg:   { name: 'PETG',        code: 'FDM-PETG',   process: 'FDM', desc: '저비용 범용 필라멘트 — 지그·픽스처, 초기 형상 확인', tags: ['저비용', '지그'], props: [['인장 강도', '50', 'MPa'], ['레이어 두께', '0.2', 'mm']] },
+    };
+    const rowTpl = $('template', $('#edProps'));
+    const esc = s => String(s == null ? '' : s);
+
+    function segSet(seg, value) { $$('button', seg).forEach(b => b.setAttribute('aria-pressed', String((b.dataset.value ?? b.textContent.trim()) === value))); }
+    function segGet(seg) { const b = $('button[aria-pressed="true"]', seg); return b ? (b.dataset.value ?? b.textContent.trim()) : ''; }
+    function collect() {
+      const o = {};
+      $$('[data-bind]', form).forEach(el => {
+        const k = el.dataset.bind;
+        if (el.classList.contains('gluck-seg')) o[k] = segGet(el);
+        else if (el.classList.contains('gluck-chips')) o[k] = $$('.gluck-tag', el).map(t => t.dataset.value);
+        else if (el.classList.contains('gluck-rows')) o[k] = $$('.gluck-rows__row', el).map(r => $$('input', r).map(i => i.value.trim()));
+        else o[k] = el.value;
+      });
+      return o;
+    }
+    function fill(d) {                       // 데이터 → 폼 (목록 전환 · 복원 · 변경 취소)
+      $$('[data-bind]', form).forEach(el => {
+        const k = el.dataset.bind; if (!(k in d)) return;
+        if (el.classList.contains('gluck-seg')) segSet(el, d[k]);
+        else if (el.classList.contains('gluck-chips')) { $$('.gluck-tag', el).forEach(t => t.remove()); el.classList.remove('is-full'); d[k].forEach(v => window.gluckChipAdd(el, v)); }
+        else if (el.classList.contains('gluck-rows')) { const body = $('.gluck-rows__body', el); body.innerHTML = ''; d[k].forEach(r => { const n = rowTpl.content.firstElementChild.cloneNode(true); $$('input', n).forEach((i, x) => i.value = r[x] || ''); body.appendChild(n); }); }
+        else el.value = d[k];
+      });
+    }
+    const now = () => new Date().toTimeString().slice(0, 5);
+    let base = collect(), baseJson = JSON.stringify(base), savedAt = '14:02', conflict = false;
+
+    function validate(d) {
+      const issues = [];
+      if (!d.name.trim()) issues.push(['오류', '소재명은 필수입니다.', 'name']);
+      if (!/^[A-Z0-9-]{3,}$/.test(d.code.trim())) issues.push(['오류', '코드는 대문자·숫자·하이픈 3자 이상이어야 합니다 (예: SLS-PA12).', 'code']);
+      const rows = d.props.filter(r => r.some(Boolean));
+      if (!rows.length) issues.push(['오류', '물성표는 1행 이상 필요합니다.']);
+      rows.forEach((r, i) => { if (!r[0] || !r[1]) issues.push(['오류', `물성표 ${i + 1}행: 항목과 값을 모두 채워주세요.`]); });
+      if (!d.desc.trim()) issues.push(['주의', '한 줄 설명이 비어 있으면 소재 카드에 코드만 표시됩니다.']);
+      if (d.tags.length < 2) issues.push(['주의', '키워드는 2개 이상을 권장합니다 (카드 필터에 사용).']);
+      if (d.status === '비공개') issues.push(['주의', '비공개 상태입니다 — 저장해도 홈페이지 소재 목록에는 나오지 않습니다.']);
+      return issues;
+    }
+    function renderPreview(d, issues) {
+      $('[data-pv="name"]', ed).textContent = d.name.trim() || '소재명';
+      $('[data-pv="code"]', ed).textContent = (d.code.trim() || '코드') + ' · ' + d.process;
+      $('[data-pv="desc"]', ed).textContent = d.desc.trim() || '—';
+      $('[data-pv="credit"]', ed).textContent = d.credit.trim();
+      $('#edPvImg').style.setProperty('--fit', d.fit);
+      $('#edPvRows').innerHTML = d.props.filter(r => r.some(Boolean)).map(r => `<tr><th>${esc(r[0]) || '<i>항목</i>'}</th><td class="t-num">${esc(r[1]) || '<i>값</i>'}</td><td class="u">${esc(r[2])}</td></tr>`).join('') || '<tr><td colspan="3"><i>물성표 없음</i></td></tr>';
+      $('#edPvTags').innerHTML = d.tags.map(t => `<span>${esc(t)}</span>`).join('');
+      const st = $('#edPvStatus'); st.textContent = d.status; st.className = 'gluck-badge gluck-badge--no-dot ' + (d.status === '게시' ? 'gluck-badge--success' : '');
+      $('#edIssues').innerHTML = issues.map(([lv, msg]) => `<div class="gluck-issue${lv === '주의' ? ' gluck-issue--warning' : ''}"><b class="lv">${lv}</b><span>${esc(msg)}</span></div>`).join('');
+      const errs = issues.filter(i => i[0] === '오류').length;
+      const v = $('[data-step="validate"]', ed); v.className = 'gluck-step ' + (errs ? 'is-fail' : 'is-done'); $('.gluck-step__note', v).textContent = errs ? `오류 ${errs} — 저장 불가` : (issues.length ? `주의 ${issues.length}` : '이슈 0');
+      $('.gluck-step__ic', v).innerHTML = errs ? '<svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg>' : '<svg class="gluck-icon" aria-hidden="true"><use href="#i-check"/></svg>';
+      // 인라인 오류
+      [['name', 'edName'], ['code', 'edCode']].forEach(([k, id]) => { const bad = issues.some(i => i[2] === k); const inp = document.getElementById(id); inp.closest('.gluck-field').classList.toggle('is-invalid', bad); inp.setAttribute('aria-invalid', String(bad)); });
+      $('#edDescN').textContent = d.desc.length;
+    }
+    function renderChanges(d) {
+      const list = Object.keys(LABEL).filter(k => JSON.stringify(d[k]) !== JSON.stringify(base[k]));
+      $('#edChgN').textContent = list.length ? `${list.length}건` : '변경 없음';
+      $('#edChanges').innerHTML = list.length ? list.map(k => {
+        const a = base[k], b = d[k]; let kind = '수정', detail = '';
+        if (Array.isArray(b)) { kind = b.length > a.length ? '추가' : (b.length < a.length ? '삭제' : '수정'); detail = `${a.length} → ${b.length}${k === 'props' ? '행' : '개'}`; }
+        else { detail = (a === '' ? '(비어 있음)' : String(a).slice(0, 18)) + ' → ' + (b === '' ? '(비어 있음)' : String(b).slice(0, 18)); }
+        const cls = kind === '추가' ? 'gluck-badge--success' : kind === '삭제' ? 'gluck-badge--danger' : 'gluck-badge--info';
+        return `<div class="gluck-change"><span class="gluck-badge gluck-badge--no-dot ${cls}">${kind}</span><span class="nm">${LABEL[k]}</span><span class="sz t-num">${esc(detail)}</span></div>`;
+      }).join('') : '<div class="gluck-change gluck-text-tertiary">저장된 값과 같습니다.</div>';
+    }
+    function setState(s, text) {
+      window.gluckSaveState(bar, s, text);
+      const dirty = s === 'dirty';
+      saveBtns.forEach(b => b.disabled = !dirty); resetBtn.disabled = !dirty;
+    }
+    function refresh() {
+      const d = collect(); const dirty = JSON.stringify(d) !== baseJson; const issues = validate(d);
+      renderPreview(d, issues); renderChanges(d);
+      setState(dirty ? 'dirty' : 'clean', dirty ? '저장되지 않은 변경' : `저장됨 · ${savedAt}`);
+      $('#edTitle').textContent = d.name.trim() || '새 소재'; $('#edDeleteName').textContent = d.name.trim() || '이 소재';
+      $('#edPropsLimit').hidden = $$('.gluck-rows__row', $('#edProps')).length < 12;
+      try { sessionStorage.setItem('gluck-ed-draft', dirty ? JSON.stringify(d) : ''); } catch (e) {}
+      return { d, dirty, issues };
+    }
+    form.addEventListener('input', refresh);
+    form.addEventListener('gluck:change', refresh);
+    form.addEventListener('gluck:limit', () => { $('#edPropsLimit').hidden = false; window.gluckToast('warning', '물성표 12행 초과', '더 필요하면 브랜드팀에 TDS 양식 확장을 요청하세요.'); });
+    form.addEventListener('submit', e => { e.preventDefault(); save(); });
+    $('#edSave').addEventListener('click', save);
+    ed.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); } });
+
+    function stepRun(name, note, done) { const s = $(`[data-step="${name}"]`, ed); s.className = 'gluck-step is-doing'; $('.gluck-step__note', s).textContent = note; return new Promise(r => setTimeout(() => { s.className = 'gluck-step is-done'; $('.gluck-step__ic', s).innerHTML = '<svg class="gluck-icon" aria-hidden="true"><use href="#i-check"/></svg>'; $('.gluck-step__note', s).textContent = done; r(); }, 550)); }
+    function stepReset() { [['save', '2'], ['pdf', '3']].forEach(([n, num]) => { const s = $(`[data-step="${n}"]`, ed); s.className = 'gluck-step'; $('.gluck-step__ic', s).textContent = num; $('.gluck-step__note', s).textContent = '—'; }); }
+    let saving = false;
+    async function save() {
+      if (saving) return;
+      const { dirty, issues, d } = refresh();
+      if (!dirty) { window.gluckToast('info', '변경 없음', '저장할 변경이 없습니다.'); return; }
+      const errs = issues.filter(i => i[0] === '오류');
+      if (errs.length) { window.gluckToast('warning', `오류 ${errs.length}건을 먼저 고쳐주세요`, errs[0][1]); const f = $('.is-invalid input', form) || $('.gluck-rows__row input', form); if (f) f.focus(); return; }
+      if (conflict) { window.gluckToast('danger', '저장할 수 없습니다', '다른 사용자가 먼저 저장했습니다 — 위 안내에서 선택하세요.'); return; }
+      saving = true; setState('saving', '저장 중…'); saveBtns.forEach(b => b.disabled = true);
+      await stepRun('save', 'NAS에 쓰는 중…', 'materials/' + d.code.trim() + '.json');
+      await stepRun('pdf', '렌더링 중…', 'TDS_' + d.code.trim() + '.pdf · 184KB');
+      base = collect(); baseJson = JSON.stringify(base); savedAt = now(); saving = false;
+      $('#edMode').textContent = '수정'; $('#edNasDetail').textContent = `마지막 동기화 ${savedAt} · 12개 파일`;
+      refresh(); window.gluckToast('success', '저장되었습니다', `${d.name.trim()} — TDS PDF가 다시 생성되었습니다.`);
+      setTimeout(stepReset, 2500);
+    }
+    resetBtn.addEventListener('click', () => { fill(base); refresh(); window.gluckToast('info', '변경을 취소했습니다', `${savedAt}에 저장된 값으로 되돌렸습니다.`); });
+
+    // 목록 전환 · 새 소재 · 복제
+    function load(item, mode) {
+      const d = Object.assign({ status: '게시', fit: 'cover', credit: 'GLUCK Lab 촬영', memo: '' }, item);
+      fill(d); base = collect(); baseJson = JSON.stringify(base); conflict = false; $('#edConflict').hidden = true; $('#edDraft').hidden = true; stepReset();
+      $('#edMode').textContent = mode || '수정'; refresh();
+    }
+    $('#edLib').addEventListener('click', e => {
+      const b = e.target.closest('.gluck-editor__item'); if (!b) return;
+      if (refresh().dirty) { window.gluckToast('warning', '저장되지 않은 변경이 있습니다', '먼저 저장하거나 "변경 취소"를 눌러주세요.'); return; }
+      $$('.gluck-editor__item', $('#edLib')).forEach(x => x.setAttribute('aria-current', String(x === b)));
+      load(ITEMS[b.dataset.item]);
+    });
+    $('#edNew').addEventListener('click', () => {
+      if (refresh().dirty) { window.gluckToast('warning', '저장되지 않은 변경이 있습니다', '먼저 저장하거나 "변경 취소"를 눌러주세요.'); return; }
+      $$('.gluck-editor__item', $('#edLib')).forEach(x => x.setAttribute('aria-current', 'false'));
+      load({ name: '', code: '', process: 'SLS', desc: '', tags: [], props: [['', '', '']] }, '새 소재'); base = { name: '__new__' }; baseJson = ''; refresh(); $('#edName').focus();
+    });
+    $('#edDup').addEventListener('click', () => {
+      const d = collect(); const cur = ITEMS[($('.gluck-editor__item[aria-current="true"]', ed) || {}).dataset?.item];
+      $$('.gluck-editor__item', $('#edLib')).forEach(x => x.setAttribute('aria-current', 'false'));
+      load(Object.assign({}, cur || d, { name: d.name + ' (복제)', code: d.code + '-COPY' }), '새 소재 · 복제');
+      base = { name: '__new__' }; baseJson = ''; refresh();
+      window.gluckToast('info', '복제했습니다', '이름과 코드를 고친 뒤 저장하세요. 저장 전까지는 원본에 영향이 없습니다.'); $('#edName').focus(); $('#edName').select();
+    });
+
+    // 드롭존: 파일명 → 소재명 자동 채움 (비어 있을 때) · 미리보기 반영
+    const drop = $('#edDrop'), dropInput = $('input', drop);
+    ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('is-dragover'); }));
+    ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, () => drop.classList.remove('is-dragover')));
+    drop.addEventListener('drop', e => { e.preventDefault(); if (e.dataTransfer.files[0]) pick(e.dataTransfer.files[0]); });
+    dropInput.addEventListener('change', () => { if (dropInput.files[0]) pick(dropInput.files[0]); });
+    function pick(file) {
+      if (!/^image\//.test(file.type)) { drop.classList.add('is-error'); window.gluckToast('danger', '이미지 파일만 올릴 수 있습니다', file.name); return; }
+      if (file.size > 2 * 1024 * 1024) { drop.classList.add('is-error'); window.gluckToast('danger', '2MB를 넘습니다', `${file.name} · ${(file.size / 1048576).toFixed(1)}MB`); return; }
+      drop.classList.remove('is-error');
+      const url = URL.createObjectURL(file); $('#edPvImg').innerHTML = ''; const img = new Image(); img.alt = ''; img.src = url; $('#edPvImg').appendChild(img);
+      const nm = $('#edName'); if (!nm.value.trim()) { nm.value = file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' '); }
+      $('span', drop).innerHTML = `<strong>${esc(file.name)}</strong> · ${(file.size / 1024).toFixed(0)}KB — 다른 파일을 놓으면 교체`;
+      refresh();
+    }
+
+    // 예외 상황 재현
+    $('#edSimConflict').addEventListener('click', () => { conflict = true; const a = $('#edConflict'); a.hidden = false; a.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+    ed.addEventListener('click', e => {
+      const c = e.target.closest('[data-conflict]'); if (c) { conflict = false; $('#edConflict').hidden = true; if (c.dataset.conflict === 'reload') { fill(Object.assign({}, base, { desc: base.desc + ' · 식품 접촉 등급 확인' })); base = collect(); baseJson = JSON.stringify(base); savedAt = '14:05'; refresh(); window.gluckToast('info', '최신 내용을 불러왔습니다', '이수민 님이 14:05에 저장한 버전입니다.'); } else { window.gluckToast('warning', '내 변경으로 덮어씁니다', '저장을 누르면 이수민 님의 변경이 사라집니다.'); } }
+      const d = e.target.closest('[data-draft]'); if (d) { $('#edDraft').hidden = true; if (d.dataset.draft === 'restore') { let draft = null; try { draft = JSON.parse(sessionStorage.getItem('gluck-ed-draft') || 'null'); } catch (x) {} fill(draft || Object.assign({}, base, { desc: base.desc + ' — 식품 접촉 등급', tags: base.tags.concat(['식품 접촉']) })); refresh(); window.gluckToast('success', '초안을 복원했습니다', '저장되지 않은 상태입니다 — 확인 후 저장하세요.'); } else { try { sessionStorage.removeItem('gluck-ed-draft'); } catch (x) {} } }
+    });
+    $('#edSimDraft').addEventListener('click', () => { const a = $('#edDraft'); a.hidden = false; a.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+    let nasDown = false;
+    $('#edSimNas').addEventListener('click', () => {
+      nasDown = !nasDown; const dot = $('#edNasDot'), row = dot.parentElement, det = $('#edNasDetail');
+      dot.className = 'gluck-status-dot ' + (nasDown ? 'is-bad' : 'is-ok'); row.lastChild.textContent = nasDown ? 'NAS 연결 끊김' : 'NAS 연결됨';
+      det.textContent = nasDown ? '재시도 중 (30초 간격) · 저장은 로컬에 보관' : `마지막 동기화 ${savedAt} · 12개 파일`;
+      window.gluckToast(nasDown ? 'danger' : 'success', nasDown ? 'NAS에 연결할 수 없습니다' : 'NAS 연결이 복구되었습니다', nasDown ? '변경은 이 브라우저에 보관되고, 연결이 돌아오면 저장할 수 있습니다.' : '보관된 변경을 지금 저장할 수 있습니다.');
+    });
+    // PDF 미리보기 — 오래 걸리는 작업은 상단 중앙 알약
+    $('#edPdf').addEventListener('click', () => {
+      const pill = document.createElement('div'); pill.className = 'gluck-busy'; pill.setAttribute('role', 'status'); pill.innerHTML = '<span class="gluck-spinner" aria-hidden="true"></span>TDS PDF 만드는 중…'; ed.appendChild(pill);
+      setTimeout(() => { pill.remove(); window.gluckToast('success', 'PDF가 준비되었습니다', `TDS_${collect().code.trim() || 'NEW'}.pdf · 184KB — 새 탭에서 열립니다 (데모에서는 열지 않음).`); }, 1400);
+    });
+    $('#edDeleteGo').addEventListener('click', () => { window.gluckToast('warning', `${collect().name.trim() || '소재'} 삭제됨`, '휴지통에서 30일 안에 복구할 수 있습니다.'); });
+
+    refresh();
+  }
+
+  /* ---------------- 조직도형 모달 폼 → 그룹 목록 반영 ---------------- */
+  const orgAdd = $('#orgAdd');
+  if (orgAdd) {
+    orgAdd.querySelector('form').addEventListener('submit', e => {
+      const name = $('#orgName').value.trim(); if (!name) { e.preventDefault(); $('#orgName').closest('.gluck-field').classList.add('is-invalid'); $('#orgName').focus(); return; }
+      $('#orgName').closest('.gluck-field').classList.remove('is-invalid');
+      const team = $('#orgTeam').value, role = $('#orgRole').value.trim() || '역할 미정', st = $('button[aria-pressed="true"]', $('#orgSt')).textContent.trim();
+      const g = $(`.gluck-list-group[data-team="${team}"]`); const empty = $('.gluck-list-group__empty', g); if (empty) empty.remove();
+      const ini = name.replace(/\s/g, '').slice(0, 2);
+      const row = document.createElement('div'); row.className = 'gluck-list-row';
+      row.innerHTML = `<span class="gluck-rows__grip" draggable="true" aria-hidden="true"><svg class="gluck-icon" aria-hidden="true"><use href="#i-grip-vertical"/></svg></span><span class="gluck-avatar" style="width: 28px; height: 28px; font-size: 11px"></span><div class="gluck-list-row__body"><b></b><span></span></div><span class="gluck-list-row__acts"><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="편집" data-modal="orgAdd"><svg class="gluck-icon" aria-hidden="true"><use href="#i-pencil"/></svg></button><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="삭제"><svg class="gluck-icon" aria-hidden="true"><use href="#i-trash-2"/></svg></button></span>`;
+      $('.gluck-avatar', row).textContent = ini; $('b', row).textContent = name; $('.gluck-list-row__body span', row).textContent = role + (st !== '재직' ? ` · ${st}` : '');
+      g.appendChild(row); $('.gluck-count', g).textContent = $$('.gluck-list-row', g).length;
+      window.gluckToast('success', '구성원을 추가했습니다', `${name} · ${team} · ${role}`);
+      $('#orgName').value = ''; $('#orgRole').value = '';
+    });
+    $('#orgGroups').addEventListener('click', e => {
+      const del = e.target.closest('[aria-label$="삭제"]'); if (!del) return;
+      const row = del.closest('.gluck-list-row'), g = row.closest('.gluck-list-group'), nm = $('b', row).textContent;
+      row.remove(); const n = $$('.gluck-list-row', g).length; $('.gluck-count', g).textContent = n;
+      if (!n) { const em = document.createElement('div'); em.className = 'gluck-list-group__empty'; em.textContent = '구성원이 없습니다.'; g.appendChild(em); }
+      window.gluckToast('warning', `${nm} 삭제됨`, '실수라면 조직도 이력에서 되돌릴 수 있습니다.');
+    });
+  }
 
   /* ---------------- initial theme (모든 렌더 함수 정의 후) ---------------- */
   let saved = null; try { saved = localStorage.getItem('gluck-theme'); } catch (e) {}

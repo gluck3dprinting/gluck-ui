@@ -12,6 +12,7 @@
    -------------------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--topbar-h) + var(--space-4)); }
+[hidden]:not([hidden="until-found"]) { display: none !important; }   /* display:flex 컴포넌트에도 hidden 속성이 통함 */
 body {
   margin: 0;
   background: var(--color-bg-page);
@@ -59,16 +60,16 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-border-default
    UTILITIES · typography
    -------------------------------------------------------------------------- */
 .t-num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
-.gluck-text-display { font: var(--font-display); letter-spacing: -.02em; }
-.gluck-text-h1      { font: var(--font-h1);      letter-spacing: -.02em; }
-.gluck-text-h2      { font: var(--font-h2);      letter-spacing: -.01em; }
-.gluck-text-h3      { font: var(--font-h3); }
+.gluck-text-display { font: var(--font-display); letter-spacing: var(--tracking-display); }
+.gluck-text-h1      { font: var(--font-h1);      letter-spacing: var(--tracking-heading); }
+.gluck-text-h2      { font: var(--font-h2);      letter-spacing: var(--tracking-heading); }
+.gluck-text-h3      { font: var(--font-h3);      letter-spacing: var(--tracking-title); }
 .gluck-text-h4      { font: var(--font-h4); }
 .gluck-text-body-lg { font: var(--font-body-lg); }
 .gluck-text-body    { font: var(--font-body); }
 .gluck-text-body-sm { font: var(--font-body-sm); }
 .gluck-text-caption { font: var(--font-caption); }
-.gluck-text-label   { font: var(--font-label); letter-spacing: .04em; }
+.gluck-text-label   { font: var(--font-label); letter-spacing: var(--tracking-label); }
 .gluck-text-secondary { color: var(--color-text-secondary); }
 .gluck-text-tertiary  { color: var(--color-text-tertiary); }
 .gluck-text-brand     { color: var(--color-text-brand); }
@@ -181,7 +182,7 @@ hr { border: 0; border-top: var(--border-width) solid var(--color-border-default
 /* --------------------------------------------------------------------------
    FORM
    -------------------------------------------------------------------------- */
-.gluck-field { display: grid; gap: var(--space-1-5, 6px); }
+.gluck-field { display: grid; gap: var(--space-1-5, 6px); align-content: start; }   /* 옆 필드에 도움말이 있어도 컨트롤 높이가 늘어나지 않음 */
 .gluck-label { font: var(--font-caption); color: var(--color-text-secondary); }
 .gluck-label.is-required::after { content: " *"; color: var(--color-text-danger); }
 .gluck-help { font: var(--font-caption); font-weight: var(--font-weight-regular); color: var(--color-text-tertiary); }
@@ -553,7 +554,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-sidebar__brand .gluck-logo svg { height: 16px; }
 .gluck-sidebar__env { margin-left: auto; }
 .gluck-sidebar nav { flex: 1; padding: var(--space-3) var(--space-2); overflow: auto; }
-.gluck-sidebar__group { font: var(--font-label); letter-spacing: .06em; color: var(--color-text-tertiary); padding: var(--space-3) var(--space-3) var(--space-1); text-transform: uppercase; white-space: nowrap; }
+.gluck-sidebar__group { font: var(--font-label); letter-spacing: var(--tracking-label); color: var(--color-text-tertiary); padding: var(--space-3) var(--space-3) var(--space-1); text-transform: uppercase; white-space: nowrap; }
 .gluck-sidebar nav a {
   display: flex; align-items: center; gap: var(--space-2-5, 10px); height: 38px; padding: 0 var(--space-3); border-radius: var(--radius-md);
   color: var(--color-text-secondary); font: var(--font-body-sm); font-weight: var(--font-weight-medium); text-decoration: none; white-space: nowrap;
@@ -578,7 +579,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-topbar__actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-1); }
 .gluck-page { padding: var(--space-6); display: grid; gap: var(--space-5); align-content: start; }
 .gluck-page-header { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3); }
-.gluck-page-header .gluck-page-title { font: var(--font-h4); font-size: 22px; line-height: 30px; }
+.gluck-page-header .gluck-page-title { font: var(--font-h4); font-size: 22px; line-height: 30px; letter-spacing: var(--tracking-title); }
 .gluck-page-header p { font: var(--font-body-sm); color: var(--color-text-tertiary); }
 .gluck-page-header .gluck-btn-group { margin-left: auto; }
 .gluck-filterbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding: var(--space-3); background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); }
@@ -591,7 +592,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
 .gluck-kpi { padding: var(--space-4) var(--space-5); display: grid; gap: var(--space-1); }
 .gluck-kpi__label { font: var(--font-caption); color: var(--color-text-tertiary); }
-.gluck-kpi__value { font: var(--font-h3); font-weight: var(--font-weight-bold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+.gluck-kpi__value { font: var(--font-h3); font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-heading); color: var(--color-text-primary); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 .gluck-kpi__delta { display: inline-flex; align-items: center; gap: 4px; font: var(--font-caption); }
 .gluck-kpi__delta.is-up { color: var(--color-status-success-text); }
 .gluck-kpi__delta.is-down { color: var(--color-status-danger-text); }
@@ -605,6 +606,177 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 }
 .gluck-env-badge { display: inline-flex; align-items: center; height: 20px; padding: 0 6px; border-radius: var(--radius-xs); font: var(--font-label); font-size: 10px; letter-spacing: .06em; background: var(--color-status-warning-bg); color: var(--color-status-warning-text); border: 1px solid var(--color-status-warning-border); }
 .gluck-env-badge--prod { background: var(--color-status-success-bg); color: var(--color-status-success-text); border-color: var(--color-status-success-border); }
+
+
+/* --------------------------------------------------------------------------
+   EDITOR (등록·편집 화면 패턴) — 소재 TDS 생성기 · 조직도 시스템의 등록 UX
+   구성: [라이브러리(선택)] | 폼 페인 | 스티키 미리보기  + 상단 저장 바
+   -------------------------------------------------------------------------- */
+.gluck-editor { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 42%); gap: var(--space-5); align-items: start; }
+.gluck-editor--library { grid-template-columns: 210px minmax(0, 1fr) minmax(340px, 40%); }
+.gluck-editor__library { display: grid; align-content: start; gap: var(--space-1); padding: var(--space-3) var(--space-2); background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); position: sticky; top: var(--space-5); max-height: calc(100dvh - var(--space-10)); overflow: auto; min-width: 0; }
+.gluck-editor__library h3 { font: var(--font-label); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-text-tertiary); padding: var(--space-1) var(--space-2) var(--space-2); }
+.gluck-editor__item { display: flex; align-items: center; gap: var(--space-2); width: 100%; text-align: left; padding: var(--space-2) var(--space-2-5); border: 0; border-radius: var(--radius-md); background: transparent; color: var(--color-text-primary); font: var(--font-body-sm); font-weight: var(--font-weight-semibold); cursor: pointer; white-space: nowrap; }
+.gluck-editor__item:hover { background: var(--color-bg-subtle); }
+.gluck-editor__item[aria-current="true"] { background: var(--color-action-selected-bg); color: var(--color-action-selected-text); }
+.gluck-editor__item .dot { width: 7px; height: 7px; border-radius: var(--radius-circle); background: var(--color-action-primary); flex: none; }
+.gluck-editor__item .meta { margin-left: auto; padding-left: var(--space-3); font: var(--font-label); letter-spacing: 0; color: var(--color-text-tertiary); }
+.gluck-editor__form { display: grid; gap: var(--space-3); align-content: start; min-width: 0; }
+.gluck-editor__preview { position: sticky; top: var(--space-5); display: grid; gap: var(--space-3); align-content: start; min-width: 0; }
+/* 좁은 컨테이너(1180 미만): 목록이 상단 가로 스트립으로 → 폼(1~2열 병합)·미리보기 2열 유지. 컨테이너 자신은 쿼리에 반응하지 않으므로 자식의 grid-column 으로 배치 */
+@container (max-width: 1179px) {
+  .gluck-editor--library > .gluck-editor__form { grid-column: 1 / 3; }
+  .gluck-editor--library > .gluck-editor__preview { grid-column: 3; }
+  .gluck-editor__library { grid-column: 1 / -1; position: static; max-height: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1); padding: var(--space-2) var(--space-2-5); }
+  .gluck-editor__library h3 { padding: 0 var(--space-2); }
+  .gluck-editor__library > div { display: contents; }
+  .gluck-editor__item { width: auto; }
+  .gluck-editor__library .gluck-status-panel { margin: 0 0 0 auto; padding: var(--space-1-5) var(--space-3); display: flex; align-items: center; gap: var(--space-2); }
+  .gluck-editor__library .gluck-status-panel__detail { max-width: 220px; }
+}
+/* 아주 좁은 컨테이너(880 미만): 1열, 미리보기는 폼 아래 */
+@container (max-width: 879px) {
+  .gluck-editor > .gluck-editor__form, .gluck-editor > .gluck-editor__preview { grid-column: 1 / -1; }
+  .gluck-editor__preview { position: static; }
+  .gluck-editor__library .gluck-status-panel { margin-left: 0; flex-basis: 100%; }
+}
+/* 컨테이너 쿼리 미지원 브라우저용 최소 폴백 */
+@supports not (container-type: inline-size) { @media (max-width: 1180px) { .gluck-editor, .gluck-editor--library { grid-template-columns: 1fr; } .gluck-editor__preview, .gluck-editor__library { position: static; max-height: none; } } }
+
+/* 폼 섹션 헤딩 — 헤어라인 이디엄 (소재 시스템) */
+.gluck-form-section { display: flex; align-items: center; gap: var(--space-3); margin: var(--space-6) 0 var(--space-3); font: var(--font-label); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-text-tertiary); }
+.gluck-form-section:first-child { margin-top: 0; }
+.gluck-form-section::after { content: ""; flex: 1; height: var(--border-width); background: var(--color-border-default); }
+.gluck-form-section .req { color: var(--color-text-danger); }
+.gluck-form-section--title { text-transform: none; letter-spacing: var(--tracking-title); font: var(--font-h4); color: var(--color-text-primary); }
+.gluck-form-section--title .note { font: var(--font-caption); color: var(--color-text-tertiary); }
+
+/* 저장 바 — 더티 표시 · 마지막 저장 · 액션 (상단 고정) */
+.gluck-savebar { position: sticky; top: 0; z-index: var(--z-sticky); display: flex; align-items: center; gap: var(--space-3); min-height: 56px; padding: var(--space-2) var(--space-4); background: color-mix(in srgb, var(--color-bg-surface) 92%, transparent); backdrop-filter: blur(8px); border-bottom: var(--border-width) solid var(--color-border-default); }
+.gluck-savebar__title { font: var(--font-body-sm); font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-title); display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.gluck-savebar__title .t-num { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gluck-savebar__state { display: inline-flex; align-items: center; gap: var(--space-1-5); font: var(--font-caption); color: var(--color-text-tertiary); white-space: nowrap; }
+.gluck-savebar__state::before { content: ""; width: 7px; height: 7px; border-radius: var(--radius-circle); background: var(--color-status-success-text); }
+.gluck-savebar__state.is-dirty { color: var(--color-status-warning-text); }
+.gluck-savebar__state.is-dirty::before { background: var(--color-status-warning-text); }
+.gluck-savebar__state.is-saving::before { background: var(--color-action-primary); animation: gluck-pulse 1s ease-in-out infinite; }
+.gluck-savebar__actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-2); }
+@keyframes gluck-pulse { 50% { opacity: .35; } }
+
+/* 세그먼트 컨트롤 — 재직/퇴사 · Cover/Contain 등 2~4개 상호배타 선택 */
+.gluck-seg { display: inline-flex; border: var(--border-width) solid var(--color-border-input); border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-surface); }
+.gluck-seg button { height: calc(var(--size-control-sm) - 2px); padding: 0 var(--space-3); border: 0; background: transparent; color: var(--color-text-secondary); font: var(--font-button); font-weight: var(--font-weight-medium); cursor: pointer; white-space: nowrap; }
+.gluck-seg button + button { border-left: var(--border-width) solid var(--color-border-default); }
+.gluck-seg button:hover { background: var(--color-bg-subtle); }
+.gluck-seg button[aria-pressed="true"] { background: var(--color-action-selected-bg); color: var(--color-action-selected-text); font-weight: var(--font-weight-bold); }
+.gluck-seg--sm button { height: 28px; padding: 0 var(--space-2-5); font-size: var(--font-size-label); }
+
+/* 동적 행 편집기 — 물성표(라벨·값·단위) · 파일 목록 · 특성 등 "추가/삭제/순서" 데이터 */
+.gluck-rows { display: grid; gap: var(--space-2); }
+.gluck-rows__head, .gluck-rows__row { display: grid; grid-template-columns: 28px minmax(0, 1fr) 26% 18% auto; gap: var(--space-2); align-items: center; }
+.gluck-rows__head { font: var(--font-label); letter-spacing: var(--tracking-label); color: var(--color-text-tertiary); padding: 0 0 var(--space-1); }
+.gluck-rows__row .gluck-input { min-height: var(--size-control-sm); font-size: 13px; }
+.gluck-rows__grip { display: grid; place-items: center; color: var(--color-text-disabled); cursor: grab; user-select: none; }
+.gluck-rows__grip:active { cursor: grabbing; }
+.gluck-rows__row.is-dragging { opacity: .4; }
+.gluck-rows__row.is-over { box-shadow: inset 0 2px 0 var(--color-action-primary); }
+.gluck-rows__acts { display: inline-flex; gap: 2px; }
+.gluck-rows__add { justify-self: start; }
+.gluck-rows--2 .gluck-rows__head, .gluck-rows--2 .gluck-rows__row { grid-template-columns: 28px minmax(0, 1fr) auto; }
+.gluck-rows--files .gluck-rows__head, .gluck-rows--files .gluck-rows__row { grid-template-columns: 28px 80px minmax(0, 1fr) 90px auto; }
+.gluck-rows__limit { font: var(--font-caption); color: var(--color-status-warning-text); }
+
+/* 칩 입력 — 키워드·태그 (최대 개수 안내 포함) */
+.gluck-chips { display: flex; flex-wrap: wrap; gap: var(--space-1-5); align-items: center; min-height: var(--size-control-md); padding: var(--space-1-5) var(--space-2); border: var(--border-width) solid var(--color-border-input); border-radius: var(--radius-sm); background: var(--color-bg-surface); cursor: text; }
+.gluck-chips:focus-within { border-color: var(--color-border-focus); box-shadow: 0 0 0 3px var(--color-bg-brand-subtle); }
+.gluck-chips input { flex: 1; min-width: 120px; border: 0; outline: 0; background: transparent; font: var(--font-body-sm); padding: var(--space-1); color: var(--color-text-primary); }
+.gluck-chips input::placeholder { color: var(--color-text-placeholder); }
+.gluck-chips .gluck-tag { height: 26px; }
+.gluck-chips.is-full input { display: none; }
+
+/* 미리보기 시트 — 출력물(TDS·조직도)을 그대로 보이는 종이 (회색 캔버스 위) */
+.gluck-canvas { display: grid; justify-items: center; align-content: start; gap: var(--space-3); padding: var(--space-6); background: var(--color-bg-sunken); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); max-height: calc(100dvh - var(--space-12)); overflow: auto; }
+[data-theme="admin"] .gluck-canvas { background: #DDE3EE; } /* lint-ignore: 종이 대비용 캔버스 */
+.gluck-sheet { width: 100%; max-width: 560px; background: #FFFFFF; color: #1A1D24; border-radius: var(--radius-xs); box-shadow: 0 8px 30px rgba(20, 40, 90, .18); overflow: hidden; } /* lint-ignore: 출력물은 항상 백지 */
+.gluck-sheet--a4 { aspect-ratio: 210 / 297; }
+.gluck-sheet--16-9 { aspect-ratio: 16 / 9; }
+.gluck-canvas__meta { font: var(--font-caption); color: var(--color-text-tertiary); display: flex; gap: var(--space-3); align-items: center; }
+.gluck-canvas__label { align-self: start; font: var(--font-label); letter-spacing: var(--tracking-label); color: var(--color-text-tertiary); display: flex; justify-content: space-between; width: 100%; max-width: 560px; }
+
+.gluck-sheet__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding: 22px 26px 14px; border-bottom: 2px solid var(--gluck-blue-600); }
+.gluck-sheet__eyebrow { font: var(--font-weight-bold) 10px/14px var(--font-sans); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--gluck-blue-600); }
+.gluck-sheet__title { font: var(--font-weight-extrabold, 800) 22px/28px var(--font-sans); letter-spacing: var(--tracking-heading); margin-top: 4px; overflow-wrap: anywhere; }
+.gluck-sheet__code { font: var(--font-weight-semibold) 11px/16px var(--font-sans); color: var(--gluck-gray-500); white-space: nowrap; }
+.gluck-sheet__body { padding: 18px 26px 22px; display: grid; gap: 16px; }
+.gluck-sheet__desc { font: var(--font-weight-regular) 13px/20px var(--font-sans); color: var(--gluck-gray-700); margin: 0; }
+.gluck-sheet__img { aspect-ratio: 16 / 7; border-radius: 4px; background: var(--gluck-gray-100); display: grid; place-items: center; color: var(--gluck-gray-400, var(--gluck-gray-500)); font: var(--font-weight-semibold) 11px/16px var(--font-sans); overflow: hidden; }
+.gluck-sheet__img img { width: 100%; height: 100%; object-fit: var(--fit, cover); display: block; }
+.gluck-sheet__kv { width: 100%; border-collapse: collapse; font: var(--font-weight-regular) 12px/18px var(--font-sans); }
+.gluck-sheet__kv th { text-align: left; font-weight: var(--font-weight-semibold); color: var(--gluck-gray-500); padding: 6px 0; border-bottom: 1px solid var(--gluck-gray-100); width: 46%; }
+.gluck-sheet__kv td { padding: 6px 0; border-bottom: 1px solid var(--gluck-gray-100); font-variant-numeric: tabular-nums; }
+.gluck-sheet__kv td.u { color: var(--gluck-gray-500); text-align: right; width: 18%; }
+.gluck-sheet__kv i { color: var(--gluck-gray-400, var(--gluck-gray-500)); font-style: normal; }
+.gluck-sheet__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.gluck-sheet__tags span { font: var(--font-weight-semibold) 10.5px/16px var(--font-sans); padding: 2px 8px; border-radius: var(--radius-pill); background: var(--gluck-blue-50); color: var(--gluck-blue-700); }
+.gluck-sheet__foot { padding: 12px 26px; border-top: 1px solid var(--gluck-gray-100); display: flex; justify-content: space-between; gap: 12px; font: var(--font-weight-medium) 10px/14px var(--font-sans); color: var(--gluck-gray-500); }
+
+/* 검증 이슈 목록 — 미리보기 아래, 저장/출력 차단 사유 */
+.gluck-issues { display: grid; gap: var(--space-1-5); width: 100%; max-width: 560px; }
+.gluck-issue { display: flex; gap: var(--space-2); align-items: flex-start; padding: var(--space-2) var(--space-3); background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); border-left: 4px solid var(--color-status-danger-text); border-radius: var(--radius-sm); font: var(--font-caption); color: var(--color-text-secondary); }
+.gluck-issue--warning { border-left-color: var(--color-status-warning-text); }
+.gluck-issue .lv { font-weight: var(--font-weight-bold); flex: none; color: var(--color-status-danger-text); }
+.gluck-issue--warning .lv { color: var(--color-status-warning-text); }
+
+/* 상태 패널 — NAS/GitHub/서버 연결 상태 (사이드바 하단) */
+.gluck-status-panel { margin: var(--space-3) var(--space-2) 0; padding: var(--space-3); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-md); background: var(--color-bg-subtle); display: grid; gap: var(--space-1); }
+.gluck-status-panel__row { display: flex; align-items: center; gap: var(--space-2); font: var(--font-caption); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
+.gluck-status-panel__detail { font: var(--font-label); font-weight: 500; letter-spacing: 0; color: var(--color-text-tertiary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gluck-status-dot { width: 8px; height: 8px; border-radius: var(--radius-circle); background: var(--color-text-disabled); flex: none; }
+.gluck-status-dot.is-ok  { background: var(--color-status-success-text); box-shadow: 0 0 0 3px var(--color-status-success-bg); }
+.gluck-status-dot.is-bad { background: var(--color-status-danger-text);  box-shadow: 0 0 0 3px var(--color-status-danger-bg); }
+.gluck-status-dot.is-busy { background: var(--color-action-primary); animation: gluck-pulse 1s ease-in-out infinite; }
+.gluck-shell.is-collapsed .gluck-status-panel { display: none; }
+
+/* 진행 중 알약 — 상단 중앙 (PDF 생성 중… 등 오래 걸리는 작업) */
+.gluck-busy { position: fixed; left: 50%; top: var(--space-4); transform: translateX(-50%); z-index: var(--z-toast); display: inline-flex; align-items: center; gap: var(--space-2-5); padding: var(--space-2) var(--space-4); background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-pill); box-shadow: var(--shadow-md); font: var(--font-body-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+.gluck-busy .gluck-spinner { --sp: 14px; }
+
+/* 변경 내역 · 진행 단계 */
+.gluck-changes { display: grid; gap: var(--space-1-5); }
+.gluck-change { display: flex; align-items: center; gap: var(--space-2); font: var(--font-caption); color: var(--color-text-secondary); }
+.gluck-change .gluck-badge { flex: none; min-width: 42px; justify-content: center; }
+.gluck-change .nm { color: var(--color-text-primary); font-weight: var(--font-weight-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gluck-change .sz { margin-left: auto; color: var(--color-text-tertiary); white-space: nowrap; }
+.gluck-steps { display: grid; gap: var(--space-2); }
+.gluck-step { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: var(--space-2); align-items: center; font: var(--font-body-sm); color: var(--color-text-secondary); }
+.gluck-step__ic { width: 20px; height: 20px; border-radius: var(--radius-circle); display: grid; place-items: center; border: var(--border-width) solid var(--color-border-strong); color: var(--color-text-tertiary); }
+.gluck-step__ic .gluck-icon { width: 12px; height: 12px; stroke-width: 2.5; }
+.gluck-step.is-doing .gluck-step__ic { border-color: var(--color-action-primary); color: var(--color-action-primary); }
+.gluck-step.is-done { color: var(--color-text-primary); }
+.gluck-step.is-done .gluck-step__ic { background: var(--color-status-success-text); border-color: var(--color-status-success-text); color: var(--color-text-on-brand); }
+.gluck-step.is-fail .gluck-step__ic { background: var(--color-status-danger-text); border-color: var(--color-status-danger-text); color: var(--color-text-on-brand); }
+.gluck-step__note { font: var(--font-caption); color: var(--color-text-tertiary); }
+
+/* 그룹 목록 — 팀별 직원 목록처럼 "그룹 헤더 + 드래그 가능한 행" */
+.gluck-list-group { background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); padding: var(--space-2-5) var(--space-2-5) var(--space-2); }
+.gluck-list-group + .gluck-list-group { margin-top: var(--space-2-5); }
+.gluck-list-group.is-over { box-shadow: inset 0 0 0 2px var(--color-action-primary); }
+.gluck-list-group__hd { display: flex; align-items: center; gap: var(--space-2); margin: 2px var(--space-1-5) var(--space-2); font: var(--font-body-sm); font-weight: var(--font-weight-bold); }
+.gluck-list-group__hd .gluck-count { background: var(--color-bg-subtle); color: var(--color-text-tertiary); }
+.gluck-list-group__hd .swatch { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.gluck-list-row { display: flex; align-items: center; gap: var(--space-2-5); padding: var(--space-2); border-radius: var(--radius-md); border-top: 2px solid transparent; }
+.gluck-list-row:hover { background: var(--color-bg-subtle); }
+.gluck-list-row[aria-selected="true"] { background: var(--color-action-selected-bg); }
+.gluck-list-row.is-dragging { opacity: .4; }
+.gluck-list-row.is-over-before { border-top-color: var(--color-action-primary); }
+.gluck-list-row .gluck-rows__grip { color: var(--color-text-disabled); }
+.gluck-list-row__body { flex: 1; min-width: 0; display: grid; line-height: 1.35; }
+.gluck-list-row__body b { font: var(--font-body-sm); font-weight: var(--font-weight-semibold); }
+.gluck-list-row__body span { font: var(--font-caption); color: var(--color-text-tertiary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gluck-list-row__acts { display: inline-flex; gap: 2px; opacity: 0; transition: opacity var(--duration-fast); }
+.gluck-list-row:hover .gluck-list-row__acts, .gluck-list-row:focus-within .gluck-list-row__acts { opacity: 1; }
+@media (hover: none) { .gluck-list-row__acts { opacity: 1; } }
+.gluck-list-group__empty { padding: var(--space-3); font: var(--font-caption); color: var(--color-text-tertiary); text-align: center; border: 1px dashed var(--color-border-default); border-radius: var(--radius-md); }
 
 /* --------------------------------------------------------------------------
    SOCIAL LOGIN (서드파티 색은 허용 목록 토큰만)

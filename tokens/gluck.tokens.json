@@ -1,7 +1,7 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
   "$description": "GLUCK Design Tokens — 원본(DTCG). dist/gluck-tokens.css 는 현재 수동 동기화(scripts/build-tokens 예정) — 값 변경 시 둘 다 수정. 합성 폰트·레이아웃·테이블 토큰은 아직 CSS에만 있음. $extensions.gluck.status: confirmed(브랜드 확정) | draft(브랜드 확정 필요)",
-  "$version": "2.0.0-preview",
+  "$version": "2.1.0-preview",
   "gluck": {
     "$description": "1. PRIMITIVE — 컴포넌트에서 직접 참조 금지",
     "blue": {
@@ -124,6 +124,15 @@
     }
   },
 
+  "tracking": {
+    "$type": "dimension",
+    "$description": "자간 — 큰 글자는 조이고 라벨은 벌림. 소재 TDS 생성기·조직도 시스템 실측값을 토큰화 (2026-09-29)",
+    "display": { "$value": "-0.03em" },
+    "heading": { "$value": "-0.02em" },
+    "title":   { "$value": "-0.01em" },
+    "label":   { "$value": "0.04em" },
+    "eyebrow": { "$value": "0.12em" }
+  },
   "space": {
     "$type": "dimension",
     "0": { "$value": "0px" }, "1": { "$value": "4px" }, "2": { "$value": "8px" }, "3": { "$value": "12px" }, "4": { "$value": "16px" }, "5": { "$value": "20px" }, "6": { "$value": "24px" },

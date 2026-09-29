@@ -168,6 +168,13 @@
   --font-caption: var(--font-weight-medium)    var(--font-size-caption)/var(--line-height-caption) var(--font-sans);
   --font-label:   var(--font-weight-semibold)  var(--font-size-label)/var(--line-height-label)     var(--font-sans);
   --font-button:  var(--font-weight-semibold)  14px/20px var(--font-sans);
+
+  /* 자간 — 큰 글자는 조이고, 라벨은 살짝 벌림 (소재·조직도 시스템 실측 값) */
+  --tracking-display: -0.03em;
+  --tracking-heading: -0.02em;
+  --tracking-title:   -0.01em;
+  --tracking-label:    0.04em;
+  --tracking-eyebrow:  0.12em;
   --font-button-lg: var(--font-weight-semibold) 16px/20px var(--font-sans);
 
   /* ------------------------------------------------------------------
