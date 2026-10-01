@@ -2,7 +2,7 @@
    GLUCK UI · dist/gluck.js (선택) — 컴포넌트 공통 동작. 프레임워크 없이 <script src=".../dist/gluck.js" defer>
    포함 동작: details 드롭다운(하나만 열림·바깥 클릭/ESC 닫기·테이블 안 fixed 배치) · 툴팁 ESC 닫기(WCAG 1.4.13)
             · 헤더 모바일 드로어 · 관리자 셸 사이드바 접기/드로어 · 모달 [data-modal]/[data-close] · window.gluckToast()
-            · 등록·편집 화면: 세그먼트(.gluck-seg) · 동적 행(.gluck-rows: 추가/삭제/이동/그립 드래그) · 칩 입력(.gluck-chips) · window.gluckSaveState()
+            · 아이콘 스프라이트 자동 주입(#i-*) · 등록·편집 화면: 세그먼트(.gluck-seg) · 동적 행(.gluck-rows: 추가/삭제/이동/그립 드래그) · 칩 입력(.gluck-chips) · window.gluckSaveState()
    React/Vue 등에서는 같은 규칙을 컴포넌트 안에서 구현해도 됨. 규칙: HEX 리터럴 없음, DOM 계약은 llms.txt 참조.
    ========================================================================== */
 (function () {
@@ -10,6 +10,23 @@
   if (window.__gluckUI) return; window.__gluckUI = true;
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  /* ---- 아이콘 스프라이트 자동 주입: 문서에 #i-* 심볼이 없으면 같은 배포 경로의 assets/icons/icons.svg 를 불러와 <body> 맨 앞에 넣음
+          끄기: <script src=".../gluck.js" data-sprite="off"> · 다른 경로: data-sprite="/icons.svg" ---- */
+  (function () {
+    const self = document.currentScript; if (!self || self.dataset.sprite === 'off') return;
+    const url = self.dataset.sprite || new URL('../assets/icons/icons.svg', self.src).href;
+    const inject = () => {
+      if (document.getElementById('i-x')) return;
+      fetch(url).then(r => r.ok ? r.text() : '').then(t => {
+        if (!t || document.getElementById('i-x')) return;
+        const svg = new DOMParser().parseFromString(t, 'image/svg+xml').documentElement; if (!svg || svg.nodeName !== 'svg') return;
+        svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('style', 'position:absolute;width:0;height:0;overflow:hidden');
+        document.body.prepend(document.importNode(svg, true));
+      }).catch(() => {});
+    };
+    if (document.body) inject(); else document.addEventListener('DOMContentLoaded', inject);
+  })();
 
   /* ---- details 드롭다운 (.gluck-menu) ---- */
   function closeMenus(except) { $$('details.gluck-menu[open]').forEach(o => { if (o !== except) o.open = false; }); }

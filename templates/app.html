@@ -1,0 +1,286 @@
+<!doctype html>
+<!--
+  GLUCK 사내 시스템 시작 템플릿 — 이 파일을 그대로 복사해서 시작합니다.
+  · <html data-theme="admin"> + gluck.css 한 줄로 "사내 관리 화면 언어"(14px · 1px 선 · 10px 라운드 · 카드 16/18 · 간격 16)가 적용됩니다.
+  · 여백·글자 크기·색을 다시 쓰지 않습니다. 아래 클래스 조합만 사용하세요. (규칙: https://gluck3dprinting.github.io/gluck-ui/llms.txt)
+  · 화면 5종: ① 시작(대시보드) ② 목록 ③ 문서 읽기 ④ 등록·편집 ⑤ 설정 폼 — 필요한 화면만 남기고 지우면 됩니다.
+  · React/Vue 에서는 class → className 으로 같은 마크업을 쓰고, 아래 <link>·<script> 두 줄을 index.html 에 넣습니다.
+-->
+<html lang="ko" data-theme="admin">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLUCK 사내 시스템 — 시작 템플릿</title>
+<link rel="icon" href="https://gluck3dprinting.github.io/gluck-ui/assets/logo/GLUCK_Favicon.ico">
+<link rel="stylesheet" href="https://gluck3dprinting.github.io/gluck-ui/dist/gluck.css">
+<!-- gluck.js: 아이콘 스프라이트 자동 주입(#i-*) + 사이드바 접기 · 모달 · 토스트 · 세그먼트 · 동적 행 · 칩 -->
+<script src="https://gluck3dprinting.github.io/gluck-ui/dist/gluck.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+<div class="gluck-shell">
+  <!-- ───────── 사이드바: 워드마크 + 제품명(파랑) + 한 줄 설명 / 그룹 라벨 + 메뉴 / 하단 사용자 ───────── -->
+  <aside class="gluck-sidebar">
+    <div class="gluck-sidebar__brand">
+      <a class="gluck-logo" href="#home" aria-label="GLUCK 홈"><svg class="gluck-sidebar__logo-full" viewBox="0 0 407 87" aria-hidden="true"><use href="#lg-wordmark"/></svg><svg class="gluck-sidebar__logo-mini" viewBox="0 0 81 87" aria-hidden="true" style="height: 20px"><use href="#lg-symbol"/></svg></a>
+      <span class="gluck-sidebar__product">STARTER</span>
+      <span class="gluck-sidebar__desc">사내 시스템 시작 템플릿</span>
+    </div>
+    <nav aria-label="주 메뉴">
+      <a href="#home" data-view="home" aria-current="page"><svg class="gluck-icon" aria-hidden="true"><use href="#i-house"/></svg><span>시작하기</span></a>
+      <a href="#list" data-view="list"><svg class="gluck-icon" aria-hidden="true"><use href="#i-table-2"/></svg><span>목록</span><span class="gluck-count">3</span></a>
+      <a href="#doc" data-view="doc"><svg class="gluck-icon" aria-hidden="true"><use href="#i-book-open"/></svg><span>문서 읽기</span></a>
+      <a href="#edit" data-view="edit"><svg class="gluck-icon" aria-hidden="true"><use href="#i-pencil"/></svg><span>등록 · 편집</span></a>
+      <div class="gluck-sidebar__group">관리</div>
+      <a href="#settings" data-view="settings"><svg class="gluck-icon" aria-hidden="true"><use href="#i-settings"/></svg><span>설정</span></a>
+    </nav>
+    <div class="gluck-sidebar__footer"><span class="gluck-avatar">JH</span><div><strong>김정현</strong><span>기획팀 · 관리자</span></div></div>
+  </aside>
+
+  <div class="gluck-shell__main">
+    <!-- ───────── 상단바: 메뉴 버튼 + 검색만 (52px) ───────── -->
+    <div class="gluck-topbar">
+      <button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--sm" data-shell-toggle aria-label="사이드바 접기" aria-expanded="true"><svg class="gluck-icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
+      <div class="gluck-input-group gluck-topbar__search"><svg class="gluck-icon" aria-hidden="true"><use href="#i-search"/></svg><input class="gluck-input" type="search" placeholder="검색  ( / )" aria-label="전체 검색"></div>
+      <div class="gluck-topbar__actions"><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--sm" aria-label="도움말"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-help"/></svg></button></div>
+    </div>
+
+    <!-- ══════════ ① 시작(대시보드): 제목 → 다음 할 일 → 통계 4 → 2열 카드 → 단계 ══════════ -->
+    <main class="gluck-page" id="main" data-page="home">
+      <header class="gluck-page-header">
+        <div><h1 class="gluck-page-title">시작하기</h1><p>오늘 할 일과 진행 상황을 한 화면에서 확인합니다.</p></div>
+        <div class="gluck-btn-group"><button class="gluck-btn"><svg class="gluck-icon" aria-hidden="true"><use href="#i-download"/></svg> 내보내기</button><button class="gluck-btn gluck-btn--primary" data-modal="addModal"><svg class="gluck-icon" aria-hidden="true"><use href="#i-plus"/></svg> 새로 등록</button></div>
+      </header>
+
+      <section class="gluck-nextup" aria-label="다음 할 일">
+        <div><div class="gluck-nextup__eyebrow">다음 할 일</div><div class="gluck-nextup__title">1주차 실습 과제를 제출하세요</div><p>마감 10월 8일 · 예상 40분 · 검토자 이수민</p></div>
+        <a class="gluck-btn gluck-btn--primary" href="#doc" data-view="doc">과제 열기 <svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+      </section>
+
+      <div class="gluck-kpi-grid">
+        <div class="gluck-card gluck-kpi"><span class="gluck-kpi__label">전체 항목</span><span class="gluck-kpi__value">128</span></div>
+        <div class="gluck-card gluck-kpi"><span class="gluck-kpi__label">확인 완료</span><span class="gluck-kpi__value">96</span><span class="gluck-kpi__delta is-up"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-up"/></svg>지난주보다 12</span></div>
+        <div class="gluck-card gluck-kpi"><span class="gluck-kpi__label">확인 필요</span><span class="gluck-kpi__value">29</span></div>
+        <div class="gluck-card gluck-kpi"><span class="gluck-kpi__label">이번 주 변경</span><span class="gluck-kpi__value">7</span></div>
+      </div>
+
+      <div class="gluck-cols-2">
+        <section class="gluck-card" aria-labelledby="chkT">
+          <div class="gluck-card__head"><h3 class="gluck-card__title" id="chkT">시작 체크리스트</h3><span class="gluck-checklist__count">3/5</span></div>
+          <span class="gluck-progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"><span style="width: 60%"></span></span>
+          <ul class="gluck-checklist" style="margin-top: var(--space-2)">
+            <li class="is-done"><span class="gluck-checklist__ic"><svg class="gluck-icon" aria-hidden="true"><use href="#i-check"/></svg></span><span class="gluck-checklist__label">비밀번호 변경</span><span class="gluck-muted">9월 30일</span></li>
+            <li class="is-done"><span class="gluck-checklist__ic"><svg class="gluck-icon" aria-hidden="true"><use href="#i-check"/></svg></span><span class="gluck-checklist__label">회사 소개 읽기</span><span class="gluck-muted">9월 30일</span></li>
+            <li class="is-done"><span class="gluck-checklist__ic"><svg class="gluck-icon" aria-hidden="true"><use href="#i-check"/></svg></span><span class="gluck-checklist__label">시스템 접근 확인</span><span class="gluck-muted">10월 1일</span></li>
+            <li><span class="gluck-checklist__ic"><svg class="gluck-icon" aria-hidden="true"><use href="#i-check"/></svg></span><span class="gluck-checklist__label">첫 실습 제출</span><a class="gluck-btn gluck-btn--xs" href="#doc" data-view="doc">시작</a></li>
+            <li><span class="gluck-checklist__ic"><svg class="gluck-icon" aria-hidden="true"><use href="#i-check"/></svg></span><span class="gluck-checklist__label">검토 받기</span><span class="gluck-badge">대기</span></li>
+          </ul>
+        </section>
+        <section class="gluck-card" aria-labelledby="recT">
+          <div class="gluck-card__head"><h3 class="gluck-card__title" id="recT">최근 변경</h3><a class="gluck-btn gluck-btn--link" href="#list" data-view="list">전체 보기</a></div>
+          <ul class="gluck-list">
+            <li class="gluck-list__item"><div><a class="gluck-list__title" href="#doc" data-view="doc">견적 요청 처리 매뉴얼</a><div class="gluck-meta"><span class="gluck-badge gluck-badge--success">확인 완료</span><span>이수민 · 10월 1일</span></div></div><span class="gluck-badge gluck-badge--info gluck-badge--square">수정</span></li>
+            <li class="gluck-list__item"><div><a class="gluck-list__title" href="#doc" data-view="doc">홈페이지 사례 등록 방법</a><div class="gluck-meta"><span class="gluck-badge gluck-badge--warning">확인 필요</span><span>김정현 · 9월 30일</span></div></div><span class="gluck-badge gluck-badge--success gluck-badge--square">추가</span></li>
+            <li class="gluck-list__item"><div><a class="gluck-list__title" href="#doc" data-view="doc">광고 계정 접근 권한</a><div class="gluck-meta"><span class="gluck-badge gluck-badge--success">확인 완료</span><span>박유진 · 9월 29일</span></div></div><span class="gluck-badge gluck-badge--info gluck-badge--square">수정</span></li>
+          </ul>
+        </section>
+      </div>
+
+      <section aria-label="학습 단계">
+        <h2 class="gluck-section-title">학습 단계</h2>
+        <ol class="gluck-stepper">
+          <li class="is-done"><button type="button"><span class="gluck-stepper__n"><svg class="gluck-icon" aria-hidden="true"><use href="#i-check"/></svg></span><span class="gluck-stepper__body"><span class="gluck-stepper__title">1일차</span><span class="gluck-stepper__sub">9월 30일 · 4/4 완료</span></span></button></li>
+          <li class="is-current is-active"><button type="button"><span class="gluck-stepper__n">2</span><span class="gluck-stepper__body"><span class="gluck-stepper__title">1주차</span><span class="gluck-stepper__sub">~10월 8일 · 2/6 완료</span></span></button></li>
+          <li class="is-upcoming"><button type="button"><span class="gluck-stepper__n">3</span><span class="gluck-stepper__body"><span class="gluck-stepper__title">2주차</span><span class="gluck-stepper__sub">~10월 15일 · 0/5</span></span></button></li>
+          <li class="is-upcoming"><button type="button"><span class="gluck-stepper__n">4</span><span class="gluck-stepper__body"><span class="gluck-stepper__title">1개월</span><span class="gluck-stepper__sub">~10월 30일 · 0/4</span></span></button></li>
+        </ol>
+      </section>
+
+      <div class="gluck-callout gluck-callout--check"><svg class="gluck-icon" aria-hidden="true"><use href="#i-triangle-alert"/></svg><div><div class="gluck-callout__title">확인 필요 29건</div>담당자가 아직 확인하지 않은 항목입니다. 값이 비어 있으면 임의로 채우지 말고 "확인 필요"로 둡니다.</div></div>
+    </main>
+
+    <!-- ══════════ ② 목록: 제목+주 버튼 → 필터 줄 → 표(카드 flush) → 페이지네이션 ══════════ -->
+    <main class="gluck-page" data-page="list" hidden>
+      <header class="gluck-page-header">
+        <div><h1 class="gluck-page-title">목록</h1><p>전체 128건 · 확인 필요 29건</p></div>
+        <div class="gluck-btn-group"><button class="gluck-btn gluck-btn--primary" data-modal="addModal"><svg class="gluck-icon" aria-hidden="true"><use href="#i-plus"/></svg> 항목 추가</button></div>
+      </header>
+      <div class="gluck-filterbar">
+        <div class="gluck-input-group"><svg class="gluck-icon" aria-hidden="true"><use href="#i-search"/></svg><input class="gluck-input" type="search" placeholder="이름 · 담당 검색" aria-label="목록 검색"></div>
+        <select class="gluck-select" aria-label="분류"><option>분류: 전체</option><option>매뉴얼</option><option>시스템</option><option>자료</option></select>
+        <div role="group" aria-label="상태" class="gluck-row" style="--row-gap: 4px"><button class="gluck-pill" aria-pressed="true">전체</button><button class="gluck-pill" aria-pressed="false">확인 완료</button><button class="gluck-pill" aria-pressed="false">확인 필요</button></div>
+        <span class="gluck-spacer"></span>
+        <span class="gluck-muted">128건</span>
+      </div>
+      <div class="gluck-card gluck-card--flush">
+        <div class="gluck-table-wrap" style="border: 0; border-radius: 0">
+          <table class="gluck-table">
+            <caption class="sr-only">항목 목록</caption>
+            <thead><tr><th>이름</th><th>분류</th><th>담당</th><th>상태</th><th>확인일</th><th class="is-num">버전</th><th class="col-actions"><span class="sr-only">작업</span></th></tr></thead>
+            <tbody>
+              <tr><td class="is-primary">견적 요청 처리 매뉴얼</td><td><span class="gluck-tag">매뉴얼</span></td><td>이수민</td><td><span class="gluck-badge gluck-badge--success">확인 완료</span></td><td class="t-num">2026-10-01</td><td class="is-num">v4</td><td class="col-actions"><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="견적 요청 처리 매뉴얼 편집"><svg class="gluck-icon" aria-hidden="true"><use href="#i-pencil"/></svg></button></td></tr>
+              <tr><td class="is-primary">홈페이지 사례 등록 방법</td><td><span class="gluck-tag">매뉴얼</span></td><td>김정현</td><td><span class="gluck-badge gluck-badge--warning">확인 필요</span></td><td class="t-num gluck-text-tertiary">—</td><td class="is-num">v1</td><td class="col-actions"><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="홈페이지 사례 등록 방법 편집"><svg class="gluck-icon" aria-hidden="true"><use href="#i-pencil"/></svg></button></td></tr>
+              <tr><td class="is-primary">소재 TDS 생성기</td><td><span class="gluck-tag gluck-tag--industry">시스템</span></td><td>박유진</td><td><span class="gluck-badge gluck-badge--success">확인 완료</span></td><td class="t-num">2026-09-29</td><td class="is-num">v2</td><td class="col-actions"><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="소재 TDS 생성기 편집"><svg class="gluck-icon" aria-hidden="true"><use href="#i-pencil"/></svg></button></td></tr>
+              <tr><td class="is-primary">조직도 시스템</td><td><span class="gluck-tag gluck-tag--industry">시스템</span></td><td>김정현</td><td><span class="gluck-badge gluck-badge--success">확인 완료</span></td><td class="t-num">2026-09-26</td><td class="is-num">v3</td><td class="col-actions"><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="조직도 시스템 편집"><svg class="gluck-icon" aria-hidden="true"><use href="#i-pencil"/></svg></button></td></tr>
+              <tr><td class="is-primary">광고 계정 접근 권한</td><td><span class="gluck-tag">자료</span></td><td>박유진</td><td><span class="gluck-badge gluck-badge--danger">만료</span></td><td class="t-num">2026-06-12</td><td class="is-num">v1</td><td class="col-actions"><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="광고 계정 접근 권한 편집"><svg class="gluck-icon" aria-hidden="true"><use href="#i-pencil"/></svg></button></td></tr>
+              <tr><td class="is-primary">전시회 준비 체크리스트</td><td><span class="gluck-tag">자료</span></td><td>이수민</td><td><span class="gluck-badge">초안</span></td><td class="t-num gluck-text-tertiary">—</td><td class="is-num">v1</td><td class="col-actions"><button class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" aria-label="전시회 준비 체크리스트 편집"><svg class="gluck-icon" aria-hidden="true"><use href="#i-pencil"/></svg></button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <nav class="gluck-pagination" aria-label="페이지" style="border-top: 1px solid var(--color-border-default)"><span class="t-num">1–6 / 128</span><div class="gluck-pagination__pages"><button aria-label="이전" disabled><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-left"/></svg></button><button aria-current="page">1</button><button>2</button><button>3</button><button aria-label="다음"><svg class="gluck-icon gluck-icon--sm" aria-hidden="true"><use href="#i-chevron-right"/></svg></button></div></nav>
+      </div>
+    </main>
+
+    <!-- ══════════ ③ 문서 읽기: 경로 → 제목 → 본문 카드들 + 오른쪽 개요 → 이전/다음 ══════════ -->
+    <main class="gluck-page" data-page="doc" hidden>
+      <nav class="gluck-breadcrumb" aria-label="현재 위치"><a href="#list" data-view="list">목록</a><svg class="gluck-icon" aria-hidden="true"><use href="#i-chevron-right"/></svg><span aria-current="page">견적 요청 처리 매뉴얼</span></nav>
+      <header class="gluck-page-header">
+        <div><h1 class="gluck-page-title">견적 요청 처리 매뉴얼</h1><p>홈페이지로 들어온 견적 요청을 접수부터 발송까지 처리하는 순서입니다.</p></div>
+        <div class="gluck-btn-group"><button class="gluck-btn"><svg class="gluck-icon" aria-hidden="true"><use href="#i-history"/></svg> 버전 4</button><a class="gluck-btn gluck-btn--secondary" href="#edit" data-view="edit"><svg class="gluck-icon" aria-hidden="true"><use href="#i-pencil"/></svg> 편집</a></div>
+      </header>
+      <div class="gluck-doc">
+        <div class="gluck-doc__body">
+          <section class="gluck-card gluck-card--accent" id="d-summary">
+            <h3 class="gluck-card__title">요약</h3>
+            <p style="margin-top: var(--space-1); color: var(--color-text-secondary)">요청이 들어오면 당일 안에 담당을 배정하고, 4시간 안에 1차 회신합니다. 금액이 500만 원을 넘으면 팀장 검토를 거칩니다.</p>
+            <div class="gluck-meta" style="margin-top: var(--space-2-5)"><span class="gluck-badge gluck-badge--success">확인 완료</span><span>확인 2026-10-01 · 이수민</span><span>다음 검토 2027-01-01</span><span>약 4분 읽기</span></div>
+          </section>
+          <section class="gluck-card" id="d-info">
+            <h3 class="gluck-card__title">기본 정보</h3>
+            <dl class="gluck-kv" style="margin-top: var(--space-2-5)"><dt>담당 역할</dt><dd>영업 지원</dd><dt>사용 시스템</dt><dd>견적 시스템 · 메일</dd><dt>소요 시간</dt><dd>건당 15~30분</dd><dt>관련 문서</dt><dd><a href="#doc">견적서 양식 안내</a></dd></dl>
+          </section>
+          <section class="gluck-card" id="d-steps">
+            <h3 class="gluck-card__title">실행 순서</h3>
+            <ol class="gluck-procedure" style="margin-top: var(--space-3)">
+              <li><span class="gluck-procedure__n">1</span><div><b>요청 확인</b> — 견적 시스템의 "신규" 목록에서 파일과 수량을 확인합니다.<div class="gluck-meta" style="margin-top: 5px"><span>견적 시스템</span><span>약 3분</span></div></div></li>
+              <li><span class="gluck-procedure__n">2</span><div><b>담당 배정</b> — 공정에 맞는 담당자를 지정하고 상태를 "검토 중"으로 바꿉니다.</div></li>
+              <li><span class="gluck-procedure__n">3</span><div><b>견적 작성 · 발송</b> — 양식에 맞춰 작성한 뒤 고객에게 메일로 보냅니다. 유효기간은 발송일부터 14일입니다.</div></li>
+            </ol>
+          </section>
+          <section class="gluck-card" id="d-notes">
+            <h3 class="gluck-card__title">주의할 점</h3>
+            <div class="gluck-stack" style="--stack-gap: var(--space-2-5); margin-top: var(--space-2-5)">
+              <div class="gluck-callout gluck-callout--caution"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-alert"/></svg><div><div class="gluck-callout__title">주의</div>고객 도면 파일은 외부 메신저로 전달하지 않습니다.</div></div>
+              <div class="gluck-callout gluck-callout--tip"><svg class="gluck-icon" aria-hidden="true"><use href="#i-info"/></svg><div><div class="gluck-callout__title">팁</div>비슷한 요청이 있었다면 이전 견적을 "복제"해서 시작하면 빠릅니다.</div></div>
+              <div class="gluck-callout gluck-callout--ok"><svg class="gluck-icon" aria-hidden="true"><use href="#i-circle-check"/></svg><div><div class="gluck-callout__title">확인 완료</div>2026-10-01 기준 실제 화면과 일치합니다.</div></div>
+            </div>
+          </section>
+          <nav class="gluck-doc-nav" aria-label="이전 · 다음 문서"><a href="#doc"><small>이전</small>고객 문의 응대 기준</a><a class="is-next" href="#doc"><small>다음</small>견적서 양식 안내</a></nav>
+        </div>
+        <aside class="gluck-outline" aria-label="이 문서에서">
+          <p class="gluck-outline__title">이 문서에서</p>
+          <ul><li><a href="#d-summary" class="is-on">요약</a></li><li><a href="#d-info">기본 정보</a></li><li><a href="#d-steps">실행 순서 <span class="gluck-badge">3</span></a></li><li><a href="#d-notes">주의할 점</a></li></ul>
+        </aside>
+      </div>
+    </main>
+
+    <!-- ══════════ ④ 등록·편집: 저장 바(카드형) → 폼 + 스티키 미리보기 ══════════ -->
+    <main class="gluck-page gluck-page--wide" data-page="edit" hidden>
+      <div class="gluck-savebar" id="saveBar">
+        <div class="gluck-savebar__title"><span>견적 요청 처리 매뉴얼</span><span class="gluck-badge">수정</span></div>
+        <span class="gluck-savebar__state">저장됨 · 14:02</span>
+        <div class="gluck-savebar__actions"><button class="gluck-btn gluck-btn--ghost"><svg class="gluck-icon" aria-hidden="true"><use href="#i-copy"/></svg> 복제</button><button class="gluck-btn gluck-btn--primary" id="saveBtn" disabled><svg class="gluck-icon" aria-hidden="true"><use href="#i-save"/></svg> 저장</button></div>
+      </div>
+      <div class="gluck-editor">
+        <form class="gluck-editor__form gluck-card" id="editForm" novalidate autocomplete="off">
+          <h4 class="gluck-form-section">기본 정보 <span class="req" aria-hidden="true">*</span></h4>
+          <div class="gluck-form-grid">
+            <div class="gluck-field"><label class="gluck-label is-required" for="eTitle">제목</label><input class="gluck-input" id="eTitle" value="견적 요청 처리 매뉴얼"></div>
+            <div class="gluck-field"><label class="gluck-label" for="eOwner">담당 역할</label><select class="gluck-select" id="eOwner"><option>영업 지원</option><option>기획</option><option>생산</option></select></div>
+            <div class="gluck-field"><span class="gluck-label" id="eStateL">확인 상태</span><div class="gluck-seg" role="group" aria-labelledby="eStateL"><button type="button" aria-pressed="true">확인 완료</button><button type="button" aria-pressed="false">확인 필요</button></div></div>
+            <div class="gluck-field"><label class="gluck-label" for="eDate">다음 검토일</label><input class="gluck-input t-num" id="eDate" type="date" value="2027-01-01"></div>
+            <div class="gluck-field is-full"><label class="gluck-label" for="eSum">요약</label><textarea class="gluck-textarea" id="eSum">요청이 들어오면 당일 안에 담당을 배정하고, 4시간 안에 1차 회신합니다.</textarea><span class="gluck-help">목록과 문서 첫 줄에 그대로 나옵니다.</span></div>
+          </div>
+          <h4 class="gluck-form-section">실행 순서</h4>
+          <div class="gluck-rows gluck-rows--2" data-max="12">
+            <div class="gluck-rows__body">
+              <div class="gluck-rows__row"><span class="gluck-rows__grip" draggable="true"><svg class="gluck-icon" aria-hidden="true"><use href="#i-grip-vertical"/></svg></span><input class="gluck-input" aria-label="단계" value="요청 확인"><span class="gluck-rows__acts"><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" data-row-up aria-label="위로"><svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-up"/></svg></button><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" data-row-down aria-label="아래로"><svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-down"/></svg></button><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" data-row-remove aria-label="삭제"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></span></div>
+              <div class="gluck-rows__row"><span class="gluck-rows__grip" draggable="true"><svg class="gluck-icon" aria-hidden="true"><use href="#i-grip-vertical"/></svg></span><input class="gluck-input" aria-label="단계" value="담당 배정"><span class="gluck-rows__acts"><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" data-row-up aria-label="위로"><svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-up"/></svg></button><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" data-row-down aria-label="아래로"><svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-down"/></svg></button><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" data-row-remove aria-label="삭제"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></span></div>
+            </div>
+            <template><div class="gluck-rows__row"><span class="gluck-rows__grip" draggable="true"><svg class="gluck-icon" aria-hidden="true"><use href="#i-grip-vertical"/></svg></span><input class="gluck-input" aria-label="단계" placeholder="단계 이름"><span class="gluck-rows__acts"><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" data-row-up aria-label="위로"><svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-up"/></svg></button><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" data-row-down aria-label="아래로"><svg class="gluck-icon" aria-hidden="true"><use href="#i-arrow-down"/></svg></button><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--xs" data-row-remove aria-label="삭제"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></span></div></template>
+            <button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--sm gluck-rows__add" data-row-add><svg class="gluck-icon" aria-hidden="true"><use href="#i-plus"/></svg> 단계 추가</button>
+          </div>
+          <h4 class="gluck-form-section">키워드</h4>
+          <div class="gluck-chips" data-max="6" aria-label="키워드"><span class="gluck-tag gluck-tag--pill" data-value="견적"><span>견적</span><button type="button" class="gluck-tag__remove" aria-label="견적 제거"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></span><span class="gluck-tag gluck-tag--pill" data-value="영업"><span>영업</span><button type="button" class="gluck-tag__remove" aria-label="영업 제거"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></span><input aria-label="키워드 입력" placeholder="입력 후 Enter"></div>
+          <div class="gluck-form-actions"><span class="gluck-muted">Ctrl + S 로 저장</span><button type="button" class="gluck-btn gluck-btn--ghost">변경 취소</button><button type="submit" class="gluck-btn gluck-btn--primary">저장</button></div>
+        </form>
+        <aside class="gluck-editor__preview" aria-label="미리보기">
+          <div class="gluck-canvas">
+            <div class="gluck-canvas__label"><span>미리보기 · 입력과 동시에 갱신</span><span class="gluck-badge gluck-badge--success">확인 완료</span></div>
+            <article class="gluck-sheet">
+              <div class="gluck-sheet__head"><div><div class="gluck-sheet__eyebrow">Manual</div><div class="gluck-sheet__title" id="pvTitle">견적 요청 처리 매뉴얼</div></div><div class="gluck-sheet__code">v4 · 영업 지원</div></div>
+              <div class="gluck-sheet__body"><p class="gluck-sheet__desc" id="pvSum">요청이 들어오면 당일 안에 담당을 배정하고, 4시간 안에 1차 회신합니다.</p><table class="gluck-sheet__kv"><tbody><tr><th>1</th><td>요청 확인</td></tr><tr><th>2</th><td>담당 배정</td></tr></tbody></table><div class="gluck-sheet__tags"><span>견적</span><span>영업</span></div></div>
+              <div class="gluck-sheet__foot"><span>GLUCK · glucklab.com</span><span>다음 검토 2027-01-01</span></div>
+            </article>
+            <div class="gluck-issues"><div class="gluck-issue gluck-issue--warning"><b class="lv">주의</b><span>예시가 없습니다 — 실제 사례를 1개 이상 넣는 것을 권장합니다.</span></div></div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- ══════════ ⑤ 설정 폼: 좁은 페이지 → 카드 → 절 제목 → 2열 폼 → 버튼 줄 ══════════ -->
+    <main class="gluck-page gluck-page--narrow" data-page="settings" hidden>
+      <header class="gluck-page-header"><div><h1 class="gluck-page-title">설정</h1><p>저장 위치와 알림을 관리합니다.</p></div></header>
+      <form class="gluck-card" novalidate>
+        <h2 class="gluck-section-title">저장 위치</h2>
+        <div class="gluck-form-grid">
+          <div class="gluck-field is-full"><label class="gluck-label is-required" for="sPath">NAS 폴더</label><input class="gluck-input" id="sPath" value="\\NAS\공용\온보딩"><span class="gluck-help">폴더가 없으면 이 PC의 data/ 에 임시 저장합니다.</span></div>
+          <div class="gluck-field"><label class="gluck-label" for="sBackup">백업 주기</label><select class="gluck-select" id="sBackup"><option>매일</option><option>매주</option></select></div>
+          <div class="gluck-field"><label class="gluck-label" for="sKeep">보관 개수</label><input class="gluck-input t-num" id="sKeep" type="number" value="30"></div>
+        </div>
+        <h2 class="gluck-section-title">알림</h2>
+        <div class="gluck-stack" style="--stack-gap: var(--space-2-5)">
+          <label class="gluck-switch"><input type="checkbox" role="switch" checked> 검토 요청이 오면 알림</label>
+          <label class="gluck-check"><input type="checkbox" checked> 확인일이 90일 지난 항목을 "확인 필요"로 표시</label>
+        </div>
+        <div class="gluck-form-actions"><button type="button" class="gluck-btn gluck-btn--ghost">취소</button><button type="button" class="gluck-btn gluck-btn--primary" data-toast="success" data-toast-title="저장되었습니다" data-toast-msg="설정이 적용되었습니다.">저장</button></div>
+      </form>
+      <section class="gluck-card" aria-labelledby="dzT">
+        <div class="gluck-card__head"><h3 class="gluck-card__title" id="dzT">데이터 초기화</h3><button class="gluck-btn gluck-btn--danger-outline" data-modal="resetModal">초기화…</button></div>
+        <p class="gluck-muted">시드 데이터로 되돌립니다. 실행 전에 자동으로 백업합니다.</p>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ───────── 짧은 등록은 모달(필드 4개 이하) ───────── -->
+<dialog class="gluck-modal" id="addModal" data-size="sm" aria-labelledby="addT">
+  <form method="dialog">
+    <div class="gluck-modal__header"><h2 class="gluck-modal__title" id="addT">항목 추가</h2><button type="button" class="gluck-btn gluck-btn--ghost gluck-btn--icon gluck-btn--sm gluck-modal__close" data-close aria-label="닫기"><svg class="gluck-icon" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+    <div class="gluck-modal__body"><div class="gluck-form-grid">
+      <div class="gluck-field is-full"><label class="gluck-label is-required" for="aName">이름</label><input class="gluck-input" id="aName" placeholder="예: 견적 요청 처리 매뉴얼"></div>
+      <div class="gluck-field"><label class="gluck-label" for="aKind">분류</label><select class="gluck-select" id="aKind"><option>매뉴얼</option><option>시스템</option><option>자료</option></select></div>
+      <div class="gluck-field"><label class="gluck-label" for="aOwner">담당</label><input class="gluck-input" id="aOwner" placeholder="역할 또는 이름"></div>
+    </div></div>
+    <div class="gluck-modal__footer"><button type="button" class="gluck-btn gluck-btn--ghost" data-close>취소</button><button type="submit" class="gluck-btn gluck-btn--primary" data-toast="success" data-toast-title="추가했습니다" data-toast-msg="목록 맨 위에서 확인하세요.">추가</button></div>
+  </form>
+</dialog>
+<dialog class="gluck-modal" id="resetModal" data-size="sm" aria-labelledby="resetT">
+  <div class="gluck-modal__header"><h2 class="gluck-modal__title" id="resetT">데이터를 초기화할까요?</h2></div>
+  <div class="gluck-modal__body">현재 데이터 <strong>128건</strong>이 시드 상태로 돌아갑니다. 실행 직전 백업이 만들어지며 30일 동안 복구할 수 있습니다.</div>
+  <div class="gluck-modal__footer"><button class="gluck-btn gluck-btn--ghost" data-close autofocus>취소</button><button class="gluck-btn gluck-btn--danger" data-close>초기화</button></div>
+</dialog>
+
+<script>
+/* 화면 전환(데모용) — 실제 앱에서는 라우터가 담당합니다. */
+(function () {
+  function show(view) {
+    var page = document.querySelector('[data-page="' + view + '"]'); if (!page) return;
+    document.querySelectorAll('[data-page]').forEach(function (p) { p.hidden = p !== page; });
+    document.querySelectorAll('.gluck-sidebar nav a').forEach(function (a) { if (a.dataset.view === view) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    window.scrollTo(0, 0);
+  }
+  document.addEventListener('click', function (e) { var a = e.target.closest('[data-view]'); if (a) { e.preventDefault(); show(a.dataset.view); history.replaceState(null, '', '#' + a.dataset.view); } });
+  document.addEventListener('click', function (e) { var p = e.target.closest('.gluck-pill'); if (p) p.parentElement.querySelectorAll('.gluck-pill').forEach(function (x) { x.setAttribute('aria-pressed', String(x === p)); }); });
+  if (location.hash) show(location.hash.slice(1));
+  /* 등록·편집: 더티 표시 → 저장 */
+  var form = document.getElementById('editForm'), bar = document.getElementById('saveBar'), btn = document.getElementById('saveBtn');
+  function dirty() { btn.disabled = false; if (window.gluckSaveState) window.gluckSaveState(bar, 'dirty', '저장되지 않은 변경'); document.getElementById('pvTitle').textContent = document.getElementById('eTitle').value || '제목'; document.getElementById('pvSum').textContent = document.getElementById('eSum').value; }
+  function save(e) { if (e) e.preventDefault(); if (btn.disabled) return; btn.disabled = true; window.gluckSaveState(bar, 'clean', '저장됨 · ' + new Date().toTimeString().slice(0, 5)); window.gluckToast('success', '저장되었습니다', '버전 5로 저장했습니다.'); }
+  form.addEventListener('input', dirty); form.addEventListener('gluck:change', dirty); form.addEventListener('submit', save); btn.addEventListener('click', save);
+  document.addEventListener('keydown', function (e) { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's' && !form.closest('[hidden]')) { e.preventDefault(); save(); } });
+})();
+</script>
+</body>
+</html>

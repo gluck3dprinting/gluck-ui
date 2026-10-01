@@ -222,6 +222,10 @@
   --hero-y: 120px;
   --topbar-h: 64px;
   --sidebar-w: 240px;
+  --color-bg-canvas: var(--color-bg-sunken);          /* 미리보기 시트 뒤 캔버스 */
+  --page-max: none;                              /* 앱 페이지 최대 폭 (admin: 1400px) */
+  --color-focus-halo: var(--color-bg-brand-subtle);   /* 입력 포커스 링 */
+  --color-text-section: var(--color-text-tertiary);   /* 절 제목(대문자 라벨) */
   --sidebar-w-collapsed: 64px;
 
   /* Breakpoints — 참조값 (@media 안에서는 var() 사용 불가 → 빌드 시 리터럴로 치환) */
@@ -359,33 +363,89 @@
 }
 
 /* ==========================================================================
-   3. THEME · Admin (Madmin · Hermes OS · 내부 운영 툴)
-   별도 컴포넌트(.adm-*)가 아니라 시맨틱 재바인딩으로 구현 → 컴포넌트는 한 벌.
-   Admin Primary: 브랜드 파생 #0047CC(7.57:1) — Draft(브랜드팀 확정 대기)
+   3. THEME · Admin = 사내 관리 화면 언어 (Madmin · Hermes OS · 온보딩 · 조직도 · 소재 등 모든 내부 시스템)
+   별도 컴포넌트(.adm-*)가 아니라 토큰 재바인딩으로 구현 → 컴포넌트는 한 벌.
+   수치 출처: 조직도 시스템(GLUCK ORG) · 소재 시스템(TDS) · 온보딩 시스템 3차 실측 (2026-10-01)
+   — 14px/1.5 · 1px 선 #E6E9EF · 10px 라운드 · 파랑 하나 · 회색 3단계 · 컨트롤 36px
+   Primary = 브랜드 키 컬러 #0059FF (흰 글자 5.4:1). 참조 시스템의 #337AFF(3.9:1)는 대비 미달이라 키 컬러로 대체.
    ========================================================================== */
 [data-theme="admin"] {
   color-scheme: light;
-  --color-bg-page:      #F7F8FA;                 /* Draft · 카드 대비용 앱 배경 */
-  --color-bg-subtle:    #F1F3F6;                 /* Draft · 필터바·테이블 헤더 */
+  /* 색 */
+  --color-bg-page:      #F5F6F8;
+  --color-bg-subtle:    #F0F2F6;                 /* hover · 보조 면 */
   --color-bg-surface:   var(--gluck-white);
-  --color-bg-sunken:    #F1F3F6;
-  --color-text-secondary: #5B6472;               /* Draft · 셀 텍스트 (5.98:1) */
-  --color-text-tertiary:  var(--gluck-gray-500); /* #8B93A1은 3.09:1로 미달 */
-  --color-border-default: #E4E7EC;               /* Draft */
-  --color-border-strong:  #CDD3DC;               /* Draft */
-  --color-action-primary:        var(--gluck-blue-700);
-  --color-action-primary-hover:  #003DB3;        /* Draft · blue-800 후보 */
-  --color-action-primary-active: #003399;        /* Draft · blue-900 후보 */
-  --color-action-selected-bg:    var(--gluck-blue-50);
-  --color-action-selected-text:  var(--gluck-blue-700);
-  --color-text-link:             var(--gluck-blue-700);
-  --color-text-brand:            var(--gluck-blue-700);
-  --color-border-focus:          var(--gluck-blue-700);
-  --shadow-sm: 0 1px 2px rgba(16, 24, 40, .05);
-  --table-row-h: 48px;
+  --color-bg-sunken:    #FAFBFC;                 /* 표 머리글 · 항목 상자 */
+  --color-bg-brand-subtle: #EAF1FF;
+  --color-bg-canvas:    #ECEEF2;                 /* 미리보기 캔버스 (조직도 시스템) */
+  --color-text-primary:   #1F2329;
+  --color-text-secondary: #4B515B;
+  --color-text-tertiary:  var(--gluck-gray-500); /* 참조값 #8A919C는 3.2:1로 미달 → gray-500(4.8:1) */
+  --color-text-section:   #16348A;               /* 절 제목 네이비 (소재 시스템) */
+  --color-border-default: #E6E9EF;
+  --color-border-strong:  #C9CFD8;
+  --color-border-input:   #D5DAE3;
+  --color-focus-halo:     #BCD2FF;
+  --color-action-primary:        var(--gluck-blue-600);
+  --color-action-primary-hover:  var(--gluck-blue-700);
+  --color-action-primary-active: #003DB3;
+  --color-action-tertiary:       var(--gluck-white);
+  --color-action-tertiary-hover: #F0F2F6;
+  --color-action-selected-bg:    #EAF1FF;
+  --color-action-selected-text:  var(--gluck-blue-600);
+  --color-text-link:             var(--gluck-blue-600);
+  --color-text-link-hover:       var(--gluck-blue-700);
+  --color-text-brand:            var(--gluck-blue-600);
+  --color-border-focus:          var(--gluck-blue-600);
+  --color-status-neutral-bg:     #EEF0F4;
+  --color-status-neutral-text:   #4B515B;
+  --color-status-info-bg:        #EAF1FF;
+  --color-status-info-text:      var(--gluck-blue-700);
+  --color-status-info-border:    #D5E3FF;
+  /* 타입 스케일 — 14px 기준 */
+  --font-size-h1:      22px;    --line-height-h1:      30px;
+  --font-size-h2:      18px;    --line-height-h2:      26px;
+  --font-size-h3:      15px;    --line-height-h3:      22px;
+  --font-size-h4:      14px;    --line-height-h4:      21px;
+  --font-size-body-lg: 15px;    --line-height-body-lg: 23px;
+  --font-size-body:    14px;    --line-height-body:    21px;
+  --font-size-body-sm: 13.5px;  --line-height-body-sm: 20px;
+  --font-size-caption: 12.5px;  --line-height-caption: 18px;
+  --font-size-label:   11px;    --line-height-label:   16px;
+  --font-h1:      var(--font-weight-bold)     var(--font-size-h1)/var(--line-height-h1)           var(--font-sans);
+  --font-h2:      var(--font-weight-bold)     var(--font-size-h2)/var(--line-height-h2)           var(--font-sans);
+  --font-h3:      var(--font-weight-bold)     var(--font-size-h3)/var(--line-height-h3)           var(--font-sans);
+  --font-h4:      var(--font-weight-bold)     var(--font-size-h4)/var(--line-height-h4)           var(--font-sans);
+  --font-body-lg: var(--font-weight-medium)   var(--font-size-body-lg)/var(--line-height-body-lg) var(--font-sans);
+  --font-body:    var(--font-weight-regular)  var(--font-size-body)/var(--line-height-body)       var(--font-sans);
+  --font-body-sm: var(--font-weight-regular)  var(--font-size-body-sm)/var(--line-height-body-sm) var(--font-sans);
+  --font-caption: var(--font-weight-regular)  var(--font-size-caption)/var(--line-height-caption) var(--font-sans);
+  --font-label:   var(--font-weight-bold)     var(--font-size-label)/var(--line-height-label)     var(--font-sans);
+  --font-button:    var(--font-weight-semibold) 14px/18px var(--font-sans);
+  --font-button-lg: var(--font-weight-semibold) 15px/20px var(--font-sans);
+  --tracking-heading: -0.01em;
+  --tracking-eyebrow:  0.08em;
+  /* 크기 · 형태 */
+  --size-control-xs: 24px;
+  --size-control-sm: 30px;
+  --size-control-md: 36px;
+  --size-control-lg: 44px;
+  --size-icon-md: 16px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --shadow-sm: 0 2px 10px rgba(10, 20, 40, .06);
+  --shadow-md: 0 8px 24px rgba(10, 20, 40, .12);
+  --shadow-lg: 0 20px 60px rgba(10, 20, 40, .25);
+  /* 레이아웃 */
+  --sidebar-w: 220px;
+  --topbar-h:  52px;
+  --gutter:    30px;
+  --page-max:  1400px;
+  --table-row-h:  40px;
+  --table-cell-x: 12px;
 }
 
 /* 테이블 밀도 — 테마와 무관하게 컨테이너 단위로 지정 (<div data-density="compact">) */
 [data-density="compact"] { --table-row-h: 40px; --table-cell-x: 12px; }
-[data-density="default"] { --table-row-h: 48px; --table-cell-x: 16px; }
+[data-density="default"] { --table-row-h: 44px; --table-cell-x: 14px; }
 [data-density="relaxed"] { --table-row-h: 56px; --table-cell-x: 20px; }

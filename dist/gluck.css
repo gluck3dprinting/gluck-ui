@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GLUCK UI · v2.0.0-preview
+   GLUCK UI · v2.2.0-preview
    dist/gluck.css = fonts + tokens + base + components + utilities
    소비: <link rel="stylesheet" href=".../dist/gluck.css">  (이 한 줄)
    규칙: 이 파일 안에 HEX 리터럴 금지 — 값은 전부 var(--color-*) 등 시맨틱 토큰.
@@ -567,7 +567,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-avatar { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: var(--radius-circle); background: var(--color-bg-brand-subtle); color: var(--color-action-selected-text); font: var(--font-label); flex: none; }
 .gluck-sidebar__footer div { min-width: 0; }
 .gluck-sidebar__footer strong { display: block; color: var(--color-text-primary); }
-.gluck-sidebar__footer span { color: var(--color-text-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.gluck-sidebar__footer div span { color: var(--color-text-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
 .gluck-sidebar__logo-mini { display: none; }
 .gluck-shell.is-collapsed .gluck-sidebar__group, .gluck-shell.is-collapsed .gluck-sidebar__footer div, .gluck-shell.is-collapsed .gluck-sidebar__env, .gluck-shell.is-collapsed .gluck-sidebar__logo-full { display: none; }
 .gluck-shell.is-collapsed .gluck-sidebar__logo-mini { display: block; }
@@ -599,8 +599,8 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-kpi__delta.is-down { color: var(--color-status-danger-text); }
 @media (max-width: 1023px) {
   .gluck-shell { grid-template-columns: minmax(0, 1fr); }
-  .gluck-sidebar { position: fixed; inset: 0 auto 0 0; width: var(--sidebar-w); z-index: var(--z-overlay); transform: translateX(-100%); transition: transform var(--duration-slow) var(--ease-standard); box-shadow: var(--shadow-lg); }
-  .gluck-shell.is-drawer-open .gluck-sidebar { transform: none; }
+  .gluck-sidebar { position: fixed; inset: 0 auto 0 0; width: var(--sidebar-w); z-index: var(--z-overlay); transform: translateX(-100%); transition: transform var(--duration-slow) var(--ease-standard); }
+  .gluck-shell.is-drawer-open .gluck-sidebar { transform: none; box-shadow: var(--shadow-lg); }   /* 닫힌 드로어의 그림자가 화면 가장자리에 비치지 않게 */
   .gluck-shell.is-drawer-open::before { content: ""; position: fixed; inset: 0; z-index: calc(var(--z-overlay) - 1); background: var(--color-bg-overlay); }   /* 클릭·ESC로 닫힘 (JS) */
   .gluck-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gluck-topbar__search { width: 100%; }
@@ -641,6 +641,8 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
   .gluck-editor__preview { position: static; }
   .gluck-editor__library .gluck-status-panel { margin-left: 0; flex-basis: 100%; }
 }
+/* 휴대폰 폭: 미리보기 열의 최소 폭(340px)이 화면을 넘지 않게 열 자체를 1개로 */
+@media (max-width: 639px) { .gluck-editor, .gluck-editor--library { grid-template-columns: minmax(0, 1fr); } }
 /* 컨테이너 쿼리 미지원 브라우저용 최소 폴백 */
 @supports not (container-type: inline-size) { @media (max-width: 1180px) { .gluck-editor, .gluck-editor--library { grid-template-columns: 1fr; } .gluck-editor__preview, .gluck-editor__library { position: static; max-height: none; } } }
 
@@ -655,7 +657,10 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 /* 저장 바 — 더티 표시 · 마지막 저장 · 액션 (상단 고정) */
 .gluck-savebar { position: sticky; top: 0; z-index: var(--z-sticky); display: flex; align-items: center; gap: var(--space-3); min-height: 56px; padding: var(--space-2) var(--space-4); background: color-mix(in srgb, var(--color-bg-surface) 92%, transparent); backdrop-filter: blur(8px); border-bottom: var(--border-width) solid var(--color-border-default); }
 .gluck-savebar__title { font: var(--font-body-sm); font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-title); display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
-.gluck-savebar__title .t-num { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gluck-savebar__title > :first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.gluck-savebar { flex-wrap: wrap; row-gap: var(--space-2); }
+.gluck-savebar__title { flex: 0 1 auto; max-width: 100%; }
+.gluck-savebar__title > .gluck-badge { flex: none; }
 .gluck-savebar__state { display: inline-flex; align-items: center; gap: var(--space-1-5); font: var(--font-caption); color: var(--color-text-tertiary); white-space: nowrap; }
 .gluck-savebar__state::before { content: ""; width: 7px; height: 7px; border-radius: var(--radius-circle); background: var(--color-status-success-text); }
 .gluck-savebar__state.is-dirty { color: var(--color-status-warning-text); }
@@ -671,6 +676,7 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-seg button:hover { background: var(--color-bg-subtle); }
 .gluck-seg button[aria-pressed="true"] { background: var(--color-action-selected-bg); color: var(--color-action-selected-text); font-weight: var(--font-weight-bold); }
 .gluck-seg--sm button { height: 28px; padding: 0 var(--space-2-5); font-size: var(--font-size-label); }
+.gluck-field > .gluck-seg { justify-self: start; }   /* 필드 안에서 늘어나지 않음 */
 
 /* 동적 행 편집기 — 물성표(라벨·값·단위) · 파일 목록 · 특성 등 "추가/삭제/순서" 데이터 */
 .gluck-rows { display: grid; gap: var(--space-2); }
@@ -696,9 +702,8 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
 .gluck-chips.is-full input { display: none; }
 
 /* 미리보기 시트 — 출력물(TDS·조직도)을 그대로 보이는 종이 (회색 캔버스 위) */
-.gluck-canvas { display: grid; justify-items: center; align-content: start; gap: var(--space-3); padding: var(--space-6); background: var(--color-bg-sunken); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); max-height: calc(100dvh - var(--space-12)); overflow: auto; }
-[data-theme="admin"] .gluck-canvas { background: #DDE3EE; } /* lint-ignore: 종이 대비용 캔버스 */
-.gluck-sheet { width: 100%; max-width: 560px; background: #FFFFFF; color: #1A1D24; border-radius: var(--radius-xs); box-shadow: 0 8px 30px rgba(20, 40, 90, .18); overflow: hidden; } /* lint-ignore: 출력물은 항상 백지 */
+.gluck-canvas { display: grid; justify-items: center; align-content: start; gap: var(--space-3); padding: var(--space-6); background: var(--color-bg-canvas); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); max-height: calc(100dvh - var(--space-12)); overflow: auto; }
+.gluck-sheet { width: 100%; max-width: 560px; background: var(--gluck-white); color: var(--gluck-gray-900); border-radius: var(--radius-xs); box-shadow: var(--shadow-md); overflow: hidden; }   /* 출력물은 테마와 무관한 백지 — 원시 토큰 사용 */
 .gluck-sheet--a4 { aspect-ratio: 210 / 297; }
 .gluck-sheet--16-9 { aspect-ratio: 16 / 9; }
 .gluck-canvas__meta { font: var(--font-caption); color: var(--color-text-tertiary); display: flex; gap: var(--space-3); align-items: center; }
@@ -798,3 +803,302 @@ button.gluck-tag:hover { border-color: var(--color-border-strong); color: var(--
   content: attr(data-lock-msg); position: absolute; inset: 0; display: grid; place-items: center;
   font: var(--font-caption); color: var(--color-text-secondary); background: linear-gradient(transparent, var(--color-bg-surface) 60%);
 }
+
+/* ==========================================================================
+   PATTERNS · 문서 · 온보딩 · 목록 (테마 공통 — 토큰만 사용)
+   온보딩 시스템에서 검증된 "읽고 → 따라 하고 → 완료하는" 화면 패턴
+   ========================================================================== */
+/* 카드 머리 · 링크 카드 · 강조 카드 · 카드 격자 */
+.gluck-card__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2-5); margin-bottom: var(--space-2-5); }
+.gluck-card__head .gluck-card__title { margin: 0; }
+.gluck-card--link { display: block; color: inherit; text-decoration: none; transition: box-shadow var(--duration-base), border-color var(--duration-base); }
+.gluck-card--link:hover { border-color: var(--color-border-strong); box-shadow: var(--shadow-sm); }
+.gluck-card--accent { border-left: 4px solid var(--color-action-primary); }
+.gluck-cols-2, .gluck-cols-3 { display: grid; gap: var(--space-4); align-items: start; }
+.gluck-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gluck-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.gluck-cols-2 > *, .gluck-cols-3 > * { min-width: 0; }
+@media (max-width: 1023px) { .gluck-cols-2, .gluck-cols-3 { grid-template-columns: minmax(0, 1fr); } }
+
+/* 절 제목 — 대문자 라벨 + 헤어라인 (.gluck-form-section 과 같은 모양, 폼 밖에서도 사용) */
+.gluck-section-title { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-6) 0 var(--space-2); font: var(--font-label); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-text-tertiary); }
+.gluck-section-title:first-child { margin-top: 0; }
+.gluck-section-title::after { content: ""; flex: 1; height: var(--border-width); background: var(--color-border-default); }
+
+/* 보조 텍스트 · 메타 줄 */
+.gluck-muted { color: var(--color-text-tertiary); font: var(--font-caption); }
+.gluck-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1-5) var(--space-3); font: var(--font-caption); color: var(--color-text-tertiary); }
+.gluck-meta .gluck-icon { width: 14px; height: 14px; }
+
+/* 목록 행 (제목 + 메타 + 오른쪽 액션) */
+.gluck-list { list-style: none; margin: 0; padding: 0; }
+.gluck-list__item { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: var(--space-2-5); padding: var(--space-2-5) 0; border-bottom: var(--border-width) solid var(--color-border-default); }
+.gluck-list__item:last-child { border-bottom: 0; padding-bottom: 0; }
+.gluck-list__item:first-child { padding-top: 0; }
+.gluck-list__item > * { min-width: 0; overflow-wrap: anywhere; }
+.gluck-list__title { font: var(--font-body-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); text-decoration: none; }
+a.gluck-list__title:hover { color: var(--color-text-link); }
+.gluck-list__item .gluck-meta { margin-top: 3px; }
+
+/* 키-값 (상세 정보) */
+.gluck-kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 7px var(--space-5); margin: 0; font: var(--font-body-sm); }
+.gluck-kv dt { color: var(--color-text-tertiary); font-weight: var(--font-weight-semibold); white-space: nowrap; }
+.gluck-kv dd { margin: 0; color: var(--color-text-secondary); }
+@media (max-width: 639px) { .gluck-kv { grid-template-columns: minmax(0, 1fr); gap: 2px; } .gluck-kv dd { margin-bottom: var(--space-2); } }
+
+/* 콜아웃 — 본문 흐름 안의 확인 필요·주의·팁·완료 (왼쪽 색 띠) */
+.gluck-callout { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: var(--space-2-5); padding: var(--space-2-5) var(--space-3-5); border-radius: var(--radius-md); border-left: 4px solid var(--color-border-strong); background: var(--color-bg-subtle); font: var(--font-body-sm); color: var(--color-text-secondary); }
+.gluck-callout > .gluck-icon { width: 18px; height: 18px; margin-top: 1px; color: var(--color-text-tertiary); }
+.gluck-callout__title { font-weight: var(--font-weight-bold); color: var(--color-text-primary); margin-bottom: 2px; }
+.gluck-callout ul { margin: 4px 0 0; padding-left: 18px; }
+.gluck-callout--tip { border-left-color: var(--color-action-primary); background: var(--color-status-info-bg); }
+.gluck-callout--tip > .gluck-icon, .gluck-callout--tip .gluck-callout__title { color: var(--color-status-info-text); }
+.gluck-callout--check { border-left-color: var(--color-status-warning-text); background: var(--color-status-warning-bg); }
+.gluck-callout--check > .gluck-icon, .gluck-callout--check .gluck-callout__title { color: var(--color-status-warning-text); }
+.gluck-callout--caution { border-left-color: var(--color-status-danger-text); background: var(--color-status-danger-bg); }
+.gluck-callout--caution > .gluck-icon, .gluck-callout--caution .gluck-callout__title { color: var(--color-status-danger-text); }
+.gluck-callout--ok { border-left-color: var(--color-status-success-text); background: var(--color-status-success-bg); }
+.gluck-callout--ok > .gluck-icon, .gluck-callout--ok .gluck-callout__title { color: var(--color-status-success-text); }
+
+/* 다음 할 일 — 첫 화면에서 "지금 할 것 하나"를 크게 */
+.gluck-nextup { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-3-5); align-items: center; padding: 18px var(--space-5); border-radius: var(--radius-lg); background: var(--color-action-selected-bg); border: var(--border-width) solid var(--color-status-info-border); }
+.gluck-nextup__eyebrow { font: var(--font-label); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-action-selected-text); }
+.gluck-nextup__title { font: var(--font-h2); letter-spacing: var(--tracking-title); margin-top: 2px; color: var(--color-text-primary); }
+.gluck-nextup p { font: var(--font-body-sm); color: var(--color-text-secondary); margin-top: 2px; }
+@media (max-width: 767px) { .gluck-nextup { grid-template-columns: minmax(0, 1fr); } }
+
+/* 체크리스트 — 진행 표시가 있는 할 일 */
+.gluck-checklist { list-style: none; margin: 0; padding: 0; }
+.gluck-checklist li { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: var(--space-2-5); align-items: center; padding: var(--space-2) 0; border-bottom: var(--border-width) solid var(--color-border-default); font: var(--font-body-sm); }
+.gluck-checklist li:last-child { border-bottom: 0; }
+.gluck-checklist__ic { width: 20px; height: 20px; border-radius: var(--radius-circle); border: var(--border-width-strong) solid var(--color-border-strong); display: grid; place-items: center; background: var(--color-bg-surface); color: transparent; }
+.gluck-checklist__ic .gluck-icon { width: 12px; height: 12px; stroke-width: 3; }
+.gluck-checklist li.is-done .gluck-checklist__ic { background: var(--color-status-success-text); border-color: var(--color-status-success-text); color: var(--color-text-on-brand); }
+.gluck-checklist li.is-done .gluck-checklist__label { color: var(--color-text-tertiary); text-decoration: line-through; text-decoration-thickness: 1px; }
+.gluck-checklist__count { font: var(--font-h2); font-weight: var(--font-weight-extrabold); letter-spacing: var(--tracking-heading); color: var(--color-text-brand); font-variant-numeric: tabular-nums; }
+
+/* 단계 표시 — 과정(1일차 · 1주차 …)을 가로 카드로 */
+.gluck-stepper { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-2); }
+.gluck-stepper button, .gluck-stepper a { width: 100%; display: flex; gap: var(--space-2-5); align-items: flex-start; text-align: left; background: var(--color-bg-surface); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); padding: var(--space-2-5) var(--space-3); color: var(--color-text-primary); font: var(--font-body-sm); text-decoration: none; cursor: pointer; }
+.gluck-stepper li.is-active > * { border-color: var(--color-action-primary); box-shadow: 0 0 0 2px var(--color-action-selected-bg); }
+.gluck-stepper__n { flex: none; width: 24px; height: 24px; border-radius: var(--radius-circle); display: grid; place-items: center; font: var(--font-label); font-weight: var(--font-weight-extrabold); border: var(--border-width-strong) solid var(--color-border-strong); color: var(--color-text-tertiary); }
+.gluck-stepper__n .gluck-icon { width: 12px; height: 12px; stroke-width: 3; }
+.gluck-stepper li.is-current .gluck-stepper__n { border-color: var(--color-action-primary); color: var(--color-text-brand); }
+.gluck-stepper li.is-done .gluck-stepper__n { background: var(--color-status-success-text); border-color: var(--color-status-success-text); color: var(--color-text-on-brand); }
+.gluck-stepper li.is-upcoming > * { color: var(--color-text-tertiary); }
+.gluck-stepper__body { display: grid; gap: 1px; min-width: 0; }
+.gluck-stepper__title { font-weight: var(--font-weight-bold); }
+.gluck-stepper__sub { font: var(--font-caption); color: var(--color-text-tertiary); }
+
+/* 순서 있는 절차 (매뉴얼의 실행 순서) */
+.gluck-procedure { list-style: none; margin: 0; padding: 0; }
+.gluck-procedure > li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-3) 0; border-bottom: var(--border-width) solid var(--color-border-default); font: var(--font-body-sm); color: var(--color-text-secondary); }
+.gluck-procedure > li:first-child { padding-top: 0; }
+.gluck-procedure > li:last-child { border-bottom: 0; padding-bottom: 0; }
+.gluck-procedure__n { width: 26px; height: 26px; border-radius: var(--radius-circle); background: var(--color-action-selected-bg); color: var(--color-action-selected-text); display: grid; place-items: center; font: var(--font-label); font-weight: var(--font-weight-extrabold); }
+.gluck-procedure b, .gluck-procedure strong { color: var(--color-text-primary); }
+
+/* 문서 읽기 — 본문 + 오른쪽 "이 문서에서" 개요 */
+.gluck-doc { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 26px; align-items: start; }
+.gluck-doc > * { min-width: 0; }
+.gluck-doc__body { display: grid; gap: var(--space-4); max-width: 860px; }
+.gluck-doc__body > * { scroll-margin-top: calc(var(--topbar-h) + var(--space-4)); }
+.gluck-outline { position: sticky; top: calc(var(--topbar-h) + var(--space-5)); font: var(--font-caption); }
+.gluck-outline__title { font: var(--font-label); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 var(--space-1-5); }
+.gluck-outline ul { list-style: none; margin: 0; padding: 0; border-left: var(--border-width) solid var(--color-border-default); }
+.gluck-outline li a, .gluck-outline li button { display: flex; justify-content: space-between; align-items: center; gap: var(--space-1-5); width: 100%; text-align: left; background: none; border: 0; border-left: 2px solid transparent; margin-left: -1px; padding: 5px var(--space-3); color: var(--color-text-secondary); font: inherit; font-weight: var(--font-weight-medium); text-decoration: none; cursor: pointer; }
+.gluck-outline li a:hover, .gluck-outline li button:hover { color: var(--color-text-primary); }
+.gluck-outline li .is-on, .gluck-outline li [aria-current="true"] { color: var(--color-text-brand); border-left-color: var(--color-action-primary); font-weight: var(--font-weight-bold); }
+.gluck-doc-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+.gluck-doc-nav a { display: block; padding: var(--space-3) var(--space-3-5); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); background: var(--color-bg-surface); color: var(--color-text-primary); font: var(--font-body-sm); font-weight: var(--font-weight-semibold); text-decoration: none; }
+.gluck-doc-nav a:hover { border-color: var(--color-border-strong); color: var(--color-text-primary); }
+.gluck-doc-nav small { display: block; font: var(--font-caption); color: var(--color-text-tertiary); margin-bottom: 2px; }
+.gluck-doc-nav .is-next { text-align: right; }
+@media (max-width: 1179px) {
+  .gluck-doc { grid-template-columns: minmax(0, 1fr); }
+  .gluck-outline { position: static; order: -1; }
+  .gluck-outline ul { display: flex; flex-wrap: wrap; gap: var(--space-1); border-left: 0; }
+  .gluck-outline li a, .gluck-outline li button { width: auto; border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-pill); padding: 4px 10px; margin: 0; }
+  .gluck-outline li .is-on, .gluck-outline li [aria-current="true"] { border-color: var(--color-action-primary); background: var(--color-action-selected-bg); }
+}
+
+/* 로그인 */
+.gluck-login { max-width: 420px; margin: 10vh auto; padding: 0 var(--space-4); }
+.gluck-login .gluck-card { padding: 26px 26px 22px; display: grid; gap: var(--space-3); }
+.gluck-login h1 { font: var(--font-h2); letter-spacing: var(--tracking-title); }
+
+/* 저장 바 — 페이지 안에 두면 카드형(상단바 아래에 붙음) */
+.gluck-page > .gluck-savebar { top: var(--savebar-top, var(--space-2)); min-height: 0; padding: var(--space-2-5) var(--space-3-5); border: var(--border-width) solid var(--color-border-default); border-radius: var(--radius-lg); background: var(--color-bg-surface); backdrop-filter: none; box-shadow: var(--shadow-sm); }
+
+/* ==========================================================================
+   APP LANGUAGE — [data-theme="admin"]  ·  사내 관리 · 운영 · 온보딩 화면의 기준
+   출처: 조직도 시스템(GLUCK ORG) · 소재 시스템(TDS) · 온보딩 시스템 3차 — 실측 수치를 그대로 옮김
+   "14px/1.5 · 얇은 1px 선 · 10px 라운드 · 파랑 하나 · 회색 3단계 · 카드 16/18 · 블록 간격 16"
+   <html data-theme="admin"> 한 줄이면 아래 수치가 모든 컴포넌트에 적용됨 (제품 쪽에서 여백·글자 크기를 다시 쓰지 않음)
+   :where() 로 감싸 기본 규칙과 같은 명시도를 유지 → 이 블록이 파일 끝에 있어 우선함
+   ========================================================================== */
+[data-theme="admin"] { font: var(--font-body); }
+:where([data-theme="admin"]) :is(h1, h2, h3, h4) { color: var(--color-text-primary); }
+:where([data-theme="admin"]) h1 { font: var(--font-h1); letter-spacing: var(--tracking-title); }
+:where([data-theme="admin"]) h2 { font: var(--font-h2); }
+:where([data-theme="admin"]) h3 { font: var(--font-h3); }
+:where([data-theme="admin"]) h4 { font: var(--font-h4); }
+:where([data-theme="admin"]) .gluck-icon { stroke-width: 2; }
+:where([data-theme="admin"]) a { text-decoration: none; }
+:where([data-theme="admin"]) a:where(:not([class*="gluck-"], .gluck-sidebar a, .gluck-outline a, .gluck-doc-nav a, .gluck-stepper a, .gluck-pagination a, .gluck-breadcrumb a)):hover { text-decoration: underline; }
+
+/* 버튼 — 기본은 "1px 선 + 흰 바탕 + 회색 글자", 강조만 파랑 */
+:where([data-theme="admin"]) .gluck-btn { --btn-px: 13px; gap: var(--space-1-5); background: var(--color-bg-surface); border-color: var(--color-border-default); color: var(--color-text-secondary); }
+:where([data-theme="admin"]) .gluck-btn:hover { background: var(--color-bg-subtle); }
+:where([data-theme="admin"]) .gluck-btn--sm { --btn-px: 10px; font-size: 13px; border-radius: 7px; }
+:where([data-theme="admin"]) .gluck-btn--xs { --btn-px: 8px; font-size: 12px; border-radius: var(--radius-sm); }
+:where([data-theme="admin"]) .gluck-btn--lg { --btn-px: var(--space-5); }
+:where([data-theme="admin"]) .gluck-btn--icon { padding: 0; }
+:where([data-theme="admin"]) .gluck-btn--primary { background: var(--color-action-primary); border-color: var(--color-action-primary); color: var(--color-text-on-brand); }
+:where([data-theme="admin"]) .gluck-btn--primary:hover { background: var(--color-action-primary-hover); border-color: var(--color-action-primary-hover); }
+:where([data-theme="admin"]) .gluck-btn--primary:active { background: var(--color-action-primary-active); border-color: var(--color-action-primary-active); }
+:where([data-theme="admin"]) .gluck-btn--secondary { background: var(--color-bg-surface); border-color: var(--color-focus-halo); color: var(--color-text-brand); }   /* 2순위 = 파랑 선 */
+:where([data-theme="admin"]) .gluck-btn--secondary:hover { background: var(--color-action-selected-bg); }
+:where([data-theme="admin"]) :is(.gluck-btn--tertiary, .gluck-btn--outline) { background: var(--color-bg-surface); border-color: var(--color-border-default); color: var(--color-text-secondary); }
+:where([data-theme="admin"]) :is(.gluck-btn--tertiary, .gluck-btn--outline):hover { background: var(--color-bg-subtle); border-color: var(--color-border-default); color: var(--color-text-primary); }
+:where([data-theme="admin"]) .gluck-btn--ghost { background: transparent; border-color: transparent; color: var(--color-text-secondary); }
+:where([data-theme="admin"]) .gluck-btn--ghost:hover { background: var(--color-bg-subtle); color: var(--color-text-primary); }
+:where([data-theme="admin"]) .gluck-btn--danger { background: var(--color-action-danger); border-color: var(--color-action-danger); color: var(--color-text-on-brand); }
+:where([data-theme="admin"]) .gluck-btn--danger:hover { background: var(--color-action-danger-hover); border-color: var(--color-action-danger-hover); }
+:where([data-theme="admin"]) .gluck-btn--danger-outline { background: var(--color-bg-surface); border-color: var(--color-border-default); color: var(--color-status-danger-text); }   /* 빨간 글자 선 버튼 */
+:where([data-theme="admin"]) .gluck-btn--danger-outline:hover { background: var(--color-status-danger-bg); }
+:where([data-theme="admin"]) .gluck-btn--link { background: transparent; border-color: transparent; color: var(--color-text-link); padding-inline: 2px; }
+:where([data-theme="admin"]) .gluck-btn--link:hover { background: transparent; }
+:where([data-theme="admin"]) .gluck-btn--on-brand { background: var(--color-text-on-brand); border-color: transparent; color: var(--color-action-primary); }
+:where([data-theme="admin"]) :is(.gluck-btn:disabled, .gluck-btn[aria-disabled="true"]) { background: var(--color-bg-surface); border-color: var(--color-border-default); color: var(--color-text-secondary); opacity: .5; }
+:where([data-theme="admin"]) :is(.gluck-btn--primary:disabled, .gluck-btn--primary[aria-disabled="true"]) { background: var(--color-action-primary); border-color: var(--color-action-primary); color: var(--color-text-on-brand); }
+:where([data-theme="admin"]) :is(.gluck-btn--ghost:disabled, .gluck-btn--link:disabled) { background: transparent; border-color: transparent; }
+
+/* 입력 — 36px · 8px 라운드 · 좌우 10px · 포커스는 연파랑 2px 링 */
+:where([data-theme="admin"]) :is(.gluck-input, .gluck-select, .gluck-textarea) { padding-inline: var(--space-2-5); border-radius: var(--radius-md); font-size: var(--font-size-body); }
+:where([data-theme="admin"]) .gluck-select { padding-right: calc(var(--space-2-5) * 2 + 16px); background-position: right var(--space-2-5) center; }
+:where([data-theme="admin"]) .gluck-textarea { padding-block: var(--space-2); min-height: 84px; line-height: 1.5; }
+:where([data-theme="admin"]) :is(.gluck-input--sm, .gluck-select--sm) { font-size: 13px; border-radius: 7px; }
+:where([data-theme="admin"]) :is(.gluck-input, .gluck-select, .gluck-textarea):focus-visible { box-shadow: 0 0 0 2px var(--color-focus-halo); }
+:where([data-theme="admin"]) .gluck-input-group .gluck-icon { left: var(--space-2-5); }
+:where([data-theme="admin"]) .gluck-input-group .gluck-input { padding-left: calc(var(--space-2-5) + var(--size-icon-md) + var(--space-2)); }
+:where([data-theme="admin"]) .gluck-field { gap: 5px; }
+:where([data-theme="admin"]) .gluck-label { font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+:where([data-theme="admin"]) .gluck-check { font-size: 13px; color: var(--color-text-secondary); align-items: center; }
+:where([data-theme="admin"]) .gluck-check input { margin: 0; width: 16px; height: 16px; }
+:where([data-theme="admin"]) .gluck-check input[type="checkbox"]::before { width: 16px; height: 16px; }
+:where([data-theme="admin"]) .gluck-switch { font-size: 13px; }
+:where([data-theme="admin"]) .gluck-form-grid { gap: var(--space-3) var(--space-3-5); }
+:where([data-theme="admin"]) .gluck-fieldset { gap: var(--space-3); }
+:where([data-theme="admin"]) .gluck-form-actions { padding-top: 0; border-top: 0; margin-top: var(--space-4); align-items: center; }
+:where([data-theme="admin"]) .gluck-editor__form { gap: 0; }
+:where([data-theme="admin"]) .gluck-editor__form > .gluck-alert { margin-bottom: var(--space-3); }
+:where([data-theme="admin"]) [hidden] + :is(.gluck-form-section, .gluck-section-title) { margin-top: 0; }
+:where([data-theme="admin"]) .gluck-form-actions .gluck-muted { margin-right: auto; }
+:where([data-theme="admin"]) .gluck-dropzone { padding: var(--space-5) var(--space-4); border-radius: var(--radius-md); gap: var(--space-1-5); }
+:where([data-theme="admin"]) :is(.gluck-form-section, .gluck-section-title) { margin: 22px 0 var(--space-2); gap: var(--space-2); color: var(--color-text-section); font-size: 12px; }
+:where([data-theme="admin"]) :is(.gluck-form-section, .gluck-section-title):first-child { margin-top: 0; }
+:where([data-theme="admin"]) .gluck-form-section--title { font: var(--font-h4); letter-spacing: 0; color: var(--color-text-primary); }
+:where([data-theme="admin"]) .gluck-seg { border-color: var(--color-border-default); }
+:where([data-theme="admin"]) .gluck-seg button { height: calc(var(--size-control-md) - 2px); font-weight: var(--font-weight-medium); }
+:where([data-theme="admin"]) .gluck-seg--sm button { height: 28px; font-size: 12px; }
+:where([data-theme="admin"]) .gluck-seg button[aria-pressed="true"] { font-weight: var(--font-weight-bold); }
+:where([data-theme="admin"]) .gluck-chips { border-radius: var(--radius-md); padding: 4px var(--space-2); }
+
+/* 배지 · 태그 — 점 없는 연한 알약, 테두리 없음 */
+:where([data-theme="admin"]) .gluck-badge { height: 20px; padding: 0 var(--space-2); border-color: transparent; border-radius: var(--radius-pill); font-weight: var(--font-weight-bold); }
+:where([data-theme="admin"]) .gluck-badge::before { display: none; }
+:where([data-theme="admin"]) .gluck-badge--dot::before { display: block; }
+:where([data-theme="admin"]) .gluck-badge--square { border-radius: var(--radius-xs); height: 18px; padding: 0 6px; }   /* 종류 표시(입사·수정·삭제 등) */
+:where([data-theme="admin"]) .gluck-tag { height: 22px; padding: 0 var(--space-2); border-color: transparent; border-radius: var(--radius-sm); background: var(--color-status-neutral-bg); font-size: 12px; font-weight: var(--font-weight-semibold); }
+:where([data-theme="admin"]) .gluck-tag--industry { background: var(--color-action-selected-bg); color: var(--color-action-selected-text); }
+:where([data-theme="admin"]) .gluck-tag--pill { border-radius: var(--radius-pill); }
+:where([data-theme="admin"]) .gluck-tag[aria-pressed="true"] { background: var(--color-action-primary); color: var(--color-text-on-brand); }
+:where([data-theme="admin"]) .gluck-pill { font-size: 13px; font-weight: var(--font-weight-medium); }
+:where([data-theme="admin"]) .gluck-pill[aria-pressed="true"] { font-weight: var(--font-weight-bold); }
+:where([data-theme="admin"]) .gluck-alert { border-color: transparent; padding: var(--space-2-5) var(--space-3); gap: var(--space-2-5); }
+
+/* 카드 — 16/18 · 10px 라운드 · 그림자 없음 */
+:where([data-theme="admin"]) .gluck-card { padding: var(--space-4) 18px; }
+:where([data-theme="admin"]) .gluck-card--flush { padding: 0; }
+:where([data-theme="admin"]) .gluck-card__body { padding: var(--space-4) 18px; gap: var(--space-2); }
+:where([data-theme="admin"]) .gluck-card__title { font: var(--font-h4); }
+:where([data-theme="admin"]) .gluck-card--interactive:hover { transform: none; box-shadow: var(--shadow-sm); }
+:where([data-theme="admin"]) .gluck-empty { padding: 22px var(--space-3); gap: var(--space-1); border: 1px dashed var(--color-border-default); border-radius: var(--radius-md); font: var(--font-body-sm); color: var(--color-text-tertiary); }
+:where([data-theme="admin"]) .gluck-empty__title { font: var(--font-body-sm); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+:where([data-theme="admin"]) .gluck-empty .gluck-icon { margin-bottom: var(--space-1); color: var(--color-border-strong); }
+
+/* 탭 · 모달 · 토스트 */
+:where([data-theme="admin"]) .gluck-tabs { gap: 2px; }
+:where([data-theme="admin"]) .gluck-tabs button { height: 38px; padding: 0 var(--space-3); font-weight: var(--font-weight-medium); }
+:where([data-theme="admin"]) .gluck-tabs :is(button[aria-pressed="true"], [role="tab"][aria-selected="true"]) { font-weight: var(--font-weight-bold); }
+:where([data-theme="admin"]) .gluck-modal { border-radius: var(--radius-xl); }
+:where([data-theme="admin"]) .gluck-modal[data-size="sm"] { --modal-w: 460px; }
+:where([data-theme="admin"]) .gluck-modal__header { padding: var(--space-5) 22px 0; align-items: center; }
+:where([data-theme="admin"]) .gluck-modal__title { font: var(--font-h2); }
+:where([data-theme="admin"]) .gluck-modal__body { padding: var(--space-3) 22px 18px; }
+:where([data-theme="admin"]) .gluck-modal__footer { padding: 0 22px 18px; background: transparent; border-top: 0; }
+:where([data-theme="admin"]) .gluck-toast-region { left: auto; right: var(--space-5); bottom: var(--space-5); transform: none; }
+:where([data-theme="admin"]) .gluck-toast { padding: var(--space-2-5) var(--space-3-5); border-radius: var(--radius-lg); gap: var(--space-2-5); }
+:where([data-theme="admin"]) .gluck-menu__item { padding: 7px var(--space-2-5); }
+:where([data-theme="admin"]) .gluck-avatar { width: 30px; height: 30px; font-weight: var(--font-weight-extrabold); font-size: 12px; }
+
+/* 표 — 머리글 12px 회색 · 셀 좌우 12px · 행 40px */
+:where([data-theme="admin"]) .gluck-table thead th { font-size: 12px; font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); }
+:where([data-theme="admin"]) .gluck-table tbody tr:hover td { background: var(--color-bg-sunken); }
+:where([data-theme="admin"]) .gluck-table tbody tr[aria-selected="true"] td { background: var(--color-action-selected-bg); }
+:where([data-theme="admin"]) .gluck-table-toolbar { padding: var(--space-2-5) var(--space-3); }
+:where([data-theme="admin"]) .gluck-pagination { padding: var(--space-2-5) var(--space-3); }
+:where([data-theme="admin"]) .gluck-pagination__pages :is(button, a) { min-width: 28px; height: 28px; }
+
+/* 앱 셸 — 사이드바 220 · 상단바 52 · 페이지 26/30/60 · 블록 간격 16 */
+:where([data-theme="admin"]) .gluck-shell { min-height: 100dvh; }
+@media (min-width: 1024px) { :where([data-theme="admin"]) .gluck-sidebar { position: sticky; top: 0; height: 100dvh; } }
+:where([data-theme="admin"]) .gluck-sidebar__brand { height: auto; flex-wrap: wrap; row-gap: var(--space-1); padding: 22px var(--space-5) var(--space-3); border-bottom: 0; }
+:where([data-theme="admin"]) .gluck-sidebar__brand .gluck-logo svg { height: 17px; }
+:where([data-theme="admin"]) .gluck-sidebar nav { display: flex; flex-direction: column; gap: 2px; padding: var(--space-1-5) var(--space-2-5); }
+:where([data-theme="admin"]) .gluck-sidebar__group { padding: var(--space-3-5) var(--space-3) var(--space-1); letter-spacing: var(--tracking-eyebrow); }
+:where([data-theme="admin"]) .gluck-sidebar nav a { height: 37px; flex: none; font: var(--font-body); font-weight: var(--font-weight-medium); }
+:where([data-theme="admin"]) .gluck-sidebar nav a .gluck-icon { color: var(--color-text-tertiary); }
+:where([data-theme="admin"]) .gluck-sidebar nav a:hover { background: var(--color-bg-page); color: var(--color-text-secondary); }
+:where([data-theme="admin"]) .gluck-sidebar nav a[aria-current="page"] { background: var(--color-action-selected-bg); color: var(--color-action-selected-text); font-weight: var(--font-weight-bold); }
+:where([data-theme="admin"]) .gluck-sidebar nav a[aria-current="page"] .gluck-icon { color: inherit; }
+:where([data-theme="admin"]) .gluck-sidebar__footer { padding: var(--space-3-5) var(--space-5); gap: var(--space-2-5); font-size: 12px; }
+:where([data-theme="admin"]) .gluck-sidebar__footer strong { font-size: 13px; }
+:where([data-theme="admin"]) .gluck-shell.is-collapsed .gluck-sidebar__brand { padding-inline: 0; }
+:where([data-theme="admin"]) .gluck-shell.is-collapsed .gluck-sidebar__footer { padding-inline: 0; justify-content: center; }
+:where([data-theme="admin"]) .gluck-topbar { height: var(--topbar-h); padding: 0 var(--gutter); gap: var(--space-2-5); position: sticky; top: 0; z-index: var(--z-sticky); }
+:where([data-theme="admin"]) .gluck-topbar__search { width: 340px; max-width: 100%; }
+:where([data-theme="admin"]) .gluck-topbar__search .gluck-input { min-height: 34px; background: var(--color-bg-page); border-color: var(--color-border-default); }
+:where([data-theme="admin"]) .gluck-page { padding: 26px var(--gutter) 60px; gap: var(--space-4); max-width: var(--page-max); width: 100%; grid-template-columns: minmax(0, 1fr); overflow-wrap: anywhere; }
+:where([data-theme="admin"]) .gluck-page > * { min-width: 0; }
+:where([data-theme="admin"]) .gluck-page--narrow { max-width: 760px; }
+:where([data-theme="admin"]) .gluck-page--wide { max-width: none; }
+:where([data-theme="admin"]) .gluck-page-header { justify-content: space-between; gap: var(--space-3-5); }
+:where([data-theme="admin"]) .gluck-page-header .gluck-page-title { font: var(--font-h1); letter-spacing: var(--tracking-title); }
+:where([data-theme="admin"]) .gluck-page-header p { font: var(--font-body); color: var(--color-text-secondary); margin-top: var(--space-1); max-width: 880px; }
+:where([data-theme="admin"]) .gluck-filterbar { padding: 0; background: transparent; border: 0; border-radius: 0; }
+:where([data-theme="admin"]) .gluck-filterbar :is(.gluck-input, .gluck-select) { min-height: var(--size-control-md); font-size: var(--font-size-body); }
+:where([data-theme="admin"]) .gluck-filterbar .gluck-input-group { width: 280px; }
+:where([data-theme="admin"]) .gluck-kpi-grid { gap: var(--space-3); }
+:where([data-theme="admin"]) .gluck-kpi { padding: 18px var(--space-5); display: flex; flex-direction: column; gap: 2px; }
+:where([data-theme="admin"]) .gluck-kpi__value { order: -1; font: var(--font-weight-extrabold) 28px/1.1 var(--font-sans); letter-spacing: -0.02em; }
+:where([data-theme="admin"]) .gluck-kpi__label { font-size: 13px; }
+:where([data-theme="admin"]) .gluck-kpi__delta { margin-top: var(--space-1); }
+:where([data-theme="admin"]) .gluck-savebar__title { font: var(--font-body); font-weight: var(--font-weight-bold); }
+:where([data-theme="admin"]) .gluck-shell__main > .gluck-savebar { top: var(--topbar-h); padding-inline: var(--gutter); }
+:where([data-theme="admin"]) .gluck-page > .gluck-savebar { --savebar-top: calc(var(--topbar-h) + var(--space-2)); }
+:where([data-theme="admin"]) .gluck-list-group { padding: var(--space-2-5) var(--space-2-5) var(--space-2); }
+:where([data-theme="admin"]) .gluck-list-row__body b { font: var(--font-body); font-weight: var(--font-weight-semibold); line-height: 1.3; }
+:where([data-theme="admin"]) .gluck-list-row__body span { line-height: 1.3; }
+@media (max-width: 1023px) {
+  :where([data-theme="admin"]) .gluck-page { padding: 18px var(--space-4) 50px; }
+  :where([data-theme="admin"]) .gluck-topbar { padding: 0 var(--space-4); }
+  :where([data-theme="admin"]) .gluck-topbar__search { width: auto; flex: 1; }
+}
+@media (max-width: 519px) { :where([data-theme="admin"]) .gluck-kpi-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* 사이드바 브랜드: 워드마크 + 제품명(파랑) + 한 줄 설명 */
+.gluck-sidebar__product { font: var(--font-weight-extrabold) 15px/1 var(--font-sans); letter-spacing: .02em; color: var(--color-text-brand); }
+.gluck-sidebar__desc { flex-basis: 100%; display: flex; align-items: center; gap: var(--space-1-5); font: var(--font-weight-medium) 12px/1.4 var(--font-sans); color: var(--color-text-tertiary); }   /* 환경 배지(gluck-env-badge)는 이 줄 안에 */
+.gluck-shell.is-collapsed .gluck-sidebar__product, .gluck-shell.is-collapsed .gluck-sidebar__desc { display: none; }

@@ -2,6 +2,23 @@
 
 형식: [Keep a Changelog](https://keepachangelog.com/ko/1.1.0/) · 버전: SemVer
 
+## [2.2.0-preview] — 2026-10-01
+### Changed — `data-theme="admin"` = 사내 관리 화면 언어
+- 조직도 시스템(GLUCK ORG) · 소재 시스템(TDS) · 온보딩 시스템 3차의 실측 수치로 admin 테마 전체를 재조정. `<html data-theme="admin">` 한 줄로 적용:
+  글자 14px/1.5 · 제목 22px 700 -0.01em · 통계 28px 800 -0.02em · 사이드바 220px · 상단바 52px · 페이지 26/30/60 · 블록 간격 16 · 카드 16/18 라운드 10 · 컨트롤 36px 라운드 8 · 표 머리글 12px/셀 13.5px/행 40px · 배지 11px 700 알약 · 라벨 12.5px 600
+- 버튼 기본형 = 흰 바탕 + 1px 선(강조만 파랑) · `--secondary` = 파랑 선 · `--danger-outline` = 빨간 글자 선 버튼 · 배지 점·테두리 없음(`--dot`으로 켬) · 필터 줄은 상자 없이 배치 · 통계 카드는 숫자 먼저
+- Admin Primary: blue-700 → **브랜드 키 컬러 blue-600 #0059FF**(5.4:1) · 선 #E6E9EF · 바탕 #F5F6F8 · 본문 #1F2329 / #4B515B
+- 테이블 밀도 `default` 48→44px
+### Added
+- `templates/app.html` — 사내 시스템 시작 템플릿(셸 + 시작·목록·문서 읽기·등록·편집·설정 5개 화면)
+- 문서·온보딩 패턴(§18): `gluck-nextup` · `gluck-checklist` · `gluck-stepper` · `gluck-doc` + `gluck-outline` + `gluck-doc-nav` · `gluck-callout`(`--check|--caution|--tip|--ok`) · `gluck-procedure` · `gluck-kv` · `gluck-list` · `gluck-meta` · `gluck-muted` · `gluck-section-title` · `gluck-card__head` · `gluck-card--accent|--link` · `gluck-cols-2|3` · `gluck-login` · `gluck-sidebar__product|__desc` · `gluck-page--narrow|--wide` · `gluck-badge--square|--dot`
+- `dist/gluck.js`: 아이콘 스프라이트 자동 주입(문서에 `#i-*`가 없으면 `assets/icons/icons.svg`를 불러와 삽입, `data-sprite="off"`로 끔)
+- Lucide 아이콘 8종(book-open · circle-help · folder · graduation-cap · house · link · list-checks · users → 60종)
+- 토큰: `--page-max` · `--color-focus-halo` · `--color-text-section` · `--color-bg-canvas`
+- llms.txt: "사내 시스템을 만들거나 다시 작업할 때"(화면 언어 수치 · 셸 뼈대 · 화면별 구성 · 다시 작업하는 순서 · 검수 목록)
+### Fixed
+- 사이드바 하단 아바타 글자가 가운데 정렬되지 않던 문제 · 필드 안 세그먼트가 가로로 늘어나던 문제
+
 ## [2.1.0-preview] — 2026-09-29
 ### Added
 - **등록·편집 화면 패턴** (디자인 시스템 §17) — 소재 TDS 생성기·조직도 시스템에서 검증된 등록 UX를 공용 컴포넌트로 승격: `gluck-savebar`(저장 상태·더티·Ctrl+S) · `gluck-editor [--library]`(목록 | 폼 | 스티키 미리보기) · `gluck-form-section`(헤어라인 섹션 제목) · `gluck-seg`(세그먼트) · `gluck-rows`(동적 행: 추가/삭제/이동/그립 드래그·최대 개수) · `gluck-chips`(칩 입력) · `gluck-canvas` + `gluck-sheet`(출력물 미리보기 시트 · `__head/__body/__kv/__tags/__foot`) · `gluck-issues`/`gluck-issue` · `gluck-changes`/`gluck-change` · `gluck-steps`/`gluck-step` · `gluck-status-panel` + `gluck-status-dot` · `gluck-busy` · `gluck-list-group`/`gluck-list-row`

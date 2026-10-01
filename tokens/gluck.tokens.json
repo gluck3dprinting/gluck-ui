@@ -1,7 +1,7 @@
 {
   "$schema": "https://tr.designtokens.org/format/",
   "$description": "GLUCK Design Tokens — 원본(DTCG). dist/gluck-tokens.css 는 현재 수동 동기화(scripts/build-tokens 예정) — 값 변경 시 둘 다 수정. 합성 폰트·레이아웃·테이블 토큰은 아직 CSS에만 있음. $extensions.gluck.status: confirmed(브랜드 확정) | draft(브랜드 확정 필요)",
-  "$version": "2.1.0-preview",
+  "$version": "2.2.0-preview",
   "gluck": {
     "$description": "1. PRIMITIVE — 컴포넌트에서 직접 참조 금지",
     "blue": {
@@ -174,12 +174,19 @@
       "color.status.neutral.text": "{gluck.dark.300}", "color.status.neutral.bg": "{gluck.dark.800}", "color.status.neutral.border": "{gluck.dark.700}"
     },
     "admin": {
-      "$description": "ADR-002: Admin Primary = 브랜드 파생 blue.700 (대안 #3182F6은 3.71:1 AA 미달). 뉴트럴 4종은 DESIGN-ADMIN v1.1 값 — draft",
-      "color.bg.page": "#F7F8FA", "color.bg.subtle": "#F1F3F6", "color.bg.sunken": "#F1F3F6",
-      "color.text.secondary": "#5B6472", "color.text.tertiary": "{gluck.gray.500}",
-      "color.border.default": "#E4E7EC", "color.border.strong": "#CDD3DC",
-      "color.action.primary": "{gluck.blue.700}", "color.action.primary-hover": "#003DB3", "color.action.primary-active": "#003399",
-      "color.action.selected-bg": "{gluck.blue.50}", "color.action.selected-text": "{gluck.blue.700}", "color.text.link": "{gluck.blue.700}", "color.text.brand": "{gluck.blue.700}", "color.border.focus": "{gluck.blue.700}"
+      "$description": "사내 관리 화면 언어 — 조직도 시스템(GLUCK ORG)·소재 시스템(TDS)·온보딩 시스템 3차 실측(2026-10-01). 색 + 타입 스케일 + 컨트롤 크기 + 레이아웃을 재바인딩. Primary = 브랜드 키 컬러 blue.600 (참조값 #337AFF는 3.9:1로 미달)",
+      "color.bg.page": "#F5F6F8", "color.bg.subtle": "#F0F2F6", "color.bg.sunken": "#FAFBFC", "color.bg.canvas": "#ECEEF2", "color.bg.brand-subtle": "#EAF1FF",
+      "color.text.primary": "#1F2329", "color.text.secondary": "#4B515B", "color.text.tertiary": "{gluck.gray.500}", "color.text.section": "#16348A",
+      "color.border.default": "#E6E9EF", "color.border.strong": "#C9CFD8", "color.border.input": "#D5DAE3", "color.focus-halo": "#BCD2FF",
+      "color.action.primary": "{gluck.blue.600}", "color.action.primary-hover": "{gluck.blue.700}", "color.action.primary-active": "#003DB3",
+      "color.action.tertiary": "{gluck.white}", "color.action.tertiary-hover": "#F0F2F6",
+      "color.action.selected-bg": "#EAF1FF", "color.action.selected-text": "{gluck.blue.600}", "color.text.link": "{gluck.blue.600}", "color.text.brand": "{gluck.blue.600}", "color.border.focus": "{gluck.blue.600}",
+      "color.status.neutral.bg": "#EEF0F4", "color.status.neutral.text": "#4B515B", "color.status.info.bg": "#EAF1FF", "color.status.info.text": "{gluck.blue.700}", "color.status.info.border": "#D5E3FF",
+      "font.size": { "h1": "22px/30px 700", "h2": "18px/26px 700", "h3": "15px/22px 700", "h4": "14px/21px 700", "body-lg": "15px/23px 500", "body": "14px/21px 400", "body-sm": "13.5px/20px 400", "caption": "12.5px/18px 400", "label": "11px/16px 700", "button": "14px/18px 600" },
+      "tracking": { "heading": "-0.01em", "eyebrow": "0.08em" },
+      "size": { "control-xs": "24px", "control-sm": "30px", "control-md": "36px", "control-lg": "44px", "icon-md": "16px" },
+      "radius": { "lg": "10px", "xl": "14px" },
+      "layout": { "sidebar-w": "220px", "topbar-h": "52px", "gutter": "30px", "page-max": "1400px", "table-row-h": "40px", "table-cell-x": "12px" }
     }
   },
 
